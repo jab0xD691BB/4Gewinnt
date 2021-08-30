@@ -4,7 +4,6 @@ A little info about your project and/ or overview that explains **what** the pro
 ## Motivation
 
 ## Screenshots
-Include logo/demo screenshot etc.
 
 ## Tech/framework used
 - React
