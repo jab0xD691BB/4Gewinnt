@@ -1,14 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 export type GameRoom = {
-    id: string;
-    name: string;
-    player1: string;
-    player2: string;
-    guests: string[];
+  id: string;
+  name: string;
+  player1: string;
+  player2: string;
+  guests: string[];
 };
-
 
 const GameRoomFlex = styled.div`
   display: flex;
@@ -31,7 +30,7 @@ export const GameRoomItemStyle = styled.div`
   position: relative;
   padding: 0.7rem 2rem;
   &:hover {
-  background-color: ${(props) => props.theme.colors.primary};
+    background-color: ${(props) => props.theme.colors.primary};
   }
 `;
 export const GameRoomList = styled.ul`
@@ -74,39 +73,58 @@ export const GameRoomGuests = styled.p`
 `;
 
 export type GameRoomItemProps = {
-    gameRoom: GameRoom;
-    onClick?: (gameRoom: GameRoom) => void;
+  gameRoom: GameRoom;
+  onClick?: (gameRoom: GameRoom) => void;
 };
 
-export const GameRoomItem: React.FC<GameRoomItemProps> = ({gameRoom, onClick = () => undefined}) => {
+export const GameRoomItem: React.FC<GameRoomItemProps> = ({
+  gameRoom,
+  onClick = () => undefined,
+}) => {
+  const [isClicked, setClicked] = useState(false);
 
-    const getGuests = (guests: string[]) => {
-        var concatGuests = "";
-        for(let guest of guests){
-            concatGuests += guest + " ";
-        }
-        return concatGuests;
+  const getGuests = (guests: string[]) => {
+    var concatGuests = "";
+    for (let guest of guests) {
+      concatGuests += guest + " ";
     }
+    return concatGuests;
+  };
 
-    const {id, name, player1, player2, guests} = gameRoom;
-    return (
-        <div style={{width: "100%", textAlign: "left"}}>
-        <GameRoomItemStyle
-            data-testid="joke-item"
-            onClick={() => {
-                onClick(gameRoom);
-            }}
-        >
-            <GameRoomHighlight/>
-            <GameRoomFlex>
-                <div>
-                    <GameRoomTitle><b>Name: </b>{name}</GameRoomTitle>
-                    <GameRoomPlayers><b>Current Players: </b>{player1}, {player2}</GameRoomPlayers>
-                    <GameRoomGuests><b>Current Guests: </b>{getGuests(guests)}</GameRoomGuests>
-                </div>
-
-            </GameRoomFlex>
-        </GameRoomItemStyle>
-        </div>
-    );
+  const { id, name, player1, player2, guests } = gameRoom;
+  return (
+    <div
+      style={{
+        width: "100%",
+        textAlign: "left",
+        backgroundColor: isClicked ? "rgb(54,161,139)" : "",
+      }}
+    >
+      <GameRoomItemStyle
+        data-testid="joke-item"
+        onClick={() => {
+          setClicked(!isClicked);
+          //onClick(gameRoom);
+        }}
+      >
+        <GameRoomHighlight />
+        <GameRoomFlex>
+          <div>
+            <GameRoomTitle>
+              <b>Name: </b>
+              {name}
+            </GameRoomTitle>
+            <GameRoomPlayers>
+              <b>Current Players: </b>
+              {player1}, {player2}
+            </GameRoomPlayers>
+            <GameRoomGuests>
+              <b>Current Guests: </b>
+              {getGuests(guests)}
+            </GameRoomGuests>
+          </div>
+        </GameRoomFlex>
+      </GameRoomItemStyle>
+    </div>
+  );
 };
