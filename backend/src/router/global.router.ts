@@ -1,5 +1,8 @@
 import { Router } from "express";
 import { jokeRouter } from "./joke.router";
+import { playerRouter } from "./player.router";
+import { gameRouter } from "./game.router";
+import { moveRouter } from "./move.router";
 
 export const globalRouter = Router({ mergeParams: true });
 
@@ -10,4 +13,11 @@ globalRouter.get("/", (req, res) => {
   res.send({ message: "hello world global" } as HelloWorldReponse);
 });
 
-globalRouter.use("/joke", jokeRouter);
+globalRouter.use("/user", playerRouter);
+
+//player router
+globalRouter.use("/player", playerRouter);
+//game router
+globalRouter.use("/game", gameRouter);
+// move move
+globalRouter.use("/move", moveRouter);
