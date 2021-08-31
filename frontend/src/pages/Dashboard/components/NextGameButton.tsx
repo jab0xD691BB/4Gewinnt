@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import {Link} from "react-router-dom";
 
 const NextGameButtonLayout = styled.div`
   height: 20%;
@@ -24,9 +25,13 @@ const NextGameButtonButton = styled.button`
 `;
 
 export const NextGameButton = () => {
-  return (
-    <NextGameButtonLayout>
-      <NextGameButtonButton>Next Game</NextGameButtonButton>
-    </NextGameButtonLayout>
-  );
+    return (
+        <Link to='/newgame'  style={{textDecoration: "none"}}>
+            <NextGameButtonLayout>
+                <NextGameButtonButton>Next
+                    Game</NextGameButtonButton>
+            </NextGameButtonLayout>
+        </Link>
+
+    );
 };
