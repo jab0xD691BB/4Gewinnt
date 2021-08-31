@@ -1,11 +1,12 @@
 import {Input} from "./components/Input";
 import styled from "styled-components";
 import {footerHeight, headerHeight, Layout} from "../../components/Layout";
-import React from "react";
+import React, {useState} from "react";
 import {SettingsContainer} from "./components/GameSettings";
 import {SelectGameMode} from "./components/Select";
 import {Button} from "./components/Button";
 import {GameRoom, GameRoomItem, GameRoomList} from "./components/GameRoomList";
+import {Modal} from "./components/Modal";
 
 const NewgameBody = styled.div`
   border: 1px solid white;
@@ -17,7 +18,69 @@ const NewgameBody = styled.div`
 
 export const NewgamePage = () => {
 
+    const [joinGameVisible, setJoinGameVisible] = useState(false);
+
     const gameRooms: GameRoom[] = [
+        {
+            id: "1",
+            name: "Test Room Name",
+            player1: "IchMachDichPlatt",
+            player2: "IchDichAuch",
+            guests: [
+                "Gast1",
+                "Gast2",
+            ]
+        },
+        {
+            id: "1",
+            name: "Test Room Name",
+            player1: "IchMachDichPlatt",
+            player2: "IchDichAuch",
+            guests: [
+                "Gast1",
+                "Gast2",
+            ]
+        },
+        {
+            id: "1",
+            name: "Test Room Name",
+            player1: "IchMachDichPlatt",
+            player2: "IchDichAuch",
+            guests: [
+                "Gast1",
+                "Gast2",
+            ]
+        },
+        {
+            id: "1",
+            name: "Test Room Name",
+            player1: "IchMachDichPlatt",
+            player2: "IchDichAuch",
+            guests: [
+                "Gast1",
+                "Gast2",
+            ]
+        },
+        {
+            id: "1",
+            name: "Test Room Name",
+            player1: "IchMachDichPlatt",
+            player2: "IchDichAuch",
+            guests: [
+                "Gast1",
+                "Gast2",
+            ]
+        },
+        {
+            id: "1",
+            name: "Test Room Name",
+            player1: "IchMachDichPlatt",
+            player2: "IchDichAuch",
+            guests: [
+                "Gast1",
+                "Gast2",
+            ]
+        },
         {
             id: "1",
             name: "Test Room Name",
@@ -68,19 +131,41 @@ export const NewgamePage = () => {
                         <div style={{textAlign: "center"}}>
                             <h2> Game Room List </h2>
                         </div>
-                        <GameRoomList>
-                            {gameRooms.map((gameRoom) => (
-                                <GameRoomItem
-                                    key={gameRoom.id}
-                                    onClick={() => {
-                                    }}
+                        <div style={{height: "500px", overflowY: "scroll"}}>
+                            <GameRoomList>
+                                {gameRooms.map((gameRoom) => (
+                                    <GameRoomItem
+                                        key={gameRoom.id}
+                                        onClick={() => {
+                                            if (!joinGameVisible) {
+                                                setJoinGameVisible(true);
+                                            }
+                                        }}
+                                        gameRoom={gameRoom}
 
-                                    gameRoom={gameRoom}
-                                />
-                            ))}
-
-                        </GameRoomList>
+                                    />
+                                ))}
+                            </GameRoomList>
+                        </div>
                     </div>
+                    {joinGameVisible && (
+                        <div>
+                            <Modal title='Join Game'
+                                   onCancel={() => {
+                                       setJoinGameVisible(false);
+                                   }}>
+                                <div>
+                                    <Button
+                                    >
+                                        Join As Player
+                                    </Button>
+                                    <Button>
+                                        Join As Guest
+                                    </Button>
+                                </div>
+                            </Modal>
+                        </div>
+                    )}
                 </div>
             </NewgameBody>
         </Layout>
