@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components/macro";
+import { Connect4Img } from "../img/Connect4";
 
 export const headerHeight = "85px";
 export const footerHeight = "50px";
@@ -39,13 +40,37 @@ const NavigationItem = styled.div`
   margin-right: 15px;
 `;
 
+const LogoTitel = styled.div`
+  position: relative;
+`;
+
+const Titel = styled.span`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.7rem;
+  text-shadow: 0 0 4px #ffffff;
+`;
+
 export const Layout: React.FC = ({ children }) => {
   return (
     <>
       <Header>
-        <div>
-          <span>Connect4</span>
-        </div>
+        <LogoTitel>
+          <Connect4Img />
+          <Titel>
+            Connect
+            <span
+              css={`
+                color: red;
+                text-shadow: 0 0 4px #ffffff;
+              `}
+            >
+              4
+            </span>
+          </Titel>
+        </LogoTitel>
         <NavigationList>
           <NavigationItem>Settings</NavigationItem>
           <NavigationItem>Logout</NavigationItem>
