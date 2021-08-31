@@ -99,7 +99,7 @@ export const NewgamePage = () => {
   return (
     <Layout>
       <NewgameBody>
-        <h1 style={{ textAlign: "center" }}> New Game</h1>
+        <h1 style={{ textAlign: "center", margin: 0 }}> New Game</h1>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <SettingsContainer />
           <div>
