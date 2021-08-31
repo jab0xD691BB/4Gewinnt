@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { footerHeight, headerHeight, Layout } from "../../components/Layout";
+import React from "react";
 
 const DashboardBody = styled.div`
   border: 1px solid white;
