@@ -1,31 +1,32 @@
 import React, {useRef} from 'react';
 import styled from 'styled-components';
 
-const InputJoke = styled.label`
-  position: absolute;
-  left: 15px;
-  top: 35px;
-  color: rgb(116, 116, 116);
-  transform: matrix(1, 0, 0, 1, 0, -12.5);
-  transition-property: transform;
+const InputLabel = styled.label`
+
+  color: rgb(150, 150, 150);
   line-height: 25px;
   font-size: 18px;
-  transition-duration: 0.3s;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 3px;
 `;
 
 const InputField = styled.input`
   background-color: transparent;
-  padding: 35px 21px 13px;
   outline-width: 0px;
   border-width: 0;
-  &:focus + ${InputJoke} {
+  &:focus + ${InputLabel} {
     transform: matrix(0.8, 0, 0, 0.8, 0, -24.75);
   }
-  &:not(:placeholder-shown) + ${InputJoke} {
+  &:not(:placeholder-shown) + ${InputLabel} {
     transform: matrix(0.8, 0, 0, 0.8, 0, -24.75);
   }
   height: 100%;
   width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
 `;
 
 const InputRadioField = styled.input`
@@ -38,13 +39,11 @@ const InputRadioField = styled.input`
 `;
 
 const InputContainer = styled.div`
-  transition-duration: 0.4s;
-  transition-property: box-shadow, border-color;
   border: 1px solid rgb(230, 230, 230);
 
   border-radius: 5px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background-color: #ffffff;
   color: #000;
   position: relative;
@@ -62,19 +61,23 @@ export const Input = ({
                           ...props
                       }: React.ComponentPropsWithoutRef<'input'> & {
     label: string;
-    type?: 'text' | 'password' | 'number' | 'email' | 'radio';
+    type?: 'text' | 'password' | 'number' | 'email' | 'checkbox';
 }) => {
     const id = useRef(`${label.replace(' ', '-')}`);
 
     return (
         <InputContainer style={{}}>
-            <InputField {...props} id={id.current} placeholder=" "/>
-            <InputJoke htmlFor={id.current}>{label}</InputJoke>
+            <div style={{width: "50%"}}>
+            <InputLabel>{label}</InputLabel>
+            </div>
+            <div style={{width: "50%"}}>
+                <InputField {...props} id={id.current} placeholder=" "/>
+            </div>
         </InputContainer>
     );
 };
 
-export const InputRadio = ({
+export const InputCheckbox = ({
                           label,
                           ...props
                       }: React.ComponentPropsWithoutRef<'input'> & {
@@ -85,8 +88,13 @@ export const InputRadio = ({
 
     return (
         <InputContainer style={{}}>
-            <InputRadioField {...props} id={id.current} placeholder=" "/>
-            <InputJoke htmlFor={id.current}>{label}</InputJoke>
+            <div style={{width: "50%"}}>
+                <InputLabel>{label}</InputLabel>
+            </div>
+            <div style={{width: "50%", height: "80%", paddingTop: "9px", paddingBottom: "5px"}}>
+                <InputField {...props} id={id.current} placeholder=" "/>
+            </div>
         </InputContainer>
     );
 };
+

@@ -7,5 +7,6 @@ export const theme: DefaultTheme = {
     fontColor: "#fff",
     secondaryFontColor: "rgb(191,191,191)",
     shadowColor: "rgba(0,0,0,0.3)",
+    listBackgroundColor: 'rgb(120, 120, 120)',
   },
 };

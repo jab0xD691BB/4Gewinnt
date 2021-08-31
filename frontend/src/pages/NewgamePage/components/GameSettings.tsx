@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
 import styled from 'styled-components';
 import {Layout} from "../../../components/Layout";
-import {Input, InputRadio} from "./Input";
+import {Input, InputCheckbox} from "./Input";
 import {SelectGameMode} from "./Select";
 import {Button} from "./Button";
 //import {Input} from "./Input";
@@ -39,9 +39,9 @@ export const SettingsContainer = () => {
     };
 
     return (
+        <div style={{width: "50%"}}>
         <form onSubmit={createGameSession} data-testid="edit-game-session-form">
-            <div style={{}}>
-                <div style={{width: 300, paddingLeft: 20}}>
+                <div style={{width: 400, paddingLeft: 90, textAlign: "center"}}>
                     <h2> Settings </h2>
                     <Input
                         name="boardWidth"
@@ -100,7 +100,7 @@ export const SettingsContainer = () => {
                         onChange={fieldDidChangeInput}
                         required
                     />
-                    <InputRadio
+                    <InputCheckbox
                         id="rated"
                         name="rated"
                         label="Rated"
@@ -112,7 +112,8 @@ export const SettingsContainer = () => {
                     />
                     <Button type="submit">Create Game Session</Button>
                 </div>
-            </div>
         </form>
+        </div>
+
     );
 };
