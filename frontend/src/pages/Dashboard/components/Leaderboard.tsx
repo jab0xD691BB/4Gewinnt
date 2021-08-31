@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 
 const LeaderboardLayout = styled.div`
   border-radius: 10px;

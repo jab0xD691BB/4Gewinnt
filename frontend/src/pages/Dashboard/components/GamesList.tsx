@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Player } from "./Leaderboard";
+import React from "react";
 
 export const PlayedGamesTitel = styled.p`
   text-align: center;

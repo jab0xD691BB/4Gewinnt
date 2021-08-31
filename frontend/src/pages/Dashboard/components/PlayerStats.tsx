@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 
 const PlayerLayout = styled.div`
   background-color: #2b2b2b;

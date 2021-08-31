@@ -4,6 +4,7 @@ import { Game, GamesList } from "./components/GamesList";
 import { Leaderboard } from "./components/Leaderboard";
 import { NextGameButton } from "./components/NextGameButton";
 import { Player, PlayerProfile } from "./components/PlayerStats";
+import React from "react";
 
 const DashboardBody = styled.div`
   display: flex;

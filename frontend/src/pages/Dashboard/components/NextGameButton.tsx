@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 
 const NextGameButtonLayout = styled.div`
   height: 20%;

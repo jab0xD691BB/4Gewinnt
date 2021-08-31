@@ -1,6 +1,8 @@
 import * as React from "react";
 import "./App.css";
 import { DashboardPage } from "./pages/Dashboard/DashboardPage";
+import { NewgamePage } from "./pages/NewgamePage/NewgamePage";
+
 import { ThemeProvider } from "styled-components";
 import {
   BrowserRouter,
@@ -24,7 +26,7 @@ function App() {
           <Route exact path="/dashboard" component={DashboardPage} />
           <Route exact path="/login" component={DashboardPage} />
           <Route exact path="/register" component={DashboardPage} />
-          <Route exact path="/newgame" component={DashboardPage} />
+          <Route exact path="/newgame" component={NewgamePage} />
           <Route exact path="/game" component={DashboardPage} />
           <Route exact path="/settings" component={DashboardPage} />
         </Switch>
