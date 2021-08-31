@@ -10,6 +10,7 @@ import {
   RouteProps,
 } from "react-router-dom";
 import { theme } from "./theme";
+import { GlobalStyle } from "./components/GlobalStyle";
 
 function App() {
   React.useEffect(() => {
@@ -18,13 +19,14 @@ function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
+        <GlobalStyle />
         <Switch>
           <Route exact path="/dashboard" component={DashboardPage} />
-          <Route path="/login" component={DashboardPage} />
-          <Route path="/register" component={DashboardPage} />
-          <Route path="/newgame" component={DashboardPage} />
-          <Route path="/game" component={DashboardPage} />
-          <Route path="/settings" component={DashboardPage} />
+          <Route exact path="/login" component={DashboardPage} />
+          <Route exact path="/register" component={DashboardPage} />
+          <Route exact path="/newgame" component={DashboardPage} />
+          <Route exact path="/game" component={DashboardPage} />
+          <Route exact path="/settings" component={DashboardPage} />
         </Switch>
       </ThemeProvider>
     </BrowserRouter>

@@ -1,11 +1,11 @@
 import React from "react";
 import styled, { css } from "styled-components/macro";
 
-const headerHeight = "85px";
-const footerHeight = "50px";
+export const headerHeight = "85px";
+export const footerHeight = "50px";
 
 const MaxWidth = css`
-  max-width: 860px;
+  max-width: 1300px;
   margin: auto;
 `;
 
@@ -27,10 +27,13 @@ const Footer = styled.footer`
   ${MaxWidth}
 `;
 
-const NavigationList = styled.ul`
+const NavigationList = styled.div`
   list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 `;
-const NavigationItem = styled.li`
+const NavigationItem = styled.div`
   color: ${(props) => props.theme.colors.primary};
   text-decoration: none;
   margin-right: 15px;
@@ -44,11 +47,13 @@ export const Layout: React.FC = ({ children }) => {
           <span>Connect4</span>
         </div>
         <NavigationList>
-          <NavigationItem></NavigationItem>
+          <NavigationItem>Settings</NavigationItem>
+          <NavigationItem>Logout</NavigationItem>
+          <NavigationItem>Help</NavigationItem>
         </NavigationList>
       </Header>
       <Main>{children}</Main>
-      <Footer></Footer>
+      <Footer>Footer</Footer>
     </>
   );
 };
