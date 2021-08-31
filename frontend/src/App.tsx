@@ -1,28 +1,33 @@
 import * as React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import { DashboardPage } from "./pages/Dashboard/DashboardPage";
+import { ThemeProvider } from "styled-components";
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Redirect,
+  RouteProps,
+} from "react-router-dom";
+import { theme } from "./theme";
 
 function App() {
   React.useEffect(() => {
     fetch("/api");
   }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <Switch>
+          <Route exact path="/dashboard" component={DashboardPage} />
+          <Route path="/login" component={DashboardPage} />
+          <Route path="/register" component={DashboardPage} />
+          <Route path="/newgame" component={DashboardPage} />
+          <Route path="/game" component={DashboardPage} />
+          <Route path="/settings" component={DashboardPage} />
+        </Switch>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
