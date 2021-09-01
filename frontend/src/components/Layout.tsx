@@ -1,7 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import styled, { css } from "styled-components/macro";
-
 import { Connect4Img } from "../img/Connect4";
+import { Logo } from "./Logo";
+import { Link } from "react-router-dom";
+import { authContext } from "../context/AuthenticationContext";
+
+const TextButton = styled.button`
+  all: unset;
+  color: ${(props) => props.theme.colors.primary};
+  pointer: click;
+  `;
 
 export const headerHeight = "85px";
 export const footerHeight = "50px";
@@ -54,7 +62,12 @@ const Titel = styled.span`
   text-shadow: 0 0 4px #ffffff;
 `;
 
+
 export const Layout: React.FC = ({ children }) => {
+
+const {
+  actions: { logout },
+} = useContext(authContext);    
   return (
     <>
       <Header>
@@ -74,7 +87,15 @@ export const Layout: React.FC = ({ children }) => {
         </LogoTitel>
         <NavigationList>
           <NavigationItem>Settings</NavigationItem>
-          <NavigationItem>Logout</NavigationItem>
+          <NavigationItem>
+             <TextButton
+            onClick={() => {
+              logout();
+            }}
+          >
+            Logout
+            </TextButton>
+            </NavigationItem>
           <NavigationItem>Help</NavigationItem>
         </NavigationList>
       </Header>
