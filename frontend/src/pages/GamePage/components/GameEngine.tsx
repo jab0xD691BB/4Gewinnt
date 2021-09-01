@@ -4,6 +4,7 @@ export interface GameStep {
     x: number;
     y: number;
     step: number;
+    date: Date;
 }
 
 export enum GameStateEnum {
@@ -21,6 +22,7 @@ export interface GameState {
     players: Map<string, Player>;
     state: GameStateEnum;
     steps: GameStep[];
+    date: Date;
 }
 
 export interface Player {
@@ -57,7 +59,8 @@ export class game {
             active_player: undefined,
             players: new Map<string, Player>(),
             state: GameStateEnum.NOT_STARTED,
-            steps: new Array<GameStep>()
+            steps: new Array<GameStep>(),
+            date: new Date(),
         } as GameState;
 
         this.state.steps.push(this.start_step());
@@ -127,6 +130,7 @@ export class game {
             x: this.width,
             y: this.height,
             step: 0,
+            date: this.state.date,
         }
     }
 
@@ -137,6 +141,7 @@ export class game {
             x: x,
             y: y,
             step: this.state.steps.length - 1,
+            date: new Date(),
         }
     }
 
