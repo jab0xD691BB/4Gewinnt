@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {Request, response, Response} from 'express';
 import fetch from 'node-fetch'
 import { getRepository } from 'typeorm';
@@ -82,13 +81,6 @@ export const registerPlayer = async (req: Request, res: Response) => {
     data: sortedplayers,
   });
 } 
-=======
-import { RequestHandler, Request, Response } from "express";
-import { getRepository } from "typeorm";
-import { Player } from "../entity/player.model";
-
-
->>>>>>> a6bc9b62a73734ceffee1220f4933ecb5573ad1a
 //// CRUD Functions 
 // Get all Players
 export const getAllPlayers = async (req: Request, res: Response) => {
@@ -114,23 +106,14 @@ export const getPlayer = async (req: Request ,res: Response) => {
 // Update Player
 export const updatePlayer = async (req: Request, res: Response) => {
   const playerid = req.params.playerId;
-<<<<<<< HEAD
   const {name, password , email, eloScore} = req.body;
-=======
-  const {name, password , email} = req.body;
->>>>>>> a6bc9b62a73734ceffee1220f4933ecb5573ad1a
   const playerRepository = await getRepository(Player);
   try {
     let player= await playerRepository.findOneOrFail(playerid);
     player.name = name;
     player.password = password;
     player.email = email;
-<<<<<<< HEAD
     player.eloScore = eloScore;
-=======
-    /* player.settings = settings;
-    player.score = score; */
->>>>>>> a6bc9b62a73734ceffee1220f4933ecb5573ad1a
 
     player = await playerRepository.save(player);
     res.send({
@@ -150,12 +133,6 @@ export const createPlayer = async (req: Request, res: Response) => {
   player.name = name;
   player.password = password;
   player.email = email;
-<<<<<<< HEAD
-=======
-  /* player.settings = settings;
-  player.score = score; */
-
->>>>>>> a6bc9b62a73734ceffee1220f4933ecb5573ad1a
   const playerRepository = await getRepository(Player);
   const createdPlayer = await playerRepository.save(player);
 
