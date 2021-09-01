@@ -2,7 +2,7 @@ import {Input} from "./components/Input";
 import styled from "styled-components";
 import {footerHeight, headerHeight, Layout} from "../../components/Layout";
 import React, {ChangeEvent, useContext, useState} from "react";
-import {SettingsContainer} from "./components/GameSettings";
+import {SettingsContainer, GameSettings} from "./components/GameSettings";
 import {SelectGameMode} from "./components/Select";
 import {Button, DisabledButton} from "./components/Button";
 import {
@@ -13,6 +13,7 @@ import {
 import {Modal} from "./components/Modal";
 import {theme} from "../../theme";
 import {authContext} from "../../context/AuthenticationContext";
+import {GameDetails, GameDetailsEmpty} from "./components/GameDetails";
 
 const NewgameBody = styled.div`
   border: 1px solid white;
@@ -23,7 +24,7 @@ const NewgameBody = styled.div`
 
 export const NewgamePage = () => {
     const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
-    const { token } = useContext(authContext);
+    const {token} = useContext(authContext);
 
 
     const gameRooms: GameRoom[] = [
@@ -33,6 +34,15 @@ export const NewgamePage = () => {
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
+            gameSetting: {
+                boardWidth: "7",
+                boardHeigth: "7",
+                bestOf: "7",
+                gameMode: "human",
+                rated: "on",
+                rowCountToWin: "4",
+                time: "7"
+            }
         },
         {
             id: "2",
@@ -40,6 +50,15 @@ export const NewgamePage = () => {
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
+            gameSetting: {
+                boardWidth: "7",
+                boardHeigth: "7",
+                bestOf: "7",
+                gameMode: "human",
+                rated: "on",
+                rowCountToWin: "4",
+                time: "7"
+            }
         },
         {
             id: "3",
@@ -47,6 +66,15 @@ export const NewgamePage = () => {
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
+            gameSetting: {
+                boardWidth: "7",
+                boardHeigth: "7",
+                bestOf: "7",
+                gameMode: "human",
+                rated: "on",
+                rowCountToWin: "4",
+                time: "7"
+            }
         },
         {
             id: "4",
@@ -54,6 +82,15 @@ export const NewgamePage = () => {
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
+            gameSetting: {
+                boardWidth: "7",
+                boardHeigth: "7",
+                bestOf: "7",
+                gameMode: "human",
+                rated: "on",
+                rowCountToWin: "4",
+                time: "7"
+            }
         },
         {
             id: "5",
@@ -61,6 +98,15 @@ export const NewgamePage = () => {
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
+            gameSetting: {
+                boardWidth: "7",
+                boardHeigth: "7",
+                bestOf: "7",
+                gameMode: "human",
+                rated: "on",
+                rowCountToWin: "4",
+                time: "7"
+            }
         },
         {
             id: "6",
@@ -68,6 +114,15 @@ export const NewgamePage = () => {
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
+            gameSetting: {
+                boardWidth: "7",
+                boardHeigth: "7",
+                bestOf: "7",
+                gameMode: "human",
+                rated: "on",
+                rowCountToWin: "4",
+                time: "7"
+            }
         },
         {
             id: "7",
@@ -75,6 +130,15 @@ export const NewgamePage = () => {
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
+            gameSetting: {
+                boardWidth: "7",
+                boardHeigth: "7",
+                bestOf: "7",
+                gameMode: "human",
+                rated: "on",
+                rowCountToWin: "4",
+                time: "7"
+            }
         },
         {
             id: "8",
@@ -82,6 +146,15 @@ export const NewgamePage = () => {
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
+            gameSetting: {
+                boardWidth: "7",
+                boardHeigth: "7",
+                bestOf: "7",
+                gameMode: "human",
+                rated: "on",
+                rowCountToWin: "4",
+                time: "7"
+            }
         },
         {
             id: "9",
@@ -89,6 +162,15 @@ export const NewgamePage = () => {
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
+            gameSetting: {
+                boardWidth: "7",
+                boardHeigth: "7",
+                bestOf: "7",
+                gameMode: "human",
+                rated: "on",
+                rowCountToWin: "4",
+                time: "7"
+            }
         },
     ];
 
@@ -99,7 +181,7 @@ export const NewgamePage = () => {
             body: JSON.stringify({
                 player: tokenDecoded.id,
                 joinmode: "player",
-                id: {this:gameSelected?.id},
+                id: {this: gameSelected?.id},
             }),
             headers: {"Content-Type": "application/json"},
             method: "PUT",
@@ -113,7 +195,7 @@ export const NewgamePage = () => {
             body: JSON.stringify({
                 player: tokenDecoded.id,
                 joinmode: "guest",
-                id: {this:gameSelected?.id},
+                id: {this: gameSelected?.id},
             }),
             headers: {"Content-Type": "application/json"},
             method: "PUT",
@@ -130,7 +212,7 @@ export const NewgamePage = () => {
                         <div style={{textAlign: "center"}}>
                             <h2> Game Room List </h2>
                         </div>
-                        <div style={{height: "500px", overflowY: "scroll"}}>
+                        <div style={{height: "450px", overflowY: "scroll"}}>
                             <GameRoomList>
                                 {gameRooms.map((gameRoom) => (
                                     <GameRoomItem
@@ -151,6 +233,7 @@ export const NewgamePage = () => {
                                 ))}
                             </GameRoomList>
                         </div>
+                        <Button>Refresh</Button>
                         {gameSelected && (
                             <div>
                                 <Button onClick={joinAsPlayer}>Join As Player</Button>
@@ -164,6 +247,19 @@ export const NewgamePage = () => {
                             </div>
                         )}
                     </div>
+                        <div>
+                            <div style={{textAlign: "center"}}>
+                                <h2> Game Room Details </h2>
+                            </div>
+                            <div style={{width: "400px", paddingLeft: "50px"}}>
+                                {gameSelected && (
+                                    <GameDetails gameDetails={gameSelected!}/>
+                                )}
+                                {!gameSelected && (
+                                    <GameDetailsEmpty/>
+                                )}
+                            </div>
+                        </div>
                 </div>
             </NewgameBody>
         </Layout>

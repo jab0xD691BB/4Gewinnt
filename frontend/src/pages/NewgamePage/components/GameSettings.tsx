@@ -4,7 +4,18 @@ import {Layout} from "../../../components/Layout";
 import {Input, InputCheckbox} from "./Input";
 import {SelectGameMode} from "./Select";
 import {Button} from "./Button";
-//import {Input} from "./Input";
+import {GameRoom} from "./GameRoomList";
+import {game} from "../../GamePage/components/GameEngine";
+
+export type GameSettings = {
+    boardWidth: string;
+    boardHeigth: string;
+    rowCountToWin: string;
+    time: string;
+    gameMode: string;
+    bestOf: string;
+    rated: string;
+};
 
 export const SettingsContainer = () => {
 
@@ -17,6 +28,9 @@ export const SettingsContainer = () => {
         bestOf: '',
         rated: ''
     });
+
+    const [gameSetting, setGameSelected] = useState<GameSettings | null>(null);
+
     const fieldDidChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
         setValues({...values, [e.target.name]: e.target.value});
     };
@@ -27,7 +41,7 @@ export const SettingsContainer = () => {
     const createGameSession = async (e: React.MouseEvent<HTMLFormElement>) => {
         e.preventDefault();
         var test = JSON.stringify({
-            ...values,
+            gameSetting,
         });
         await fetch('/api/match', {
             body: JSON.stringify({
@@ -39,9 +53,9 @@ export const SettingsContainer = () => {
     };
 
     return (
-        <div style={{width: "50%"}}>
+        <div>
         <form onSubmit={createGameSession} data-testid="edit-game-session-form">
-                <div style={{width: 400, paddingLeft: 90, textAlign: "center"}}>
+                <div style={{width: 400, paddingLeft: 50, paddingRight: 50, textAlign: "center"}}>
                     <h2> Settings </h2>
                     <Input
                         name="boardWidth"
