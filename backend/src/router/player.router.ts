@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {Router} from 'express';
 import { 
     loginPlayer, 
@@ -26,3 +27,21 @@ playerRouter.get("/:playerId", getPlayer);
 playerRouter.post("/", createPlayer);
 playerRouter.delete("/:playerId", deletePlayer);
 playerRouter.get("/", getAllPlayers);
+=======
+import { Router } from "express";
+import {
+  createPlayer,
+  deletePlayer,
+  getAllPlayers,
+  getPlayer,
+  updatePlayer,
+} from "../controller/player.controller";
+
+export const playerRouter = Router({ mergeParams: true });
+
+playerRouter.get("/", getAllPlayers);
+playerRouter.get("/:id", getPlayer);
+playerRouter.post("/", createPlayer);
+playerRouter.delete("/:id", deletePlayer);
+playerRouter.put("/:id", updatePlayer);
+>>>>>>> a6bc9b62a73734ceffee1220f4933ecb5573ad1a
