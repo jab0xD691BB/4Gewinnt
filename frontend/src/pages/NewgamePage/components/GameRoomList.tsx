@@ -77,11 +77,8 @@ export type GameRoomItemProps = {
   onClick?: (gameRoom: GameRoom) => void;
 };
 
-export const GameRoomItem: React.FC<GameRoomItemProps> = ({
-  gameRoom,
-  onClick = () => undefined,
-}) => {
-  const [isClicked, setClicked] = useState(false);
+export const GameRoomItem: React.FC<GameRoomItemProps> = ({gameRoom, onClick = () => undefined}) => {
+
 
   const getGuests = (guests: string[]) => {
     var concatGuests = "";
@@ -93,18 +90,18 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
 
   const { id, name, player1, player2, guests } = gameRoom;
   return (
-    <div
+    <div id={id}
       style={{
         width: "100%",
         textAlign: "left",
-        backgroundColor: isClicked ? "rgb(54,161,139)" : "",
+//        backgroundColor: isClicked ? "rgb(54,161,139)" : "",
       }}
     >
       <GameRoomItemStyle
         data-testid="joke-item"
         onClick={() => {
-          setClicked(!isClicked);
-          //onClick(gameRoom);
+          onClick(gameRoom);
+
         }}
       >
         <GameRoomHighlight />
