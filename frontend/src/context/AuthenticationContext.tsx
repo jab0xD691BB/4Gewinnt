@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 export type LoginOptions = {
   email: string;
   password: string;
@@ -47,14 +46,14 @@ export const AuthProvider: React.FC = ({ children }) => {
   );
 
   const login = async (values: LoginOptions) => {
-    const loginRequest = await fetch("/api/user/token/", {
-      //mode: 'no-cors',
+    const loginRequest = await fetch("/api/user/token", {
       method: "POST",
       body: JSON.stringify(values),
       headers: {
         "Content-Type": "application/json",
       },
     });
+
     if (loginRequest.status === 200) {
       const { data } = await loginRequest.json();
       setToken(data);
@@ -66,22 +65,20 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const register = async (values: RegisterOptions) => {
     const registerRequest = await fetch("/api/user", {
-      //mode: 'no-cors',
       method: "POST",
       body: JSON.stringify(values),
       headers: {
         "Content-Type": "application/json",
       },
     });
+
     if (registerRequest.status === 200) {
       const { data } = await registerRequest.json();
       await login({ email: values.email, password: values.password });
-      window.localStorage.setItem("auth-token", data);
     } else {
       throw new Error("Error while registering");
     }
   };
-
   const getTokenData = () => {
     if (token) {
       return JSON.parse(atob(token.split(".")[1]));
@@ -92,7 +89,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     setToken(null);
     window.localStorage.removeItem("auth-token");
   };
-
   return (
     <authContext.Provider
       value={{

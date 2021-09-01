@@ -62,16 +62,16 @@ export const App = () => {
   useEffect(() => {
     (async function () {
       const helloRequest = await fetch("/api");
-      const halloJson = await helloRequest.json();
-      console.log(halloJson);
+      const helloJson = await helloRequest.json();
+      console.log(helloJson);
     })();
   });
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
+      <AuthProvider>
         <GlobalStyle />
-        <AuthProvider>
-          <UnauthenticatedLayout>
             <Switch>
               <UnauthenticatedRoute exact path="/login" component={LoginPage} />
               <UnauthenticatedRoute exact path="/register" component={RegisterPage}/>
@@ -79,9 +79,8 @@ export const App = () => {
               <AuthenticatedRoute exact path="/newgame" component={NewgamePage} />
               <AuthenticatedRoute exact path="/game" component={DashboardPage} />
               <AuthenticatedRoute exact path="/settings" component={DashboardPage} />
-              <Route path="/" component={BasePage} />
+              <Route path="/" component={BasePage}></Route>
             </Switch>
-          </UnauthenticatedLayout>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

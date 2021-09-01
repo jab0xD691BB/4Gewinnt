@@ -7,22 +7,20 @@ import {
   authContext,
   LoginOptions,
 } from "../../context/AuthenticationContext";
+import { Link } from "react-router-dom";
+import { UnauthenticatedLayout } from "../../components/UnauthenticatedLayout";
 
 
 export const LoginPage = () => {
-
   const auth = useContext(authContext);
   const [values, setValues] = useState<LoginOptions>({
     email: "",
     password: "",
   });
   const [formError, setFormError] = useState<string | null>(null);
-
-
   const fieldDidChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormError(null);
@@ -31,34 +29,35 @@ export const LoginPage = () => {
     } catch (e) {
       setFormError(e.message);
     }
-
   };
-
-      return (
-          <LoginMaskHolder>
-            <form onSubmit={onSubmitForm}>
-              <LoginMask>
-                <LogoHolder>
-                  <Logo />
-                </LogoHolder>
-                <p style={{ color: "#000", textAlign: "center" }}>{formError}</p>
-                <Input
-                  name="email"
-                  type="email"
-                  label="Email"
-                  onChange={fieldDidChange}
-                  required
-                />
-                <Input
-                  name="password"
-                  label="Password"
-                  type="password"
-                  onChange={fieldDidChange}
-                  required
-                />
-                <Button type="submit">Log In</Button>
-              </LoginMask>
-            </form>
-    </LoginMaskHolder>
+  return (
+    <UnauthenticatedLayout>
+      <LoginMaskHolder>
+        <form onSubmit={onSubmitForm}>
+          <LoginMask>
+            <LogoHolder>
+              <Logo />
+            </LogoHolder>
+            <p style={{ color: "#000", textAlign: "center" }}>{formError}</p>
+            <Input
+              name="email"
+              type="email"
+              label="Email"
+              onChange={fieldDidChange}
+              required
+            />
+            <Input
+              name="password"
+              label="Password"
+              type="password"
+              onChange={fieldDidChange}
+              required
+            />
+            <Button type="submit">Log In</Button>
+            <Link to="/register">Register</Link>
+          </LoginMask>
+        </form>
+      </LoginMaskHolder>
+    </UnauthenticatedLayout>
   );
 };
