@@ -6,8 +6,10 @@ import { RequestHandler, Request, Response } from "express";
 
 // Get all Moves
 export const getAllMoves = async (req: Request, res: Response) => {
+    const gameid = req.params.id;
     const moveRepository = await getRepository(Move);
-    const moves =  await moveRepository.find() ;
+    const sqlQuery = `select * from move where gameid = "${gameid}"`;
+    const moves = await moveRepository.query(sqlQuery);
     res.send({ 
       data: moves
     });
@@ -15,7 +17,7 @@ export const getAllMoves = async (req: Request, res: Response) => {
   
   // Get one Move
   export const getMove = async (req: Request ,res: Response) => {
-    const moveid = req.params.moveId;
+    const moveid = req.params.id;
     const moveRepository = await getRepository(Move);
     const move = await moveRepository.findOneOrFail(moveid);
     try {
@@ -40,7 +42,7 @@ export const createMove = async (req: Request, res: Response) => {
   };
   
   // Delete Game
-  export const deleteMove = async (req: Request, res: Response) => {
+  /* export const deleteMove = async (req: Request, res: Response) => {
     const moveid = req.params.moveId;
     const moveRepository = await getRepository(Move);
     try {
@@ -52,4 +54,4 @@ export const createMove = async (req: Request, res: Response) => {
         status: 'Move not found'
       });
     }
-  };
+  }; */
