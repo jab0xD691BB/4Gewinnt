@@ -28,7 +28,7 @@ export const LoginPage = () => {
     try {
       await auth.actions.login(values);
     } catch (e) {
-      setFormError(e.message);
+      //setFormError(e.message);
     }
   };
   return (

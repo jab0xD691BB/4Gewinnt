@@ -7,7 +7,6 @@ import {
   authContext,
   RegisterOptions,
 } from "../../context/AuthenticationContext";
-import { Link } from "react-router-dom";
 import { UnauthenticatedLayout } from "../../components/UnauthenticatedLayout";
 import {StyledLink} from "../../components/Link";
 
@@ -29,7 +28,7 @@ export const RegisterPage = () => {
     try {
       await auth.actions.register(values);
     } catch (e) {
-      setFormError(e.message);
+      //setFormError(e.message);
     }
   };
   return (
