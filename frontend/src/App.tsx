@@ -72,17 +72,14 @@ export const App = () => {
         <GlobalStyle />
         <AuthProvider>
           <UnauthenticatedLayout>
-            <LoginPage />
             <Switch>
               <UnauthenticatedRoute exact path="/login" component={LoginPage} />
               <UnauthenticatedRoute exact path="/register" component={RegisterPage}/>
               <AuthenticatedRoute exact path="/dashboard" component={DashboardPage}/>
-              <Route exact path="/dashboard" component={DashboardPage} />
-              <Route exact path="/login" component={DashboardPage} />
-              <Route exact path="/register" component={DashboardPage} />
-              <Route exact path="/newgame" component={NewgamePage} />
-              <Route exact path="/game" component={DashboardPage} />
-              <Route exact path="/settings" component={DashboardPage} />
+              <AuthenticatedRoute exact path="/newgame" component={NewgamePage} />
+              <AuthenticatedRoute exact path="/game" component={DashboardPage} />
+              <AuthenticatedRoute exact path="/settings" component={DashboardPage} />
+              <Route path="/" component={BasePage} />
             </Switch>
           </UnauthenticatedLayout>
         </AuthProvider>
