@@ -16,6 +16,7 @@ import { theme } from "./theme";
 import { GlobalStyle } from "./components/GlobalStyle";
 import { LoginPage } from "./pages/Login/LoginPage";
 import { RegisterPage } from "./pages/Register/RegisterPage";
+import { GamePage } from "./pages/GamePage/GamePage";
 
 export const BasePage = () => {
   const { token } = useContext(authContext);
@@ -77,7 +78,7 @@ export const App = () => {
               <UnauthenticatedRoute exact path="/register" component={RegisterPage}/>
               <AuthenticatedRoute exact path="/dashboard" component={DashboardPage}/>
               <AuthenticatedRoute exact path="/newgame" component={NewgamePage} />
-              <AuthenticatedRoute exact path="/game" component={DashboardPage} />
+              <AuthenticatedRoute exact path="/game" component={GamePage} />
               <AuthenticatedRoute exact path="/settings" component={DashboardPage} />
               <Route path="/" component={BasePage}></Route>
             </Switch>
