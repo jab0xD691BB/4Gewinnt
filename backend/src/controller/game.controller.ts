@@ -1,9 +1,6 @@
 import { getRepository } from "typeorm";
 import { Game } from "../entity/game.model";
-<<<<<<< HEAD
 import { Player } from "../entity/player.model";
-=======
->>>>>>> a6bc9b62a73734ceffee1220f4933ecb5573ad1a
 import { RequestHandler, Request, Response } from "express";
 
 //// CRUD Functions 
@@ -16,7 +13,6 @@ export const getAllGames = async (req: Request, res: Response) => {
       data: games
     });
   };
-<<<<<<< HEAD
 
   // Get games of one player
   export const getGamesOfPlayer = async (req: Request, res: Response) => {
@@ -40,9 +36,6 @@ export const getSomeGames = async (req: Request, res: Response) => {
 }
 
 
-=======
-  
->>>>>>> a6bc9b62a73734ceffee1220f4933ecb5573ad1a
   // Get one Game
   export const getGame = async (req: Request ,res: Response) => {
     const gameid = req.params.gameId;
@@ -56,19 +49,11 @@ export const getSomeGames = async (req: Request, res: Response) => {
   };
 
   // Create Game
-<<<<<<< HEAD
   export const createGame = async (req: Request, res: Response) => {
     const {createdAt, winner, players} = req.body;
     const game = new Game();
     game.players = players;
     game.winner = winner;
-=======
-export const createGame = async (req: Request, res: Response) => {
-    const {createdAt} = req.body;
-    const game = new Game();
-    game.createdAt = createdAt;
-  
->>>>>>> a6bc9b62a73734ceffee1220f4933ecb5573ad1a
     const gameRepository = await getRepository(Game);
     const createdGame = await gameRepository.save(game);
   
