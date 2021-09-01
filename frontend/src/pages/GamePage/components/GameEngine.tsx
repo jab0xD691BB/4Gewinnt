@@ -16,10 +16,17 @@ export enum GameStateEnum {
     INTERRUPTED,
 }
 
+export enum PlayerStateEnum {
+    ACTIVE,
+    FINISHED,
+    NOT_STARTED,
+}
+
 export interface GameState {
     connect: number,
     winner: string | undefined;
-    active_player: string | undefined;
+    active_player: string;
+    active_player_state: PlayerStateEnum;
     active_start: Date | undefined;
     players: Map<string, Player>;
     state: GameStateEnum;
@@ -28,6 +35,7 @@ export interface GameState {
 }
 
 export interface Player {
+    id: string;
     name: string;
     color: string;
     time: number;
@@ -64,7 +72,7 @@ export class game {
             state: GameStateEnum.NOT_STARTED,
             steps: new Array<GameStep>(),
             date: new Date(),
-        } as GameState;
+        } as unknown as GameState;
 
         this.state.steps.push(this.start_step());
 
@@ -126,6 +134,20 @@ export class game {
             } as Player);
     }
 
+    /**
+     * Activates the next player in the game or sets the first player as active if none was active before.
+     */
+    cyclePlayer() {
+        let keys = Array.from( this.state.players.keys() );
+        for(let i: number = 0; i < keys.length; i++) {
+            if (keys[i] === this.state.active_player) {
+                this.activatePlayer(i+1 === keys.length ? keys[0] : keys[i+1]);
+                return;
+            }
+        }
+        this.activatePlayer(keys[0]);
+    }
+
     private start_step(): GameStep {
         return {
             player_id: "Board Dimensions",
@@ -163,15 +185,19 @@ export class game {
      * The next move will be performed as the active player.
      * @param id : string
      */
-    activatePlayer(id: string) {
+    activatePlayer(id: string = this.state.active_player) {
         if (this.state.players.get(id) === undefined) {
             throw new Error(
                 `Player with that ID does not exist!`
             )
         } else {
+            this.state.active_player_state = PlayerStateEnum.ACTIVE;
             this.state.active_player = id;
-            this.state.state = GameStateEnum.IN_PROGRESS;
             this.state.active_start = new Date();
+
+            if (this.state.state === GameStateEnum.NOT_STARTED) {
+                this.state.state = GameStateEnum.IN_PROGRESS;
+            }
         }
     }
 
@@ -190,7 +216,7 @@ export class game {
                 this.state.steps[this.state.steps.length-1].x,
                 this.state.steps[this.state.steps.length-1].y
             );
-            this.state.active_player = undefined;
+            this.state.active_player_state = PlayerStateEnum.FINISHED;
             this.state.active_start = undefined;
         }
     }
@@ -224,6 +250,7 @@ export class game {
         this.game_board[column][row] = this.state.steps.length - 1;
 
         this.stopPlayer(true);
+        this.cyclePlayer();
 
         return this.state.steps[this.state.steps.length - 1];
     }
