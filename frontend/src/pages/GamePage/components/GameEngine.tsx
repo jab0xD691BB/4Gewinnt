@@ -10,12 +10,14 @@ export interface GameStep {
 export enum GameStateEnum {
     NOT_STARTED,
     IN_PROGRESS,
+    SUSPENDED,
     HAS_WINNER,
     TIE,
     INTERRUPTED,
 }
 
 export interface GameState {
+    connect: number,
     winner: string | undefined;
     active_player: string | undefined;
     active_start: Date | undefined;
@@ -46,7 +48,7 @@ export class game {
     constructor(
         private width: number = 7,
         private height: number = 6,
-        private connect: number = 4
+        connect: number = 4
     ) {
         if (connect > width || connect > height) {
             throw new Error(
@@ -55,6 +57,7 @@ export class game {
         }
 
         this.state = {
+            connect: connect,
             winner: undefined,
             active_player: undefined,
             players: new Map<string, Player>(),
@@ -242,7 +245,7 @@ export class game {
                 game.in_range(xi, this.width) &&
                 game.in_range(yi, this.height) &&
                 this.state.steps[this.game_board[xi][yi]].player_id === player_id) {
-                if (++points === this.connect) {
+                if (++points === this.state.connect) {
                     this.state.state = GameStateEnum.HAS_WINNER;
                     this.state.winner = player_id;
                     return;
