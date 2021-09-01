@@ -1,58 +1,85 @@
 import React from "react";
 import styled, { css } from "styled-components/macro";
-import { Logo } from "./Logo";
 
+import { Connect4Img } from "../img/Connect4";
 
-export const Layout:React.FC = ({children})=>{
+export const headerHeight = "85px";
+export const footerHeight = "50px";
 
-    const headerHeight="85px";
-    const footerHeight="50px";
+const MaxWidth = css`
+  max-width: 1300px;
+  margin: auto;
+`;
 
-    const MaxWidthCSS = css`
-        max-width: 860px;
-        margin:auto;
-    `;
+const Header = styled.header`
+  height: ${headerHeight};
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 25px;
+`;
 
-    const Header = styled.header`
-        height: ${headerHeight};
-        width: 100%;
-        display: flex;
-        align-items: center;
-        padding: 0 25px;
-  
-    `; 
+const Main = styled.main`
+  min-height: calc(100vh - ${headerHeight} - ${footerHeight});
+  ${MaxWidth}
+`;
 
-    const Main = styled.main`
-        min-height: calc(100vh - ${headerHeight} - ${footerHeight});
-        ${MaxWidthCSS};
-    `; 
+const Footer = styled.footer`
+  height: ${footerHeight};
+  ${MaxWidth}
+`;
 
-    const Footer = styled.footer`
-        height:${footerHeight};
-        ${MaxWidthCSS};
-    `; 
+const NavigationList = styled.div`
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`;
+const NavigationItem = styled.div`
+  color: ${(props) => props.theme.colors.primary};
+  text-decoration: none;
+  margin-right: 15px;
+`;
 
-    const NavigationList = styled.ul`
-    list-style: none;
-    `;
+const LogoTitel = styled.div`
+  position: relative;
+`;
 
-    const NavigationItem = styled.li`
-    color: ${props => props.theme.colors.primary};
-    `;
+const Titel = styled.span`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.7rem;
+  text-shadow: 0 0 4px #ffffff;
+`;
 
-
-    return (
-        <>
-            <Header>
-                <Logo/>
-            <NavigationList>
-                <NavigationItem>HOME</NavigationItem> 
-            </NavigationList>
-        </Header>
-        <Main>{children}</Main>
-        <Footer>
-        &copy;2021 AWD
-        </Footer>
-        </>
-    );
-}
+export const Layout: React.FC = ({ children }) => {
+  return (
+    <>
+      <Header>
+        <LogoTitel>
+          <Connect4Img />
+          <Titel>
+            Connect
+            <span
+              css={`
+                color: red;
+                text-shadow: 0 0 4px #ffffff;
+              `}
+            >
+              4
+            </span>
+          </Titel>
+        </LogoTitel>
+        <NavigationList>
+          <NavigationItem>Settings</NavigationItem>
+          <NavigationItem>Logout</NavigationItem>
+          <NavigationItem>Help</NavigationItem>
+        </NavigationList>
+      </Header>
+      <Main>{children}</Main>
+      <Footer>Footer</Footer>
+    </>
+  );
+};

@@ -1,0 +1,37 @@
+import styled from "styled-components";
+import React from "react";
+import {Link} from "react-router-dom";
+
+const NextGameButtonLayout = styled.div`
+  height: 20%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const NextGameButtonButton = styled.button`
+  background-color: green;
+  color: black;
+  border: 0px;
+  border-radius: 10px;
+  transition-duration: 250ms;
+  line-height: 50px;
+  font-size: 20px;
+  width: 40%;
+  &:hover {
+    background-color: #50e150;
+  }
+`;
+
+export const NextGameButton = () => {
+    return (
+        <Link to='/newgame'  style={{textDecoration: "none"}}>
+            <NextGameButtonLayout>
+                <NextGameButtonButton>Next
+                    Game</NextGameButtonButton>
+            </NextGameButtonLayout>
+        </Link>
+
+    );
+};
