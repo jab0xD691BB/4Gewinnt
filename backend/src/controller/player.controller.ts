@@ -58,9 +58,9 @@ export const registerPlayer = async (req: Request, res: Response) => {
     }
   
     const token: string = await Authentication.generateToken({
+      id: user.id,
       name: user.name,
-      id: user.email,
-      // or name
+      email: user.email,
     });
   
     return res.send({

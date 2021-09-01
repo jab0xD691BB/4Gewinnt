@@ -9,6 +9,7 @@ import {
 } from "../../context/AuthenticationContext";
 import { Link } from "react-router-dom";
 import { UnauthenticatedLayout } from "../../components/UnauthenticatedLayout";
+import {StyledLink} from "../../components/Link";
 
 
 export const LoginPage = () => {
@@ -54,7 +55,7 @@ export const LoginPage = () => {
               required
             />
             <Button type="submit">Log In</Button>
-            <Link to="/register">Register</Link>
+            <StyledLink to="/register">Register</StyledLink>
           </LoginMask>
         </form>
       </LoginMaskHolder>

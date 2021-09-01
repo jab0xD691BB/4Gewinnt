@@ -1,7 +1,7 @@
 import {Input} from "./components/Input";
 import styled from "styled-components";
 import {footerHeight, headerHeight, Layout} from "../../components/Layout";
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useContext, useState} from "react";
 import {SettingsContainer} from "./components/GameSettings";
 import {SelectGameMode} from "./components/Select";
 import {Button, DisabledButton} from "./components/Button";
@@ -12,6 +12,7 @@ import {
 } from "./components/GameRoomList";
 import {Modal} from "./components/Modal";
 import {theme} from "../../theme";
+import {authContext} from "../../context/AuthenticationContext";
 
 const NewgameBody = styled.div`
   border: 1px solid white;
@@ -22,6 +23,7 @@ const NewgameBody = styled.div`
 
 export const NewgamePage = () => {
     const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
+    const { token } = useContext(authContext);
 
 
     const gameRooms: GameRoom[] = [
@@ -92,9 +94,10 @@ export const NewgamePage = () => {
 
     const joinAsPlayer = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        let tokenDecoded = JSON.parse(atob(token!.split(".")[1]));
         await fetch(`/api/game/`, {
             body: JSON.stringify({
-                player: "idHere",
+                player: tokenDecoded.id,
                 joinmode: "player",
                 id: {this:gameSelected?.id},
             }),
@@ -105,9 +108,10 @@ export const NewgamePage = () => {
 
     const joinAsGuest = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        let tokenDecoded = JSON.parse(atob(token!.split(".")[1]));
         await fetch(`/api/game/`, {
             body: JSON.stringify({
-                player: "idHere",
+                player: tokenDecoded.id,
                 joinmode: "guest",
                 id: {this:gameSelected?.id},
             }),
