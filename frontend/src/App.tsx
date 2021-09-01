@@ -1,29 +1,30 @@
-import * as React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import  React, { useEffect, useContext} from "react";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyle } from "./components/GlobalStyle"
+import { theme } from "./components/theme";
+import { AuthProvider, authContext} from "./context/AuthenticationContext";
+import { UnauthenticatedLayout } from "./components/UnauthenticatedLayout";
+import {LoginPage} from "./pages/Login/LoginPage";
 
-function App() {
-  React.useEffect(() => {
-    fetch("/api");
-  }, []);
+
+export const App = () => {
+  useEffect(() => {
+    (async function() {
+      const helloRequest = await fetch("/api");
+      const halloJson = await helloRequest.json();
+      console.log(halloJson);
+    })();
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <ThemeProvider theme={theme}>
+    <AuthProvider>
+      <GlobalStyle />
+        <UnauthenticatedLayout>
+          <LoginPage />
+        </UnauthenticatedLayout>
+      </AuthProvider>
+    </ThemeProvider> 
+    </>
   );
 }
-
-export default App;
