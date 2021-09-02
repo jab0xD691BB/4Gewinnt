@@ -12,10 +12,9 @@ export const GameBoardWrapper = styled.div`
   padding: 10px;
   `;
 
-let columnId = 0;
-
 export const GameBoard = () => {
-    return <div style={{
+    let columnId = 0;
+    return <div id="game_board" style={{
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
