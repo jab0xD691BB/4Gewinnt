@@ -114,14 +114,13 @@ export class Game {
     }
 
     /**
-     * Provides the index of the last step to be displayed.
+     * Provides the index of the last step to be displayed or undefined if now steps have been played.
      *
-     * @return number - The index of the last step to be displayed
+     * @return number | undefined - The index of the last step to be displayed
      */
-    public reverseStep(): number {
-        console.log(this.active_step);
-        if (this.active_step === undefined) {
-            this.active_step = this.state.steps.length-2;
+    public reverseStep(): number | undefined {
+        if (this.active_step === undefined ) {
+            this.active_step = this.state.steps.length <= 1 ? undefined : this.state.steps.length-2;
         } else if (this.active_step > 0) {
             this.active_step--;
         }
@@ -130,13 +129,13 @@ export class Game {
 
 
     /**
-     * Provides the index of the last step to be displayed.
+     * Provides the index of the last step to be displayed or undefined if now steps have been played.
      *
-     * @return number - The index of the last step to be displayed
+     * @return number | undefined - The index of the last step to be displayed
      */
-    public advanceStep(): number {
+    public advanceStep(): number | undefined {
         if (this.active_step === undefined) {
-            return this.state.steps.length-1;
+            return this.state.steps.length <= 1 ? undefined : this.state.steps.length-1;
         } else if (this.active_step === this.state.steps.length-2) {
             this.active_step = undefined;
             return this.state.steps.length-1;
