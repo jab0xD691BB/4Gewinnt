@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { theme } from "../../theme";
 import {footerHeight, headerHeight, Layout} from "../../components/Layout";
 import React, {ChangeEvent, useContext, useState} from "react";
-import {GameBoard, GameBoardWrapper} from "./components/GameBoard";
+import {advanceButtonClicked, game, GameBoard, GameBoardWrapper, reverseButtonClicked} from "./components/GameBoard";
 
 import {
     ArrowLeftButton, ArrowRightButton,
@@ -43,14 +44,6 @@ const gameRoom: GameRoom =
 
 export const GamePage = () => {
 
-    const leftArrowButtonClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
-        //TODO: one move back;
-    }
-
-    const rightArrowButtonClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
-        //TODO: one move forth;
-    }
-
     return (
         <Layout>
             <GameBody>
@@ -75,11 +68,11 @@ export const GamePage = () => {
                             <div style={{width: "30%"}}>
                                 <h3>Back</h3>
                             </div>
-                            <ReplayButtonWrapperSingle onClick={leftArrowButtonClicked}>
+                            <ReplayButtonWrapperSingle onClick={reverseButtonClicked}>
                                 <ArrowLeftButton>
                                 </ArrowLeftButton>
                             </ReplayButtonWrapperSingle>
-                            <ReplayButtonWrapperSingle onClick={rightArrowButtonClicked}>
+                            <ReplayButtonWrapperSingle onClick={advanceButtonClicked}>
                                 <ArrowRightButton>
                                 </ArrowRightButton>
                             </ReplayButtonWrapperSingle>

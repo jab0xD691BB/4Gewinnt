@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const FieldColumn = styled.div`
-    background: #00000000;
+    background: ${(props) => props.theme.colors.fullyTransparentColor};
     width: 100%;
     height: 100%;
     display: flex;
@@ -9,7 +9,7 @@ export const FieldColumn = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    border: 2px solid #00000000;
+    border: 2px solid ${(props) => props.theme.colors.fullyTransparentColor};
 
     outline: 0;
     &:hover {

@@ -10,5 +10,6 @@ export const theme: DefaultTheme = {
         listBackgroundColor: "rgb(45,45,45)",
         listHovorColor: "rgb(65,65,65)",
         primary: "rgb(37, 194, 162)",
+        fullyTransparentColor: "#00000000",
     },
 };

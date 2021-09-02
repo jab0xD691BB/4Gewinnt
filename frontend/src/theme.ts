@@ -10,5 +10,6 @@ export const theme: DefaultTheme = {
     shadowColor: "rgba(0,0,0,0.3)",
     listBackgroundColor: "rgb(120, 120, 120)",
     listHovorColor: "rgb(65,65,65)",
+    fullyTransparentColor: "#00000000",
   },
 };

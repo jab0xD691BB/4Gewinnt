@@ -2,16 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const StyledField = styled.div`
-  border: 2px;
+  border: 2px solid ${(props) => props.theme.colors.fontColor};
   border-radius: 50%;
   margin: 2px;
-  background-color: #ffffff;
+  background_color: ${(props) => props.theme.colors.fullyTransparentColor};
 `;
-export const Field = () => {
-    return (
-        <StyledField>
-
-        </StyledField>
-    );
-};
-

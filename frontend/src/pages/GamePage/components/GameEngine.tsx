@@ -60,7 +60,8 @@ export class Game {
     constructor(
         private width: number = 30,
         private height: number = 24,
-        connect: number = 4
+        connect: number = 4,
+        private default_background_color: string = "#00000000"
     ) {
         this.boardHeight = height;
         this.boardWidth = width;
@@ -118,7 +119,8 @@ export class Game {
      * @return number - The index of the last step to be displayed
      */
     public reverseStep(): number {
-        if (!this.active_step) {
+        console.log(this.active_step);
+        if (this.active_step === undefined) {
             this.active_step = this.state.steps.length-2;
         } else if (this.active_step > 0) {
             this.active_step--;
@@ -126,8 +128,14 @@ export class Game {
         return this.active_step;
     }
 
+
+    /**
+     * Provides the index of the last step to be displayed.
+     *
+     * @return number - The index of the last step to be displayed
+     */
     public advanceStep(): number {
-        if (!this.active_step) {
+        if (this.active_step === undefined) {
             return this.state.steps.length-1;
         } else if (this.active_step === this.state.steps.length-2) {
             this.active_step = undefined;
@@ -180,7 +188,7 @@ export class Game {
     private start_step(): GameStep {
         return {
             player_id: "Board Dimensions",
-            color: "#00000000",
+            color: this.default_background_color,
             x: this.width,
             y: this.height,
             step: 0,
@@ -337,6 +345,14 @@ export class Game {
 
     public get gameBoard(): number[][] {
         return this.game_board;
+    }
+
+    public getPlayer(id: string): Player {
+        return this.state.players.get(id)!;
+    }
+
+    public get activeStep(): number | undefined {
+        return this.active_step;
     }
 }
 
