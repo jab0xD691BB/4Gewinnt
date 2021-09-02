@@ -1,21 +1,44 @@
 import styled from "styled-components";
 import {footerHeight, headerHeight, Layout} from "../../components/Layout";
 import React, {ChangeEvent, useContext, useState} from "react";
-import {GameBoard} from "./components/GameBoard";
-import {Button} from "../Login/components/Button";
-import {DisabledButton} from "../NewgamePage/components/Button";
+import {GameBoard, GameBoardWrapper} from "./components/GameBoard";
+
 import {
     ArrowLeftButton, ArrowRightButton,
-    ReplayButtonWrapper
+    ReplayButtonWrapper, ReplayButtonWrapperSingle
 } from "./components/ReplayButtons";
-import {GameRoomItem} from "../NewgamePage/components/GameRoomList";
+
+import {
+    GameHeaderWrapper, GameHeaderWrapperSingle
+} from "./components/GameHeader";
+
+import {GameRoom, GameRoomItem} from "../NewgamePage/components/GameRoomList";
+import {GameDetails} from "./components/GameDetails";
+import {Button, VerticalButtonWrapper} from "./components/Button";
 
 const GameBody = styled.div`
-  border: 1px solid white;
   height: 100%;
   min-height: calc(100vh - ${headerHeight} - ${footerHeight});
   width: 100%;
 `;
+
+const gameRoom: GameRoom =
+    {
+        id: "1",
+        name: "Test Room Name1",
+        player1: "IchMachDichPlatt",
+        player2: "IchDichAuch",
+        guests: ["Gast1", "Gast2"],
+        gameSetting: {
+            boardWidth: "7",
+            boardHeigth: "7",
+            bestOf: "7",
+            gameMode: "human",
+            rated: "on",
+            rowCountToWin: "4",
+            time: "7"
+        }
+    }
 
 
 export const GamePage = () => {
@@ -32,51 +55,61 @@ export const GamePage = () => {
         <Layout>
             <GameBody>
                 <div
-                    style={{display: "flex", flexDirection: "row", width: "100%", height: "800px"}}>
-                    <div style={{backgroundColor: "rgb(255,0,0)", width: "70%", height: "100%",}}>
+                    style={{display: "flex", flexDirection: "row", height: "800px"}}>
+                    <div style={{width: "70%", height: "100%",}}>
                         <div style={{
-                            backgroundColor: "rgb(255,0,0)",
                             width: "100%",
                             height: "75px"
                         }}>
+                            <GameHeaderWrapper>
+                                <GameHeaderWrapperSingle>
+                                    {gameRoom.player1}
+                                </GameHeaderWrapperSingle>
+                                <GameHeaderWrapperSingle>
+                                    VS
+                                </GameHeaderWrapperSingle>
+                                <GameHeaderWrapperSingle>
+                                    {gameRoom.player2}
+                                </GameHeaderWrapperSingle>
+                            </GameHeaderWrapper>
                         </div>
                         <div style={{
-                            backgroundColor: "rgb(160,0,0)",
-                            width: "100%",
-                            height: "650px"
+                            width: "100%"
                         }}>
-                            <GameBoard/>
-
+                            <GameBoardWrapper>
+                                <GameBoard/>
+                            </GameBoardWrapper>
                         </div>
                         <div
-                            style={{backgroundColor: "rgb(80,0,0)", width: "100%", height: "75px"}}>
+                            style={{width: "100%", height: "75px"}}>
                             <ReplayButtonWrapper>
                                 <div style={{width: "30%"}}>
                                     <h3>Back</h3>
                                 </div>
-                                <ArrowLeftButton onClick={leftArrowButtonClicked}>
-                                </ArrowLeftButton>
-                                <ArrowRightButton onClick={rightArrowButtonClicked}>
-                                </ArrowRightButton>
+                                <ReplayButtonWrapperSingle onClick={leftArrowButtonClicked}>
+                                    <ArrowLeftButton>
+                                    </ArrowLeftButton>
+                                </ReplayButtonWrapperSingle>
+                                <ReplayButtonWrapperSingle onClick={rightArrowButtonClicked}>
+                                    <ArrowRightButton>
+                                    </ArrowRightButton>
+                                </ReplayButtonWrapperSingle>
                                 <div style={{width: "30%", textAlign: "end"}}>
                                     <h3>Forth</h3>
                                 </div>
                             </ReplayButtonWrapper>
                         </div>
                     </div>
-                    <div style={{backgroundColor: "rgb(0,255,0)", width: "30%", height: "100%",}}>
-                        <div style={{
-                            backgroundColor: "rgb(0,255,0)",
-                            width: "100%",
-                            height: "300px"
-                        }}>
-                        </div>
-                        <div style={{
-                            backgroundColor: "rgb(0,160,0)",
-                            width: "100%",
-                            height: "500px"
-                        }}>
-                        </div>
+                    <div >
+                        <GameDetails gameDetails={gameRoom}/>
+                            <VerticalButtonWrapper>
+                                <Button>
+                                    Resign
+                                </Button>
+                                <Button>
+                                    Back to Dashboard
+                                </Button>
+                            </VerticalButtonWrapper>
                     </div>
                 </div>
             </GameBody>

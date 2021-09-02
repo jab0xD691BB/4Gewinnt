@@ -251,12 +251,10 @@ export const NewgamePage = () => {
                             )}
                         </div>
                     </GameRoomListLayout>
-                            {gameSelected && (
-                                <GameDetails gameDetails={gameSelected!}/>
-                            )}
-                            {!gameSelected && (
-                                <GameDetailsEmpty/>
-                            )}
+                    {gameSelected && (
+                        <GameDetails gameDetails={gameSelected!}/>)}
+                    {!gameSelected && (
+                        <GameDetailsEmpty/>)}
                 </div>
             </NewgameBody>
         </Layout>
