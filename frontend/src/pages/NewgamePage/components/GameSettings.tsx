@@ -17,6 +17,12 @@ export type GameSettings = {
     rated: string;
 };
 
+export const GameSettingsLayout = styled.div`
+  background-color: #2b2b2b;
+  border-radius: 10px;
+  margin: 10px;
+`;
+
 export const SettingsContainer = () => {
 
     const [values, setValues] = useState({
@@ -53,7 +59,7 @@ export const SettingsContainer = () => {
     };
 
     return (
-        <div>
+        <GameSettingsLayout>
         <form onSubmit={createGameSession} data-testid="edit-game-session-form">
                 <div style={{width: 400, paddingLeft: 50, paddingRight: 50, textAlign: "center"}}>
                     <h2> Settings </h2>
@@ -127,7 +133,7 @@ export const SettingsContainer = () => {
                     <Button type="submit">Create Game Session</Button>
                 </div>
         </form>
-        </div>
+        </GameSettingsLayout>
 
     );
 };

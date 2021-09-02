@@ -9,6 +9,7 @@ import {
     GameRoom,
     GameRoomItem,
     GameRoomList,
+    GameRoomListLayout
 } from "./components/GameRoomList";
 import {Modal} from "./components/Modal";
 import {theme} from "../../theme";
@@ -16,7 +17,6 @@ import {authContext} from "../../context/AuthenticationContext";
 import {GameDetails, GameDetailsEmpty} from "./components/GameDetails";
 
 const NewgameBody = styled.div`
-  border: 1px solid white;
   height: 100%;
   min-height: calc(100vh - ${headerHeight} - ${footerHeight});
   width: 100%;
@@ -30,7 +30,7 @@ export const NewgamePage = () => {
     const gameRooms: GameRoom[] = [
         {
             id: "1",
-            name: "Test Room Name",
+            name: "Test Room Name1",
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
@@ -46,7 +46,7 @@ export const NewgamePage = () => {
         },
         {
             id: "2",
-            name: "Test Room Name",
+            name: "Test Room Name2",
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
@@ -62,7 +62,7 @@ export const NewgamePage = () => {
         },
         {
             id: "3",
-            name: "Test Room Name",
+            name: "Test Room Name3",
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
@@ -78,7 +78,7 @@ export const NewgamePage = () => {
         },
         {
             id: "4",
-            name: "Test Room Name",
+            name: "Test Room Name4",
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
@@ -94,7 +94,7 @@ export const NewgamePage = () => {
         },
         {
             id: "5",
-            name: "Test Room Name",
+            name: "Test Room Name5",
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
@@ -110,7 +110,7 @@ export const NewgamePage = () => {
         },
         {
             id: "6",
-            name: "Test Room Name",
+            name: "Test Room Name6",
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
@@ -126,7 +126,7 @@ export const NewgamePage = () => {
         },
         {
             id: "7",
-            name: "Test Room Name",
+            name: "Test Room Name7",
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
@@ -142,7 +142,7 @@ export const NewgamePage = () => {
         },
         {
             id: "8",
-            name: "Test Room Name",
+            name: "Test Room Name8",
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
@@ -158,7 +158,7 @@ export const NewgamePage = () => {
         },
         {
             id: "9",
-            name: "Test Room Name",
+            name: "Test Room Name9",
             player1: "IchMachDichPlatt",
             player2: "IchDichAuch",
             guests: ["Gast1", "Gast2"],
@@ -208,12 +208,14 @@ export const NewgamePage = () => {
                 <h1 style={{textAlign: "center", margin: 0}}> New Game</h1>
                 <div style={{display: "flex", flexDirection: "row"}}>
                     <SettingsContainer/>
-                    <div>
-                        <div style={{textAlign: "center"}}>
-                            <h2> Game Room List </h2>
-                        </div>
-                        <div style={{height: "450px", overflowY: "scroll"}}>
-                            <GameRoomList>
+                    <GameRoomListLayout>
+                        <h2> Game Room List </h2>
+                        <GameRoomList>
+                            <div style={{
+                                height: "450px",
+                                overflowY: "scroll",
+                                borderRadius: "10px"
+                            }}>
                                 {gameRooms.map((gameRoom) => (
                                     <GameRoomItem
                                         key={gameRoom.id}
@@ -221,45 +223,40 @@ export const NewgamePage = () => {
 
                                             for (let gameRoomElement of gameRooms) {
                                                 if (gameRoomElement.id == gameRoom.id) {
-                                                    document.getElementById(gameRoomElement.id)!.style.backgroundColor = theme.colors.primary;
+                                                    document.getElementById(gameRoomElement.id)!.style.backgroundColor = "green";
+                                                    document.getElementById(gameRoomElement.id)!.style.borderRadius = "10px";
                                                     setGameSelected(gameRoom);
                                                 } else {
-                                                    document.getElementById(gameRoomElement.id)!.style.backgroundColor = theme.colors.backgroundColor;
+                                                    document.getElementById(gameRoomElement.id)!.style.backgroundColor = "#2b2b2b";
                                                 }
                                             }
                                         }}
                                         gameRoom={gameRoom}
                                     />
                                 ))}
-                            </GameRoomList>
+                            </div>
+                        </GameRoomList>
+                        <div style={{alignSelf: "flex-end"}}>
+                            {gameSelected && (
+                                <div>
+                                    <Button onClick={joinAsPlayer}>Join As Player</Button>
+                                    <Button onClick={joinAsGuest}>Join As Guest</Button>
+                                </div>
+                            )}
+                            {!gameSelected && (
+                                <div>
+                                    <DisabledButton>Join As Player</DisabledButton>
+                                    <DisabledButton>Join As Guest</DisabledButton>
+                                </div>
+                            )}
                         </div>
-                        <Button>Refresh</Button>
-                        {gameSelected && (
-                            <div>
-                                <Button onClick={joinAsPlayer}>Join As Player</Button>
-                                <Button onClick={joinAsGuest}>Join As Guest</Button>
-                            </div>
-                        )}
-                        {!gameSelected && (
-                            <div>
-                                <DisabledButton>Join As Player</DisabledButton>
-                                <DisabledButton>Join As Guest</DisabledButton>
-                            </div>
-                        )}
-                    </div>
-                        <div>
-                            <div style={{textAlign: "center"}}>
-                                <h2> Game Room Details </h2>
-                            </div>
-                            <div style={{width: "400px", paddingLeft: "50px"}}>
-                                {gameSelected && (
-                                    <GameDetails gameDetails={gameSelected!}/>
-                                )}
-                                {!gameSelected && (
-                                    <GameDetailsEmpty/>
-                                )}
-                            </div>
-                        </div>
+                    </GameRoomListLayout>
+                            {gameSelected && (
+                                <GameDetails gameDetails={gameSelected!}/>
+                            )}
+                            {!gameSelected && (
+                                <GameDetailsEmpty/>
+                            )}
                 </div>
             </NewgameBody>
         </Layout>

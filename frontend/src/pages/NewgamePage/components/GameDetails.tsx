@@ -1,16 +1,16 @@
 import styled from "styled-components";
 import React from "react";
 import {GameRoom} from "./GameRoomList";
-import {GameSettings} from "./GameSettings";
 
 const GameDetailsLayout = styled.div`
   background-color: #2b2b2b;
   border-radius: 10px;
-  height: 40%;
-  width: 100%;
-  margin-bottom: 20%;
-  padding-left: 10px;
-  padding-right: 10px;
+  width: 400px;
+  margin: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align: center;
+
 `;
 
 const GameTitle = styled.p`
@@ -27,6 +27,7 @@ const GameDetailsWrapper = styled.div`
 const GameText = styled.p`
   display: inline-block;
   width: 50%;
+  text-align: start;
 `;
 const GameTextValue = styled.p`
   display: inline-block;
@@ -37,6 +38,7 @@ const GameTextValue = styled.p`
 export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({ gameDetails }) => {
     return (
         <GameDetailsLayout>
+            <h2> Game Room Details </h2>
             <GameTitle style={{paddingTop: "10px"}}>{gameDetails.name}</GameTitle>
             <GameDetailsWrapper>
                 <GameText>Player 1</GameText>
@@ -84,7 +86,8 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({ gameDetails }
 
 export const GameDetailsEmpty: React.FC<{}> = () => {
     return (
-        <GameDetailsLayout style={{height: "550px"}}>
+        <GameDetailsLayout>
+            <h2> Game Room Details </h2>
         </GameDetailsLayout>
     );
 };

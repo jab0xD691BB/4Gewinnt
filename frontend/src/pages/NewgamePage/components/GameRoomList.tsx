@@ -32,17 +32,28 @@ export const GameRoomItemStyle = styled.div`
   min-height: 3rem;
   position: relative;
   padding: 0.7rem 2rem;
+  border-radius: 10px;
   &:hover {
-    background-color: ${(props) => props.theme.colors.primary};
+    background-color: green;
   }
 `;
+
+export const GameRoomListLayout = styled.div`
+  background-color: #2b2b2b;
+  border-radius: 10px;
+  margin: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align: center;
+`;
+
 export const GameRoomList = styled.ul`
+
   list-style: none;
   box-shadow: 0 0.125em 0.25em 0 ${(props) => props.theme.colors.shadowColor};
   width: 100%;
   padding: 0;
   border-radius: 0.5rem;
-  background-color: ${(props) => props.theme.colors.backgroundColor};
   ${GameRoomItemStyle} {
     border-bottom: 1px ${(props) => props.theme.colors.shadowColor} solid;
     &:last-of-type {
