@@ -50,10 +50,12 @@ export const getSomeGames = async (req: Request, res: Response) => {
 
   // Create Game
   export const createGame = async (req: Request, res: Response) => {
-    const {createdAt, winner, players} = req.body;
+    const {createdAt, winner, players, settings, moves} = req.body;
     const game = new Game();
     game.players = players;
     game.winner = winner;
+    game.settings = settings;
+    game.moves = moves;
     const gameRepository = await getRepository(Game);
     const createdGame = await gameRepository.save(game);
   
@@ -78,12 +80,12 @@ export const getSomeGames = async (req: Request, res: Response) => {
   };
 
   // get players playing in the game
-  /* export const getplayers = async (req: Request, res: Response) => {
-    const player = Number(req.query.player);
-    const limit = Number(req.query.limit);
-    const jokeRepository = await getRepository(Game);
-    const jokes = await jokeRepository.createQueryBuilder("joke").where("joke.counter >= :counter", {counter: counter}).limit(limit).getMany();
+   export const getplayersfromgame = async (req: Request, res: Response) => {
+    const gameid = req.params.gameId;
+    const gameRepository = await getRepository(Game);
+    const sqlQueryGame = `select * from game where id id = "${gameid}") `;
+    const games = await gameRepository.query(sqlQueryGame);
     res.send({
-      data: jokes,
+      data: games,
     });
-  }; */
+  }; 

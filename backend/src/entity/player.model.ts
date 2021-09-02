@@ -61,17 +61,5 @@ import {
     /* @OneToMany (type => Move, move => move.player)
     moves!: Move[]; */
 
-    /* constructor(playerid:string, playerEmail:string, playername:string,playerPassword:string, playerpreferredTheme:string, playerEloScore:number, playerCreatedAt:string, playerUpdatedAt:string, games:Array<Game>) {
-      this.id= playerid;
-      this.email = playerEmail;
-      this.password= playerPassword;
-      this.preferredTheme= playerpreferredTheme;
-      this.eloScore= playerEloScore;
-      this.name = playername;
-      this.createdAt= playerCreatedAt;
-      this.updatedAt=playerUpdatedAt;
-      this.games = games;
-    }
-   */
   }
   

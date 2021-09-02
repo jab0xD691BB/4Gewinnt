@@ -6,7 +6,7 @@ import {
   getGame,
   getGamesOfPlayer,
   getSomeGames,
-  //getplayers,
+  getplayersfromgame,
 } from "../controller/game.controller";
 
 export const gameRouter = Router({ mergeParams: true });
@@ -15,7 +15,7 @@ export const gameRouter = Router({ mergeParams: true });
 gameRouter.get("/:id", getGame);
 gameRouter.get("/gamesplayedby/:playerid", getGamesOfPlayer);
 gameRouter.get("/somegames", getSomeGames)
-//gameRouter.get("/:playerid", getplayers);
+gameRouter.get("/players/:gameId", getplayersfromgame);
 gameRouter.post("/", createGame);
 gameRouter.delete("/:id", deleteGame);
 gameRouter.get("/", getAllGames);

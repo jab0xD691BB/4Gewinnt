@@ -106,7 +106,7 @@ export const getPlayer = async (req: Request ,res: Response) => {
 // Update Player
 export const updatePlayer = async (req: Request, res: Response) => {
   const playerid = req.params.playerId;
-  const {name, password , email, eloScore} = req.body;
+  const {name, password , email, eloScore, preferredTheme} = req.body;
   const playerRepository = await getRepository(Player);
   try {
     let player= await playerRepository.findOneOrFail(playerid);
@@ -114,7 +114,7 @@ export const updatePlayer = async (req: Request, res: Response) => {
     player.password = password;
     player.email = email;
     player.eloScore = eloScore;
-
+    player.preferredTheme = preferredTheme;
     player = await playerRepository.save(player);
     res.send({
       data:player
@@ -128,11 +128,13 @@ export const updatePlayer = async (req: Request, res: Response) => {
 
 // Create Player
 export const createPlayer = async (req: Request, res: Response) => {
-  const {name, password , email} = req.body;
+  const {name, password , email, eloScore, preferredTheme} = req.body;
   const player = new Player();
   player.name = name;
   player.password = password;
   player.email = email;
+  player.eloScore = eloScore;
+  player.preferredTheme = preferredTheme;
   const playerRepository = await getRepository(Player);
   const createdPlayer = await playerRepository.save(player);
 
@@ -151,7 +153,7 @@ export const deletePlayer = async (req: Request, res: Response) => {
     res.send({});
   } catch (error) {
     res.status(404).send({
-      status: 'PLayer not found'
+      status: 'Player not found'
     });
   }
 };
