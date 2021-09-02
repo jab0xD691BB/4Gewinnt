@@ -19,6 +19,8 @@ export const ReplayButtonWrapperSingle = styled.div`
   position: relative;
   padding: 8px;
   
+  font-size: 2.3rem;
+  
   margin-left: 10px;
   margin-right: 10px;
 

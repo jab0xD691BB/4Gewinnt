@@ -44,7 +44,13 @@ const gameRoom: GameRoom =
 
 export const GamePage = () => {
 
-    return (
+    const [stepCounterRerender, setStepCounterRerenderer] = useState(0);
+
+    const rerenderStepCounter = function () {
+        setStepCounterRerenderer(game.activeStep === undefined ? game.gameSteps.length-1 : game.activeStep);
+    }
+
+        return (
         <Layout>
             <GameBody>
                 <div
@@ -61,16 +67,19 @@ export const GamePage = () => {
                                 {gameRoom.player2}
                             </GameHeaderWrapperSingle>
                         </GameHeaderWrapper>
-                        <GameBoardWrapper>
+                        <GameBoardWrapper onClick={rerenderStepCounter}>
                             <GameBoard/>
                         </GameBoardWrapper>
-                        <ReplayButtonWrapper>
+                        <ReplayButtonWrapper onClick={rerenderStepCounter}>
                             <div style={{width: "30%"}}>
                                 <h3>Back</h3>
                             </div>
                             <ReplayButtonWrapperSingle onClick={reverseButtonClicked}>
                                 <ArrowLeftButton>
                                 </ArrowLeftButton>
+                            </ReplayButtonWrapperSingle>
+                            <ReplayButtonWrapperSingle>
+                                {stepCounterRerender}
                             </ReplayButtonWrapperSingle>
                             <ReplayButtonWrapperSingle onClick={advanceButtonClicked}>
                                 <ArrowRightButton>
@@ -96,4 +105,4 @@ export const GamePage = () => {
             </GameBody>
         </Layout>
     );
-};
+}
