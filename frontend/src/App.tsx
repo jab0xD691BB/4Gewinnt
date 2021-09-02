@@ -70,17 +70,29 @@ export const App = () => {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <GlobalStyle />
-            <Switch>
-              <UnauthenticatedRoute exact path="/login" component={LoginPage} />
-              <UnauthenticatedRoute exact path="/register" component={RegisterPage}/>
-              <AuthenticatedRoute exact path="/dashboard" component={DashboardPage}/>
-              <AuthenticatedRoute exact path="/newgame" component={NewgamePage} />
-              <AuthenticatedRoute exact path="/game" component={DashboardPage} />
-              <AuthenticatedRoute exact path="/settings" component={DashboardPage} />
-              <Route path="/" component={BasePage}></Route>
-            </Switch>
+        <AuthProvider>
+          <GlobalStyle />
+          <Switch>
+            <UnauthenticatedRoute exact path="/login" component={LoginPage} />
+            <UnauthenticatedRoute
+              exact
+              path="/register"
+              component={RegisterPage}
+            />
+            <AuthenticatedRoute
+              exact
+              path="/dashboard"
+              component={DashboardPage}
+            />
+            <AuthenticatedRoute exact path="/newgame" component={NewgamePage} />
+            <AuthenticatedRoute exact path="/game" component={DashboardPage} />
+            <AuthenticatedRoute
+              exact
+              path="/settings"
+              component={DashboardPage}
+            />
+            <Route path="/" component={BasePage}></Route>
+          </Switch>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

@@ -27,6 +27,7 @@ services:
       - DBPORT=3306
     ports:
       - 4000:4000
+
     command: npm start
     volumes:
       - ./backend:/var/app/backend
