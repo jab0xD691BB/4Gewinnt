@@ -5,7 +5,7 @@ import {Input, InputCheckbox} from "./Input";
 import {SelectGameMode} from "./Select";
 import {Button} from "./Button";
 import {GameRoom} from "./GameRoomList";
-import {game} from "../../GamePage/components/GameEngine";
+import { Game } from "../../GamePage/components/GameEngine";
 
 export type GameSettings = {
     boardWidth: string;
