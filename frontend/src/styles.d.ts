@@ -6,6 +6,7 @@ declare module "styled-components" {
     colors: {
       backgroundColor: string;
       listBackgroundColor: string;
+      buttonColor: string;
       fontColor: string;
       secondaryFontColor: string;
       shadowColor: string;

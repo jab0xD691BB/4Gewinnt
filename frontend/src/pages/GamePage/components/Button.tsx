@@ -4,12 +4,12 @@ export const VerticalButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   flexDirection: row;
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.buttonColor};
   border-radius: 10px;
 `;
 
 export const Button = styled.button`
-  background-color: green;
+  background-color: ${(props) => props.theme.colors.primary};
   border: 0px;
   border-radius: 10px;
   color: black;

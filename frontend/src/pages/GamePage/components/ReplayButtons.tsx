@@ -37,7 +37,7 @@ export const ArrowLeftButton = styled.div`
   height: 0;
   
   border-top: 20px solid transparent;
-  border-right: 60px solid green;
+  border-right: 60px solid ${(props) => props.theme.colors.primary};
   border-bottom: 20px solid transparent;
   
   margin-right: 15px;
@@ -52,7 +52,7 @@ export const ArrowRightButton = styled.div`
   height: 0;
   
   border-top: 20px solid transparent;
-  border-left: 60px solid green;
+  border-left: 60px solid ${(props) => props.theme.colors.primary};
   border-bottom: 20px solid transparent;
   
   margin-right: 10px;

@@ -1,15 +1,18 @@
-import {Field, StyledField} from "./Field";
+import {StyledField} from "./Field";
 import React from "react";
 import {Game} from "./GameEngine";
 import styled from "styled-components";
+import {FieldColumn} from "./Column";
 
-const game = new Game();
+const game = new Game(20, 15, 8);
 
 export const GameBoardWrapper = styled.div`
   margin: 10px;
   overflowY: scroll;
   padding: 10px;
   `;
+
+let columnId = 0;
 
 export const GameBoard = () => {
     return <div style={{
@@ -18,16 +21,12 @@ export const GameBoard = () => {
         justifyContent: "center",
     }}>
         {game.gameBoard.map((column) => {
-            return <div style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-
-            }}> {column.map((element) => {
-                return <StyledField style={{padding: `min(calc(700px/(2*${game.boardWidth})), calc(500px/(2*${game.boardHeight})))`}}/>;
+            console.log(columnId);
+            let rowId = 0;
+            return <FieldColumn id={"column_" + columnId++}> {column.map((element) => {
+                return <StyledField id={"row_" + rowId++} style={{padding: `min(calc(700px/(2*${game.boardWidth})), calc(500px/(2*${game.boardHeight})))`}}/>;
             })}
-            </div>
+            </FieldColumn>
         })}
     </div>;
 }

@@ -52,6 +52,7 @@ export class Game {
     private state: GameState;
     private readonly game_board: number[][];
     private directions: Direction[];
+    private active_step: number | undefined;
 
     public boardHeight: number;
     public boardWidth: number;
@@ -111,6 +112,29 @@ export class Game {
         }
     }
 
+    /**
+     * Provides the index of the last step to be displayed.
+     *
+     * @return number - The index of the last step to be displayed
+     */
+    public reverseStep(): number {
+        if (!this.active_step) {
+            this.active_step = this.state.steps.length-2;
+        } else if (this.active_step > 0) {
+            this.active_step--;
+        }
+        return this.active_step;
+    }
+
+    public advanceStep(): number {
+        if (!this.active_step) {
+            return this.state.steps.length-1;
+        } else if (this.active_step === this.state.steps.length-2) {
+            this.active_step = undefined;
+            return this.state.steps.length-1;
+        }
+        return ++this.active_step;
+    }
 
     /**
      * Sets the game state
@@ -156,7 +180,7 @@ export class Game {
     private start_step(): GameStep {
         return {
             player_id: "Board Dimensions",
-            color: "#00000",
+            color: "#00000000",
             x: this.width,
             y: this.height,
             step: 0,
@@ -253,6 +277,7 @@ export class Game {
         }
         this.state.steps.push(this.create_step(column, row));
         this.game_board[column][row] = this.state.steps.length - 1;
+        this.active_step = undefined;
 
         this.stopPlayer(true);
         this.cyclePlayer();
