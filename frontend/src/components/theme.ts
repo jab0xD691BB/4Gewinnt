@@ -4,6 +4,7 @@ export const theme: DefaultTheme = {
     colors:{
         backgroundColor: "#202020",
         fontColor: "#fff",
+        buttonColor: "#2b2b2b",
         secondaryFontColor: "rgb(191,191,191)",
         shadowColor: "rgb(0,0,0,0.3)",
         listBackgroundColor: "rgb(45,45,45)",
