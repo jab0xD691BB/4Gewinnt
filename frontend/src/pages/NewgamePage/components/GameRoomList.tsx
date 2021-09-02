@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
+import {GameSettings} from "./GameSettings";
 
 export type GameRoom = {
   id: string;
@@ -7,6 +8,8 @@ export type GameRoom = {
   player1: string;
   player2: string;
   guests: string[];
+  gameSetting: GameSettings;
+
 };
 
 const GameRoomFlex = styled.div`
