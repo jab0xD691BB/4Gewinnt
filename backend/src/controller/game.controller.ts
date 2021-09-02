@@ -83,7 +83,7 @@ export const getSomeGames = async (req: Request, res: Response) => {
    export const getplayersfromgame = async (req: Request, res: Response) => {
     const gameid = req.params.gameId;
     const gameRepository = await getRepository(Game);
-    const sqlQueryGame = `select * from game where id id = "${gameid}") `;
+    const sqlQueryGame = `select * from player where id in (select playerId from game_players_player where gameId = "${gameid}") `;
     const games = await gameRepository.query(sqlQueryGame);
     res.send({
       data: games,

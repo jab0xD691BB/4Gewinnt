@@ -13,7 +13,7 @@ export const gameRouter = Router({ mergeParams: true });
 
 
 gameRouter.get("/:id", getGame);
-gameRouter.get("/gamesplayedby/:playerid", getGamesOfPlayer);
+gameRouter.get("/gameplayedby/:playerid", getGamesOfPlayer);
 gameRouter.get("/somegames", getSomeGames)
 gameRouter.get("/players/:gameId", getplayersfromgame);
 gameRouter.post("/", createGame);
