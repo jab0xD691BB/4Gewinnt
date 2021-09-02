@@ -41,6 +41,8 @@ services:
     stdin_open: true
     volumes:
       - ./frontend:/var/app/frontend
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
 
 volumes:
   my-datavolume:

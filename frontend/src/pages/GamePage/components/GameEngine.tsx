@@ -16,10 +16,17 @@ export enum GameStateEnum {
     INTERRUPTED,
 }
 
+export enum PlayerStateEnum {
+    ACTIVE,
+    FINISHED,
+    NOT_STARTED,
+}
+
 export interface GameState {
     connect: number,
     winner: string | undefined;
-    active_player: string | undefined;
+    active_player: string;
+    active_player_state: PlayerStateEnum;
     active_start: Date | undefined;
     players: Map<string, Player>;
     state: GameStateEnum;
@@ -28,6 +35,7 @@ export interface GameState {
 }
 
 export interface Player {
+    id: string;
     name: string;
     color: string;
     time: number;
@@ -40,7 +48,7 @@ interface Direction {
 }
 
 
-export class game {
+export class Game {
     private state: GameState;
     private readonly game_board: number[][];
     private directions: Direction[];
@@ -64,7 +72,7 @@ export class game {
             state: GameStateEnum.NOT_STARTED,
             steps: new Array<GameStep>(),
             date: new Date(),
-        } as GameState;
+        } as unknown as GameState;
 
         this.state.steps.push(this.start_step());
 
@@ -90,7 +98,7 @@ export class game {
      * Imports the state of the game received from the Server
      * @param game : GameState
      */
-    set game(game: GameState) {
+    public set game(game: GameState) {
         this.state = game;
 
         for (let step: number = 1; step < this.state.steps.length; step++) {
@@ -103,7 +111,7 @@ export class game {
      * Sets the game state
      * @param game_state : GameStateEnum
      */
-    set gameState(game_state: GameStateEnum) {
+    public set gameState(game_state: GameStateEnum) {
         this.state.state = game_state;
     }
 
@@ -115,7 +123,7 @@ export class game {
      * @param time : number - Total time in ms
      * @param time_bonus : number (optional) - Default 3000(ms)
      */
-    addPlayer(id: string, name: string, color: string, time: number, time_bonus: number = 3000) {
+    public addPlayer(id: string, name: string, color: string, time: number, time_bonus: number = 3000) {
         this.state.players.set(
             id,
             {
@@ -126,10 +134,24 @@ export class game {
             } as Player);
     }
 
+    /**
+     * Activates the next player in the game or sets the first player as active if none was active before.
+     */
+    public cyclePlayer() {
+        let keys = Array.from( this.state.players.keys() );
+        for(let i: number = 0; i < keys.length; i++) {
+            if (keys[i] === this.state.active_player) {
+                this.activatePlayer(i+1 === keys.length ? keys[0] : keys[i+1]);
+                return;
+            }
+        }
+        this.activatePlayer(keys[0]);
+    }
+
     private start_step(): GameStep {
         return {
             player_id: "Board Dimensions",
-            color: "Do not display!",
+            color: "#00000",
             x: this.width,
             y: this.height,
             step: 0,
@@ -163,15 +185,19 @@ export class game {
      * The next move will be performed as the active player.
      * @param id : string
      */
-    activatePlayer(id: string) {
+    public activatePlayer(id: string = this.state.active_player) {
         if (this.state.players.get(id) === undefined) {
             throw new Error(
                 `Player with that ID does not exist!`
             )
         } else {
+            this.state.active_player_state = PlayerStateEnum.ACTIVE;
             this.state.active_player = id;
-            this.state.state = GameStateEnum.IN_PROGRESS;
             this.state.active_start = new Date();
+
+            if (this.state.state === GameStateEnum.NOT_STARTED) {
+                this.state.state = GameStateEnum.IN_PROGRESS;
+            }
         }
     }
 
@@ -180,7 +206,7 @@ export class game {
      *
      * @param add_bonus_time : boolean - Decides whether to add the time_bonus defined for the active player.
      */
-    stopPlayer(add_bonus_time: boolean = false) {
+    public stopPlayer(add_bonus_time: boolean = false) {
         if (this.state.active_player !== undefined) {
             let time_bonus = add_bonus_time ? this.state.players.get(this.state.active_player!)!.time_bonus : 0;
             this.state.players.get(this.state.active_player!)!.time +=
@@ -190,7 +216,7 @@ export class game {
                 this.state.steps[this.state.steps.length-1].x,
                 this.state.steps[this.state.steps.length-1].y
             );
-            this.state.active_player = undefined;
+            this.state.active_player_state = PlayerStateEnum.FINISHED;
             this.state.active_start = undefined;
         }
     }
@@ -207,7 +233,7 @@ export class game {
      *
      * @return GameStep | undefined
      */
-    insert(column: number): GameStep | undefined {
+    public insert(column: number): GameStep | undefined {
         if (this.state.state !== GameStateEnum.IN_PROGRESS) {
             return undefined;
         }
@@ -224,6 +250,7 @@ export class game {
         this.game_board[column][row] = this.state.steps.length - 1;
 
         this.stopPlayer(true);
+        this.cyclePlayer();
 
         return this.state.steps[this.state.steps.length - 1];
     }
@@ -242,8 +269,8 @@ export class game {
             let xi = x;
             let yi = y;
             while (
-                game.in_range(xi, this.width) &&
-                game.in_range(yi, this.height) &&
+                Game.in_range(xi, this.width) &&
+                Game.in_range(yi, this.height) &&
                 this.state.steps[this.game_board[xi][yi]].player_id === player_id) {
                 if (++points === this.state.connect) {
                     this.state.state = GameStateEnum.HAS_WINNER;
@@ -265,7 +292,7 @@ export class game {
      *
      * @return GameStep[]
      */
-    get gameSteps(): GameStep[] {
+    public get gameSteps(): GameStep[] {
         return this.state.steps;
     }
 
@@ -274,8 +301,12 @@ export class game {
      *
      * @return GameState
      */
-    get game(): GameState {
+    public get game(): GameState {
         return this.state;
+    }
+
+    public get gameBoard(): number[][] {
+        return this.game_board;
     }
 }
 

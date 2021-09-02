@@ -1,105 +1,87 @@
 import { Input } from "./components/Input";
 import styled from "styled-components";
+
+import { useEffect } from "react";
 import { footerHeight, headerHeight, Layout } from "../../components/Layout";
 import React, { ChangeEvent, useContext, useState } from "react";
-import { SettingsContainer } from "./components/GameSettings";
+import { SettingsContainer, GameSettings } from "./components/GameSettings";
 import { SelectGameMode } from "./components/Select";
 import { Button, DisabledButton } from "./components/Button";
 import {
   GameRoom,
   GameRoomItem,
   GameRoomList,
+  GameRoomListLayout,
 } from "./components/GameRoomList";
 import { Modal } from "./components/Modal";
 import { theme } from "../../theme";
 import { authContext } from "../../context/AuthenticationContext";
-import io from "socket.io-client";
-import { useEffect } from "react";
+import { GameDetails, GameDetailsEmpty } from "./components/GameDetails";
+import { socket } from "../../context/socket.context";
 
 const NewgameBody = styled.div`
-  border: 1px solid white;
   height: 100%;
   min-height: calc(100vh - ${headerHeight} - ${footerHeight});
   width: 100%;
 `;
 
+interface setting {
+  bestOf: string;
+  boardHeigth: string;
+  boardWidth: string;
+  gameMode: string;
+  rated: string;
+  rowCountToWin: string;
+  time: string;
+}
+
+interface room {
+  name: string;
+  setting: setting;
+}
+
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
   const { token } = useContext(authContext);
   const [websocket, updateWebsocket] = useState(false);
+  const [ws, setSocket] = useState();
+  const [rooms, setRooms] = useState<
+    Array<{
+      key: string;
+      value: GameRoom;
+    }>
+  >([]);
 
   useEffect(() => {
-    const socket = io("http://localhost:4000/newgame", {
-      transports: ["websocket", "polling", "flashsocket"],
-    });
-    console.log("socket: " + socket.id);
-  }, []);
+    function receive() {
+      socket.emit("connectplayer", {
+        name: JSON.parse(atob(token!.split(".")[1])).name,
+      });
+      socket.on("joinNewPage", (message: any) => {
+        console.log("new page:", message);
+        const msg = message[0];
+        console.log(message);
+        if (Object.keys(message).length !== 0) {
+          message.settings.map((value: any) => {
+            const r: GameRoom = value;
 
-  const gameRooms: GameRoom[] = [
-    {
-      id: "1",
-      name: "Test Room Name",
-      player1: "IchMachDichPlatt",
-      player2: "IchDichAuch",
-      guests: ["Gast1", "Gast2"],
-    },
-    {
-      id: "2",
-      name: "Test Room Name",
-      player1: "IchMachDichPlatt",
-      player2: "IchDichAuch",
-      guests: ["Gast1", "Gast2"],
-    },
-    {
-      id: "3",
-      name: "Test Room Name",
-      player1: "IchMachDichPlatt",
-      player2: "IchDichAuch",
-      guests: ["Gast1", "Gast2"],
-    },
-    {
-      id: "4",
-      name: "Test Room Name",
-      player1: "IchMachDichPlatt",
-      player2: "IchDichAuch",
-      guests: ["Gast1", "Gast2"],
-    },
-    {
-      id: "5",
-      name: "Test Room Name",
-      player1: "IchMachDichPlatt",
-      player2: "IchDichAuch",
-      guests: ["Gast1", "Gast2"],
-    },
-    {
-      id: "6",
-      name: "Test Room Name",
-      player1: "IchMachDichPlatt",
-      player2: "IchDichAuch",
-      guests: ["Gast1", "Gast2"],
-    },
-    {
-      id: "7",
-      name: "Test Room Name",
-      player1: "IchMachDichPlatt",
-      player2: "IchDichAuch",
-      guests: ["Gast1", "Gast2"],
-    },
-    {
-      id: "8",
-      name: "Test Room Name",
-      player1: "IchMachDichPlatt",
-      player2: "IchDichAuch",
-      guests: ["Gast1", "Gast2"],
-    },
-    {
-      id: "9",
-      name: "Test Room Name",
-      player1: "IchMachDichPlatt",
-      player2: "IchDichAuch",
-      guests: ["Gast1", "Gast2"],
-    },
-  ];
+            setRooms((rooms) => [...rooms, { key: r.name, value: r }]);
+          });
+        }
+      });
+
+      socket.on("createroom", (message: any) => {
+        console.log(message);
+        if (Object.keys(message).length !== 0) {
+          const r: GameRoom = message.settings;
+
+          setRooms((rooms) => [...rooms, { key: r.name, value: r }]);
+        }
+      });
+    }
+    receive();
+  }, []);
+  console.log("rooms ", rooms);
 
   const joinAsPlayer = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -134,49 +116,59 @@ export const NewgamePage = () => {
       <NewgameBody>
         <h1 style={{ textAlign: "center", margin: 0 }}> New Game</h1>
         <div style={{ display: "flex", flexDirection: "row" }}>
-          <SettingsContainer />
-          <div>
-            <div style={{ textAlign: "center" }}>
-              <h2> Game Room List </h2>
-            </div>
-            <div style={{ height: "500px", overflowY: "scroll" }}>
-              <GameRoomList>
-                {gameRooms.map((gameRoom) => (
+          <SettingsContainer ws={socket} />
+          <GameRoomListLayout>
+            <h2> Game Room List </h2>
+            <GameRoomList>
+              <div
+                style={{
+                  height: "450px",
+                  overflowY: "scroll",
+                  borderRadius: "10px",
+                }}
+              >
+                {rooms.map((gameRoom) => (
                   <GameRoomItem
-                    key={gameRoom.id}
+                    key={gameRoom.value.id}
                     onClick={() => {
-                      for (let gameRoomElement of gameRooms) {
-                        if (gameRoomElement.id == gameRoom.id) {
+                      for (let gameRoomElement of rooms) {
+                        if (gameRoomElement.value.id == gameRoom.value.id) {
                           document.getElementById(
-                            gameRoomElement.id
-                          )!.style.backgroundColor = theme.colors.primary;
-                          setGameSelected(gameRoom);
+                            gameRoomElement.value.id
+                          )!.style.backgroundColor = "green";
+                          document.getElementById(
+                            gameRoomElement.value.id
+                          )!.style.borderRadius = "10px";
+                          setGameSelected(gameRoom.value);
                         } else {
                           document.getElementById(
-                            gameRoomElement.id
-                          )!.style.backgroundColor =
-                            theme.colors.backgroundColor;
+                            gameRoomElement.value.id
+                          )!.style.backgroundColor = "#2b2b2b";
                         }
                       }
                     }}
-                    gameRoom={gameRoom}
+                    gameRoom={gameRoom.value}
                   />
                 ))}
-              </GameRoomList>
+              </div>
+            </GameRoomList>
+            <div style={{ alignSelf: "flex-end" }}>
+              {gameSelected && (
+                <div>
+                  <Button onClick={joinAsPlayer}>Join As Player</Button>
+                  <Button onClick={joinAsGuest}>Join As Guest</Button>
+                </div>
+              )}
+              {!gameSelected && (
+                <div>
+                  <DisabledButton>Join As Player</DisabledButton>
+                  <DisabledButton>Join As Guest</DisabledButton>
+                </div>
+              )}
             </div>
-            {gameSelected && (
-              <div>
-                <Button onClick={joinAsPlayer}>Join As Player</Button>
-                <Button onClick={joinAsGuest}>Join As Guest</Button>
-              </div>
-            )}
-            {!gameSelected && (
-              <div>
-                <DisabledButton>Join As Player</DisabledButton>
-                <DisabledButton>Join As Guest</DisabledButton>
-              </div>
-            )}
-          </div>
+          </GameRoomListLayout>
+          {gameSelected && <GameDetails gameDetails={gameSelected!} />}
+          {!gameSelected && <GameDetailsEmpty />}
         </div>
       </NewgameBody>
     </Layout>

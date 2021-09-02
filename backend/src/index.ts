@@ -4,6 +4,7 @@ import { createDatabaseConnection } from "./util/createDatabaseConnection";
 import bodyParser from "body-parser";
 import { Socket, Server } from "socket.io";
 import { createServer } from "http";
+import { socket } from "./controller/socket.controller";
 
 const port = 4000;
 
@@ -22,9 +23,6 @@ export const startServer = async () => {
       credentials: true,
     },
   });
-  io.of("/newgame").on("connection", (socket: Socket) => {
-    console.log("connected client: " + socket.id);
-  });
 
   app.use(bodyParser.json());
   app.use(function (req, res, next) {
@@ -34,6 +32,8 @@ export const startServer = async () => {
   app.use("/api", globalRouter);
   const server = httpServer.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
+
+    socket({ io });
   });
 
   return { server, dbConnection };
