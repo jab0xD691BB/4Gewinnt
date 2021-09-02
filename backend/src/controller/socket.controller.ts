@@ -29,6 +29,8 @@ export const socket = ({ io }: { io: Server }) => {
   console.log("sockets");
 
   io.on("connection", (socket: Socket) => {
+    console.log("rooms", io.sockets.adapter.rooms);
+
     socket.on("connectplayer", (message: any) => {
       // player.name = message.name;
       console.log({ message });
@@ -48,18 +50,18 @@ export const socket = ({ io }: { io: Server }) => {
     });
 
     socket.on("createroom", (message: any) => {
-      console.log("test socket in room", socket.id in rooms);
+      console.log("test socket in room", rooms[players[message.name]]);
       const settings: GameRoom = message;
       console.log(message);
-      if (players[socket.id] in rooms === false) {
-        rooms[players[message.name]] = settings;
-        socket.join(players[socket.id]);
+      if (!rooms[message.name]) {
+        rooms[message.name] = settings;
+        socket.join(message.name);
 
         socket.broadcast.emit("createroom", {
-          settings: rooms[players[message.name]],
+          settings: rooms[message.name],
         });
         socket.emit("createroom", {
-          settings: rooms[players[message.name]],
+          settings: rooms[message.name],
         });
       }
     });
