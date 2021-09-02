@@ -53,11 +53,16 @@ export class Game {
     private readonly game_board: number[][];
     private directions: Direction[];
 
+    public boardHeight: number;
+    public boardWidth: number;
+
     constructor(
-        private width: number = 7,
-        private height: number = 6,
+        private width: number = 30,
+        private height: number = 24,
         connect: number = 4
     ) {
+        this.boardHeight = height;
+        this.boardWidth = width;
         if (connect > width || connect > height) {
             throw new Error(
                 `Win parameters exceed board!`

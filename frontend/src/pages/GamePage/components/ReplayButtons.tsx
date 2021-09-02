@@ -7,7 +7,7 @@ export const ReplayButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 100%;
+  height: 75px;
   padding: 10px;
   margin-left: 10px;
   margin-right: 10px;

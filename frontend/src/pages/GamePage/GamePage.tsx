@@ -57,59 +57,47 @@ export const GamePage = () => {
                 <div
                     style={{display: "flex", flexDirection: "row", height: "800px"}}>
                     <div style={{width: "70%", height: "100%",}}>
-                        <div style={{
-                            width: "100%",
-                            height: "75px"
-                        }}>
-                            <GameHeaderWrapper>
-                                <GameHeaderWrapperSingle>
-                                    {gameRoom.player1}
-                                </GameHeaderWrapperSingle>
-                                <GameHeaderWrapperSingle>
-                                    VS
-                                </GameHeaderWrapperSingle>
-                                <GameHeaderWrapperSingle>
-                                    {gameRoom.player2}
-                                </GameHeaderWrapperSingle>
-                            </GameHeaderWrapper>
-                        </div>
-                        <div style={{
-                            width: "100%"
-                        }}>
-                            <GameBoardWrapper>
-                                <GameBoard/>
-                            </GameBoardWrapper>
-                        </div>
-                        <div
-                            style={{width: "100%", height: "75px"}}>
-                            <ReplayButtonWrapper>
-                                <div style={{width: "30%"}}>
-                                    <h3>Back</h3>
-                                </div>
-                                <ReplayButtonWrapperSingle onClick={leftArrowButtonClicked}>
-                                    <ArrowLeftButton>
-                                    </ArrowLeftButton>
-                                </ReplayButtonWrapperSingle>
-                                <ReplayButtonWrapperSingle onClick={rightArrowButtonClicked}>
-                                    <ArrowRightButton>
-                                    </ArrowRightButton>
-                                </ReplayButtonWrapperSingle>
-                                <div style={{width: "30%", textAlign: "end"}}>
-                                    <h3>Forth</h3>
-                                </div>
-                            </ReplayButtonWrapper>
-                        </div>
+                        <GameHeaderWrapper>
+                            <GameHeaderWrapperSingle>
+                                {gameRoom.player1}
+                            </GameHeaderWrapperSingle>
+                            <GameHeaderWrapperSingle>
+                                VS
+                            </GameHeaderWrapperSingle>
+                            <GameHeaderWrapperSingle>
+                                {gameRoom.player2}
+                            </GameHeaderWrapperSingle>
+                        </GameHeaderWrapper>
+                        <GameBoardWrapper>
+                            <GameBoard/>
+                        </GameBoardWrapper>
+                        <ReplayButtonWrapper>
+                            <div style={{width: "30%"}}>
+                                <h3>Back</h3>
+                            </div>
+                            <ReplayButtonWrapperSingle onClick={leftArrowButtonClicked}>
+                                <ArrowLeftButton>
+                                </ArrowLeftButton>
+                            </ReplayButtonWrapperSingle>
+                            <ReplayButtonWrapperSingle onClick={rightArrowButtonClicked}>
+                                <ArrowRightButton>
+                                </ArrowRightButton>
+                            </ReplayButtonWrapperSingle>
+                            <div style={{width: "30%", textAlign: "end"}}>
+                                <h3>Forth</h3>
+                            </div>
+                        </ReplayButtonWrapper>
                     </div>
-                    <div >
+                    <div>
                         <GameDetails gameDetails={gameRoom}/>
-                            <VerticalButtonWrapper>
-                                <Button>
-                                    Resign
-                                </Button>
-                                <Button>
-                                    Back to Dashboard
-                                </Button>
-                            </VerticalButtonWrapper>
+                        <VerticalButtonWrapper>
+                            <Button>
+                                Resign
+                            </Button>
+                            <Button>
+                                Back to Dashboard
+                            </Button>
+                        </VerticalButtonWrapper>
                     </div>
                 </div>
             </GameBody>

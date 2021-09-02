@@ -1,4 +1,4 @@
-import {Field} from "./Field";
+import {Field, StyledField} from "./Field";
 import React from "react";
 import {Game} from "./GameEngine";
 import styled from "styled-components";
@@ -13,21 +13,19 @@ export const GameBoardWrapper = styled.div`
 
 export const GameBoard = () => {
     return <div style={{
-        backgroundColor: "rgb(160,0,0)",
-        width: "100%",
-        height: "550px",
         display: "flex",
         flexDirection: "row",
+        justifyContent: "center",
     }}>
         {game.gameBoard.map((column) => {
             return <div style={{
-                backgroundColor: "rgb(160,0,100)",
-                width: "100%",
-                height: "550px",
                 display: "flex",
                 flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+
             }}> {column.map((element) => {
-                return <Field></Field>;
+                return <StyledField style={{padding: `min(calc(700px/(2*${game.boardWidth})), calc(500px/(2*${game.boardHeight})))`}}/>;
             })}
             </div>
         })}
