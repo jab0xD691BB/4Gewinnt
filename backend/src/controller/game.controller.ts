@@ -59,7 +59,7 @@ export const createGame = async (req: Request, res: Response) => {
     if (game.players.length == 2) {
 
         const eloArray = await updateRatings(game.players[0], game.players[1], game.winner);
-        if(eloArray){
+        if (eloArray) {
             game.players[0].eloScore = eloArray[0];
             game.players[1].eloScore = eloArray[1];
         }
@@ -97,16 +97,23 @@ const updateRatings = async (player1byCreateGame: Player, player2byCreateGame: P
         const player1 = await playerRepository.findOneOrFail(player1byCreateGame.id);
         const player2 = await playerRepository.findOneOrFail(player2byCreateGame.id);
 
+        const player1Games = await playerRepository.findOneOrFail({
+            relations: ['games'],
+            where: {id: player1byCreateGame.id}
+        });
+        const player1gameCount = player1Games.games.length;
 
-        const gameRepository = getRepository(Game);
-        const player1GamesQuery = `select count(*) from game where id in (select gameId from game_players_player where playerId = "${player1.id}") `;
-        const player1Games = await gameRepository.query(player1GamesQuery);
+        const player2Games = await playerRepository.findOneOrFail({
+            relations: ['games'],
+            where: {id: player2byCreateGame.id}
+        });
+        const player2gameCount = player2Games.games.length;
 
-        const player2GamesQuery = `select count(*) from game where id in (select gameId from game_players_player where playerId = "${player2.id}") `;
-        const player2Games = await gameRepository.query(player2GamesQuery);
+        console.log("game count of player1: ", player1gameCount);
+        console.log("game count of player2: ", player2gameCount);
 
-        const ratingPlayer1 = elo.createPlayer(player1.eloScore, player1Games);
-        const ratingPlayer2 = elo.createPlayer(player2.eloScore, player2Games);
+        const ratingPlayer1 = elo.createPlayer(player1.eloScore, player1gameCount, 1200);
+        const ratingPlayer2 = elo.createPlayer(player2.eloScore, player2gameCount, 1200);
 
         if (!winner.id) {
             elo.updateRatings([
