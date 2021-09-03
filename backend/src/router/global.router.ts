@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { jokeRouter } from "./joke.router";
 import { playerRouter } from "./player.router";
 import { gameRouter } from "./game.router";
 import { moveRouter } from "./move.router";

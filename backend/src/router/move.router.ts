@@ -7,6 +7,6 @@ import {
 
 export const moveRouter = Router({ mergeParams: true });
 
-moveRouter.get("/", getAllMoves);
+moveRouter.get("/:id", getAllMoves);
 moveRouter.get("/:id", getMove);
 moveRouter.post("/", createMove);

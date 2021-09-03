@@ -13,5 +13,8 @@
     "url": "https://code.fbi.h-da.de/sthatrab/4Gewinnt.git"
   },
   "author": "Felix, Haythem,  Jo, Lavinia, Nikita",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.0.0"
+  }
 }

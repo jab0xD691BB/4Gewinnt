@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as yup from "yup";
+import { GameSettings } from "./gameSettings.model";
 import { Move } from "./move.model";
 import { Player } from "./player.model";
 
@@ -17,13 +18,20 @@ export class Game {
   @CreateDateColumn()
   createdAt!: string;
 
-  @OneToOne (type => Player)
+  @ManyToOne (type => Player, player => player.id)
+  @JoinColumn() 
   winner!: Player;
 
   @ManyToMany (type => Player, player => player.games)
+  @JoinTable()
   players!: Player[];
 
   @OneToMany (type => Move, move => move.game)
+  @JoinColumn()
   moves!: Move[];
+
+  @OneToMany (type => GameSettings, gamesettings => gamesettings.games)
+  @JoinColumn()
+  settings! : GameSettings;
   
 }

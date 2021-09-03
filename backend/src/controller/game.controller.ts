@@ -1,5 +1,6 @@
 import { getRepository } from "typeorm";
 import { Game } from "../entity/game.model";
+import { Player } from "../entity/player.model";
 import { RequestHandler, Request, Response } from "express";
 
 //// CRUD Functions 
@@ -12,7 +13,29 @@ export const getAllGames = async (req: Request, res: Response) => {
       data: games
     });
   };
-  
+
+  // Get games of one player
+  export const getGamesOfPlayer = async (req: Request, res: Response) => {
+    const playerid = req.params.playerid;
+    const gameRepository = await getRepository(Game);
+    const sqlQueryGame = `select * from game where id in (select gameId from game_players_player where playerId = "${playerid}") `;
+    const playergames = await gameRepository.query(sqlQueryGame);
+      res.send({ 
+        data: playergames
+      });
+  };
+
+  // Limit all games as Parameter
+export const getSomeGames = async (req: Request, res: Response) => {
+  const limit = Number(req.query.limit);
+  const gameRepository = await getRepository(Game);
+  const games = await gameRepository.createQueryBuilder("game").limit(limit).getMany();
+  res.send({
+    data: games,
+  });
+}
+
+
   // Get one Game
   export const getGame = async (req: Request ,res: Response) => {
     const gameid = req.params.gameId;
@@ -26,11 +49,13 @@ export const getAllGames = async (req: Request, res: Response) => {
   };
 
   // Create Game
-export const createGame = async (req: Request, res: Response) => {
-    const {createdAt} = req.body;
+  export const createGame = async (req: Request, res: Response) => {
+    const {createdAt, winner, players, settings, moves} = req.body;
     const game = new Game();
-    game.createdAt = createdAt;
-  
+    game.players = players;
+    game.winner = winner;
+    game.settings = settings;
+    game.moves = moves;
     const gameRepository = await getRepository(Game);
     const createdGame = await gameRepository.save(game);
   
@@ -55,12 +80,12 @@ export const createGame = async (req: Request, res: Response) => {
   };
 
   // get players playing in the game
-  /* export const getplayers = async (req: Request, res: Response) => {
-    const player = Number(req.query.player);
-    const limit = Number(req.query.limit);
-    const jokeRepository = await getRepository(Game);
-    const jokes = await jokeRepository.createQueryBuilder("joke").where("joke.counter >= :counter", {counter: counter}).limit(limit).getMany();
+   export const getplayersfromgame = async (req: Request, res: Response) => {
+    const gameid = req.params.gameId;
+    const gameRepository = await getRepository(Game);
+    const sqlQueryGame = `select * from player where id in (select playerId from game_players_player where gameId = "${gameid}") `;
+    const games = await gameRepository.query(sqlQueryGame);
     res.send({
-      data: jokes,
+      data: games,
     });
-  }; */
+  }; 
