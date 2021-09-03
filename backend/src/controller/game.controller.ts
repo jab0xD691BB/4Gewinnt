@@ -75,7 +75,7 @@ export const createGame = async (req: Request, res: Response) => {
     });
 };
 
-const updateRatings = async (player1byCreateGame: Player, player2byCreateGame: Player, winner: Player) => {
+const updateRatings = async (player1byCreateGame: Player, player2byCreateGame: Player, winner: Player | undefined) => {
 
     try {
         const Elo = require('elo-calculator');
@@ -115,7 +115,7 @@ const updateRatings = async (player1byCreateGame: Player, player2byCreateGame: P
         const ratingPlayer1 = elo.createPlayer(player1.eloScore, player1gameCount, 1200);
         const ratingPlayer2 = elo.createPlayer(player2.eloScore, player2gameCount, 1200);
 
-        if (!winner.id) {
+        if (winner == undefined) {
             elo.updateRatings([
                 [ratingPlayer1, ratingPlayer2, .5],
             ]);

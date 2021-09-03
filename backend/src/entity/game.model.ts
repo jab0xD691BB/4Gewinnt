@@ -20,7 +20,7 @@ export class Game {
 
   @ManyToOne (type => Player, player => player.id, {nullable: true})
   @JoinColumn() 
-  winner!: Player;
+  winner?: Player;
 
   @ManyToMany (type => Player, player => player.games)
   @JoinTable()
