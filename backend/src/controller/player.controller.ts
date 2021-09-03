@@ -2,6 +2,7 @@ import {Request, response, Response} from 'express';
 import fetch from 'node-fetch'
 import { getRepository } from 'typeorm';
 import { Player } from '../entity/player.model';
+import { Game } from '../entity/game.model';
 import { Authentication } from '../middleware/authentication';
 
 export const registerPlayer = async (req: Request, res: Response) => {
@@ -69,6 +70,17 @@ export const registerPlayer = async (req: Request, res: Response) => {
   
   }
 
+  // sorting players by elo
+ export const sorted = async (req: Request, res: Response) =>{
+  const playerRepository = await getRepository(Player);
+  const players =  await playerRepository.find();
+  const sortedplayers= players.sort(function (a,b){
+    return b.eloScore - a.eloScore;
+  });
+  res.send({
+    data: sortedplayers,
+  });
+} 
 //// CRUD Functions 
 // Get all Players
 export const getAllPlayers = async (req: Request, res: Response) => {
@@ -94,16 +106,15 @@ export const getPlayer = async (req: Request ,res: Response) => {
 // Update Player
 export const updatePlayer = async (req: Request, res: Response) => {
   const playerid = req.params.playerId;
-  const {name, password , email} = req.body;
+  const {name, password , email, eloScore, preferredTheme} = req.body;
   const playerRepository = await getRepository(Player);
   try {
     let player= await playerRepository.findOneOrFail(playerid);
     player.name = name;
     player.password = password;
     player.email = email;
-    /* player.settings = settings;
-    player.score = score; */
-
+    player.eloScore = eloScore;
+    player.preferredTheme = preferredTheme;
     player = await playerRepository.save(player);
     res.send({
       data:player
@@ -117,14 +128,13 @@ export const updatePlayer = async (req: Request, res: Response) => {
 
 // Create Player
 export const createPlayer = async (req: Request, res: Response) => {
-  const {name, password , email} = req.body;
+  const {name, password , email, eloScore, preferredTheme} = req.body;
   const player = new Player();
   player.name = name;
   player.password = password;
   player.email = email;
-  /* player.settings = settings;
-  player.score = score; */
-
+  player.eloScore = eloScore;
+  player.preferredTheme = preferredTheme;
   const playerRepository = await getRepository(Player);
   const createdPlayer = await playerRepository.save(player);
 
@@ -143,7 +153,7 @@ export const deletePlayer = async (req: Request, res: Response) => {
     res.send({});
   } catch (error) {
     res.status(404).send({
-      status: 'PLayer not found'
+      status: 'Player not found'
     });
   }
 };

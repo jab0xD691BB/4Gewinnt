@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as yup from "yup";
 import { Game } from "./game.model";
 import { Player } from "./player.model";
@@ -14,10 +14,11 @@ export class Move {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @ManyToOne(type => Player, player => player.moves)
-  player!: Player;
+  /* @ManyToOne(type => Player, player => player.moves)
+  player!: Player; */
 
   @ManyToOne(type => Game, game => game.moves)
+  @JoinColumn()
   game!: Game;
   
   @Column()
@@ -28,11 +29,4 @@ export class Move {
   
   @CreateDateColumn()
   createdAt!: string;
-
-
-  /* @Column()
-  settings!: Array<string>;
-
-  @Column()
-  score!: Array<string>; */
 }

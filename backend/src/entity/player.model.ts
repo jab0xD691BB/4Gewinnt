@@ -4,7 +4,7 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    ManyToMany, OneToMany, 
+    ManyToMany, OneToMany, JoinTable, 
   } from "typeorm";
   import * as yup from "yup";
   import { Game } from "./game.model";
@@ -20,6 +20,7 @@ import {
 
   @Entity()
   export class Player {
+
     @PrimaryGeneratedColumn("uuid")
     id!: string;
   
@@ -35,24 +36,30 @@ import {
       message: "Name is too short",
     })
     name!: string;
+
+    @Column({nullable: true,
+      default: null})
+    preferredTheme!: string;
+
+    @Column({nullable: true,
+      default: null})
+    eloScore!: number;
   
     @CreateDateColumn()
-    createdAt: string =  new Date().toDateString();
+    createdAt!: string ;
   
     @UpdateDateColumn()
-    updatedAt: string = new Date().toDateString();
+    updatedAt!: string ;
 
     @ManyToMany (type => Game, game => game.players)
+    //@JoinTable()
     games!: Game[];
+
+    @OneToMany (type => Game, game => game.winner)
+    gamesWon! : Game[];
   
-    @OneToMany (type => Move, move => move.player)
-    moves!: Move[];
-  
-    /* @Column()
-    settings!: Array<string>;
-  
-    @Column()
-    score!: Array<string>; */
-  
+    /* @OneToMany (type => Move, move => move.player)
+    moves!: Move[]; */
+
   }
   
