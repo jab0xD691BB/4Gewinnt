@@ -1,14 +1,17 @@
 import {StyledField} from "./Field";
 import React from "react";
-import {Game, GameStep} from "./GameEngine";
+import {Game, GameStateEnum, GameStep} from "./GameEngine";
 import styled from "styled-components";
 import {FieldColumn} from "./Column";
 import {theme} from "../../../theme";
 
 export const game = new Game(20, 15, 10);
-game.addPlayer("test1", "Wurstkönig", "#999926", 10000000000);
-game.addPlayer("test2", "Käsepeter", "#996299", 10000000000);
-game.addPlayer("test3", "Brotfinger", "#269999", 1000000000);
+game.addPlayer("test1_yello", "Wurstkönig", "#999926", 10000000000);
+game.addPlayer("test2_purp", "Käsepeter", "#996299", 10000000000);
+game.addPlayer("test3_blu", "Brotfinger", "#269999", 1000000000);
+//game.addPlayer("test4_gra", "Brotfinger", "#969992", 1000000000);
+//game.addPlayer("test5_gren", "Brotfinger", "#299969", 1000000000);
+//game.addPlayer("test3_ree", "Brotfinger", "#924469", 1000000000);
 game.cyclePlayer();
 
 
@@ -49,6 +52,7 @@ const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
             "column_" + step.x + ".row_" + (game.boardHeight-1 - step.y))!
             .style.borderColor = step.color;
     }
+    checkGameState();
 }
 
 const reRenderBoard = function (simple: boolean = true) {
@@ -89,6 +93,15 @@ export const advanceButtonClicked = async (e: React.MouseEvent<HTMLDivElement>) 
     colorField(step.x, step.y, step.color);
 }
 
+export const resign = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log("loser: " + game.activePlayer);
+    game.resignPlayer(
+        //TODO: Spieler ID angeben
+        game.activePlayer
+    );
+    checkGameState();
+}
+
 const colorField = function (x: number, y: number, bg_color: string, border_color: string = bg_color) {
     document.getElementById(
         "column_" + x + ".row_" + (game.boardHeight-1 - y))!
@@ -96,4 +109,14 @@ const colorField = function (x: number, y: number, bg_color: string, border_colo
     document.getElementById(
         "column_" + x + ".row_" + (game.boardHeight-1 - y))!
         .style.borderColor = border_color;
+}
+
+const checkGameState = function() {
+    //TODO: Implement response
+    if (game.gameState !== GameStateEnum.IN_PROGRESS) {
+        console.log("gamestate " + game.gameState);
+        if (game.gameState === GameStateEnum.HAS_WINNER) {
+            console.log("winner id" + game.winner);
+        }
+    }
 }

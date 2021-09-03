@@ -2,7 +2,14 @@ import styled from "styled-components";
 import { theme } from "../../theme";
 import {footerHeight, headerHeight, Layout} from "../../components/Layout";
 import React, {ChangeEvent, useContext, useState} from "react";
-import {advanceButtonClicked, game, GameBoard, GameBoardWrapper, reverseButtonClicked} from "./components/GameBoard";
+import {
+    advanceButtonClicked,
+    game,
+    GameBoard,
+    GameBoardWrapper,
+    resign,
+    reverseButtonClicked
+} from "./components/GameBoard";
 
 import {
     ArrowLeftButton, ArrowRightButton,
@@ -93,7 +100,7 @@ export const GamePage = () => {
                     <div>
                         <GameDetails gameDetails={gameRoom}/>
                         <VerticalButtonWrapper>
-                            <Button>
+                            <Button onClick={resign}>
                                 Resign
                             </Button>
                             <Button>

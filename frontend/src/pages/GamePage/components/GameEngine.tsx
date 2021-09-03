@@ -40,6 +40,7 @@ export interface Player {
     color: string;
     time: number;
     time_bonus: number;
+    active: boolean;
 }
 
 interface Direction {
@@ -105,7 +106,7 @@ export class Game {
      * Imports the state of the game received from the Server
      * @param game : GameState
      */
-    public set game(game: GameState) {
+    public setGame(game: GameState) {
         this.state = game;
 
         for (let step: number = 1; step < this.state.steps.length; step++) {
@@ -119,8 +120,8 @@ export class Game {
      * @return number | undefined - The index of the last step to be displayed
      */
     public reverseStep(): number | undefined {
-        if (this.active_step === undefined ) {
-            this.active_step = this.state.steps.length <= 1 ? undefined : this.state.steps.length-2;
+        if (this.active_step === undefined) {
+            this.active_step = this.state.steps.length <= 1 ? undefined : this.state.steps.length - 2;
         } else if (this.active_step > 0) {
             this.active_step--;
         }
@@ -135,20 +136,52 @@ export class Game {
      */
     public advanceStep(): number | undefined {
         if (this.active_step === undefined) {
-            return this.state.steps.length <= 1 ? undefined : this.state.steps.length-1;
-        } else if (this.active_step === this.state.steps.length-2) {
+            return this.state.steps.length <= 1 ? undefined : this.state.steps.length - 1;
+        } else if (this.active_step === this.state.steps.length - 2) {
             this.active_step = undefined;
-            return this.state.steps.length-1;
+            return this.state.steps.length - 1;
         }
         return ++this.active_step;
     }
 
     /**
-     * Sets the game state
-     * @param game_state : GameStateEnum
+     * resigns the given player.
+     * @param loser : ID of the resigning player
      */
-    public set gameState(game_state: GameStateEnum) {
-        this.state.state = game_state;
+    public resignPlayer(loser: string) {
+        if (loser === undefined || !this.state.players.has(loser)) {
+            return;
+        } else if (this.state.players.size < 2 && this.state.state < GameStateEnum.HAS_WINNER) {
+            this.state.state = GameStateEnum.INTERRUPTED;
+        } else if (this.state.players.size === 2) {
+            this.state.state = GameStateEnum.HAS_WINNER;
+            const keys = Array.from(this.state.players.keys());
+            this.state.winner = keys[0] === loser ? keys[1] : keys[0];
+        } else {
+            this.state.players.get(loser)!.active = false;
+            if (this.state.active_player === loser) {
+                this.cyclePlayer();
+            }
+        }
+    }
+
+    /**
+     * Suspends the game.
+     */
+    public suspendGame() {
+        this.state.state = GameStateEnum.SUSPENDED;
+    }
+
+    public resumeGame(): boolean {
+        if (this.state.state === GameStateEnum.SUSPENDED) {
+            this.state.state = GameStateEnum.IN_PROGRESS;
+            return true;
+        }
+        return false;
+    }
+
+    public interruptGame() {
+        this.state.state = GameStateEnum.INTERRUPTED;
     }
 
     /**
@@ -167,6 +200,7 @@ export class Game {
                 color: color,
                 time: time,
                 time_bonus: time_bonus,
+                active: true,
             } as Player);
     }
 
@@ -174,14 +208,42 @@ export class Game {
      * Activates the next player in the game or sets the first player as active if none was active before.
      */
     public cyclePlayer() {
-        let keys = Array.from( this.state.players.keys() );
-        for(let i: number = 0; i < keys.length; i++) {
+        let keys = Array.from(this.state.players.keys());
+
+        for (let i: number = 0; i < keys.length; i++) {
             if (keys[i] === this.state.active_player) {
-                this.activatePlayer(i+1 === keys.length ? keys[0] : keys[i+1]);
+                keys = i - 1 < 0 ? keys : keys.slice(i).concat(keys.slice(0, i));
+                let active_players = this.state.players.get(keys[0])!.active ? 1 : 0;
+
+                for (let j: number = 1; j < keys.length; j++) {
+                    if (this.state.players.get(keys[j])!.active) {
+                        active_players++;
+                        if (this.state.active_player === keys[0]) {
+                            this.activatePlayer(keys[j]);
+                        }
+
+                        if (active_players > 1) {
+                            return;
+                        }
+                    }
+                }
+                if (this.state.active_player_state === PlayerStateEnum.ACTIVE) {
+                    this.stopPlayer();
+                }
+                if (this.state.state !== GameStateEnum.HAS_WINNER) {
+                    this.state.state = GameStateEnum.HAS_WINNER;
+                    this.state.winner = this.state.active_player;
+                }
                 return;
             }
         }
-        this.activatePlayer(keys[0]);
+        for (let k: number = 0; k < keys.length; k++) {
+            if (this.state.players.get(keys[k])!.active) {
+                this.activatePlayer(keys[k]);
+                return;
+            }
+        }
+
     }
 
     private start_step(): GameStep {
@@ -249,8 +311,8 @@ export class Game {
                 time_bonus -
                 (new Date().getTime() - this.state.active_start!.getTime());
             this.has_winner(
-                this.state.steps[this.state.steps.length-1].x,
-                this.state.steps[this.state.steps.length-1].y
+                this.state.steps[this.state.steps.length - 1].x,
+                this.state.steps[this.state.steps.length - 1].y
             );
             this.state.active_player_state = PlayerStateEnum.FINISHED;
             this.state.active_start = undefined;
@@ -289,16 +351,16 @@ export class Game {
         this.stopPlayer(true);
         this.cyclePlayer();
 
+
         return this.state.steps[this.state.steps.length - 1];
     }
 
     private has_winner(
         x: number,
         y: number,
-        player_id: string = this.state.steps[this.state.steps.length-1].player_id)
-    {
+        player_id: string = this.state.steps[this.state.steps.length - 1].player_id): boolean {
         this.directions.forEach((direction) => {
-            if (this.state.steps.length + 1 === this.width * this.height) {
+            if (this.state.steps.length - 1 === this.width * this.height) {
                 this.state.state = GameStateEnum.TIE;
                 return;
             }
@@ -312,12 +374,13 @@ export class Game {
                 if (++points === this.state.connect) {
                     this.state.state = GameStateEnum.HAS_WINNER;
                     this.state.winner = player_id;
-                    return;
+                    return true;
                 }
                 xi += direction.x;
                 yi += direction.y;
             }
         });
+        return false;
     }
 
     private static in_range(x: number, exclMax: number, incMin: number = 0) {
@@ -352,6 +415,26 @@ export class Game {
 
     public get activeStep(): number | undefined {
         return this.active_step;
+    }
+
+    public get activePlayer(): string {
+        return this.state.active_player;
+    }
+
+    public get gameState(): GameStateEnum {
+        return this.state.state;
+    }
+
+    public get winner(): string | undefined {
+        return this.state.winner;
+    }
+
+    public get players(): Player[] {
+        return Array.from( this.state.players.values() );
+    }
+
+    public get playerIds(): string[] {
+        return Array.from( this.state.players.keys() );
     }
 }
 
