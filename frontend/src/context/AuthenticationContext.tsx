@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 export type LoginOptions = {
   email: string;
   password: string;
@@ -36,6 +37,10 @@ export const initialAuthContext = {
     getTokenData: () => null,
     logout: () => {},
   },
+};
+
+export   const settings = () => {
+  <Link to="/settings"></Link>;
 };
 
 export const authContext = React.createContext<AuthContext>(initialAuthContext);
@@ -89,6 +94,8 @@ export const AuthProvider: React.FC = ({ children }) => {
     setToken(null);
     window.localStorage.removeItem("auth-token");
   };
+
+
   return (
     <authContext.Provider
       value={{

@@ -12,10 +12,12 @@ import {
   Redirect,
   RouteProps,
 } from "react-router-dom";
-import { theme } from "./theme";
+import { themeStyle } from "./theme";
 import { GlobalStyle } from "./components/GlobalStyle";
 import { LoginPage } from "./pages/Login/LoginPage";
 import { RegisterPage } from "./pages/Register/RegisterPage";
+import { SettingsPage } from "./pages/Settings/SettingsPage";
+import { ThemeManager } from "./pages/Settings/ThemeManager";
 
 export const BasePage = () => {
   const { token } = useContext(authContext);
@@ -59,6 +61,7 @@ const AuthenticatedRoute: React.FC<RouteProps> = ({
 };
 
 export const App = () => {
+
   useEffect(() => {
     (async function () {
       const helloRequest = await fetch("/api");
@@ -68,6 +71,29 @@ export const App = () => {
   });
 
   return (
+    <ThemeManager>
+    <BrowserRouter>
+      <ThemeProvider theme={themeStyle}>
+      <AuthProvider>
+        <GlobalStyle />
+            <Switch>
+              <UnauthenticatedRoute exact path="/login" component={LoginPage} />
+              <UnauthenticatedRoute exact path="/register" component={RegisterPage}/>
+              <AuthenticatedRoute exact path="/dashboard" component={DashboardPage}/>
+              <AuthenticatedRoute exact path="/newgame" component={NewgamePage} />
+              <AuthenticatedRoute exact path="/game" component={DashboardPage} />
+              <AuthenticatedRoute exact path="/settings" component={SettingsPage} />
+              <Route path="/" component={BasePage}></Route>
+            </Switch>
+        </AuthProvider>
+      </ThemeProvider>
+    </BrowserRouter>
+    </ThemeManager>
+  );
+};
+
+/*
+ return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
       <AuthProvider>
@@ -78,11 +104,11 @@ export const App = () => {
               <AuthenticatedRoute exact path="/dashboard" component={DashboardPage}/>
               <AuthenticatedRoute exact path="/newgame" component={NewgamePage} />
               <AuthenticatedRoute exact path="/game" component={DashboardPage} />
-              <AuthenticatedRoute exact path="/settings" component={DashboardPage} />
+              <AuthenticatedRoute exact path="/settings" component={SettingsPage} />
               <Route path="/" component={BasePage}></Route>
             </Switch>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
   );
-};
+*/

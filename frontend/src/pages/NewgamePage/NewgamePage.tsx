@@ -11,7 +11,7 @@ import {
     GameRoomList,
 } from "./components/GameRoomList";
 import {Modal} from "./components/Modal";
-import {theme} from "../../theme";
+import {themeStyle} from "../../theme";
 import {authContext} from "../../context/AuthenticationContext";
 
 const NewgameBody = styled.div`
@@ -139,10 +139,10 @@ export const NewgamePage = () => {
 
                                             for (let gameRoomElement of gameRooms) {
                                                 if (gameRoomElement.id == gameRoom.id) {
-                                                    document.getElementById(gameRoomElement.id)!.style.backgroundColor = theme.colors.primary;
+                                                    document.getElementById(gameRoomElement.id)!.style.backgroundColor = themeStyle.colors.primary;
                                                     setGameSelected(gameRoom);
                                                 } else {
-                                                    document.getElementById(gameRoomElement.id)!.style.backgroundColor = theme.colors.backgroundColor;
+                                                    document.getElementById(gameRoomElement.id)!.style.backgroundColor = themeStyle.colors.backgroundColor;
                                                 }
                                             }
                                         }}

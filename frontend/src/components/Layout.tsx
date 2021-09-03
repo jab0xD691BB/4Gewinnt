@@ -1,9 +1,12 @@
 import React, {useContext} from "react";
-import styled, { css } from "styled-components/macro";
+import styled, { css, ThemeProvider } from "styled-components/macro";
 import { Connect4Img } from "../img/Connect4";
 import { Logo } from "./Logo";
 import { Link } from "react-router-dom";
 import { authContext } from "../context/AuthenticationContext";
+import * as themeConf from "./theme";
+import { useTheme } from "../pages/Settings/ThemeManager";
+import { settings } from "../context/AuthenticationContext";
 
 const TextButton = styled.button`
   all: unset;
@@ -25,6 +28,7 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   padding: 0 25px;
+  backgroundcolor: ${themeConf.theme.colors.backgroundColor};
 `;
 
 const Main = styled.main`
@@ -64,12 +68,14 @@ const Titel = styled.span`
 
 
 export const Layout: React.FC = ({ children }) => {
+  const theme = useTheme();
 
 const {
   actions: { logout },
 } = useContext(authContext);    
   return (
     <>
+    <ThemeProvider theme={{ mode: theme.mode }}>
       <Header>
         <LogoTitel>
           <Connect4Img />
@@ -86,7 +92,9 @@ const {
           </Titel>
         </LogoTitel>
         <NavigationList>
-          <NavigationItem>Settings</NavigationItem>
+          <NavigationItem><TextButton onClick={()=>{
+
+          }}>Settings</TextButton></NavigationItem>
           <NavigationItem>
              <TextButton
             onClick={() => {
@@ -101,6 +109,7 @@ const {
       </Header>
       <Main>{children}</Main>
       <Footer>Footer</Footer>
+      </ThemeProvider>
     </>
   );
 };
