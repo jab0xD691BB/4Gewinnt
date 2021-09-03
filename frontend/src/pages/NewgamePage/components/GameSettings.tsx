@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Layout } from "../../../components/Layout";
 import { Input, InputCheckbox } from "./Input";
 import { SelectGameMode } from "./Select";
-import { Button } from "./Button";
+import {Button, WarnButton} from "./Button";
 import { GameRoom } from "./GameRoomList";
 import { Game } from "../../GamePage/components/GameEngine";
 import io, { Socket } from "socket.io-client";
@@ -40,7 +40,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     rated: "",
   });
 
-  const [gameSetting, setGameSelected] = useState<GameSettings | null>(null);
+  const [sessionStarted, setSessionStarted] = useState<boolean>(false);
   const { token } = useContext(authContext);
 
   const fieldDidChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +50,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const createGameSession = async (e: React.MouseEvent<HTMLFormElement>) => {
+  const createGameSession = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const gameSetting: GameSettings = values;
 
@@ -71,11 +71,35 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     });*/
 
     ws.emit("createroom", gameRoom);
+    setSessionStarted(true)
+  };
+
+  const deleteGameSession = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const gameSetting: GameSettings = values;
+
+    const gameRoom: GameRoom = {
+      id: JSON.parse(atob(token!.split(".")[1])).name,
+      name: JSON.parse(atob(token!.split(".")[1])).name,
+      player1: JSON.parse(atob(token!.split(".")[1])).name,
+      player2: "",
+      guests: [],
+      gameSetting: gameSetting,
+    };
+    /*await fetch("/api/match", {
+      body: JSON.stringify({
+        ...values,
+      }),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    });*/
+
+    ws.emit("deleteroom", gameRoom);
+    setSessionStarted(false)
   };
 
   return (
     <GameSettingsLayout>
-      <form onSubmit={createGameSession} data-testid="edit-game-session-form">
         <div
           style={{
             width: 400,
@@ -152,9 +176,13 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
             //                        required
             //            value={values.funnyCounter}
           />
-          <Button type="submit">Create Game Session</Button>
+          {!sessionStarted && (
+              <Button onClick={createGameSession}>Create Game Session</Button>
+          )}
+          {sessionStarted && (
+              <WarnButton onClick={deleteGameSession}>Delete Game Session</WarnButton>
+          )}
         </div>
-      </form>
     </GameSettingsLayout>
   );
 };

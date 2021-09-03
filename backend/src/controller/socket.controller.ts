@@ -50,7 +50,6 @@ export const socket = ({ io }: { io: Server }) => {
     });
 
     socket.on("createroom", (message: any) => {
-      console.log("test socket in room", rooms[players[message.name]]);
       const settings: GameRoom = message;
       console.log(message);
       if (!rooms[message.name]) {
@@ -64,6 +63,26 @@ export const socket = ({ io }: { io: Server }) => {
           settings: rooms[message.name],
         });
       }
+      console.log("rooms after creation: ", rooms);
+    });
+
+    socket.on("deleteroom", (message: any) => {
+      const settings: GameRoom = message;
+      console.log(message);
+      if (rooms[message.name]) {
+
+        delete rooms[message.name];
+        let tmp = Object.values(rooms);
+
+        socket.broadcast.emit("deleteroom", {
+          settings: tmp,
+        });
+        socket.emit("deleteroom", {
+          settings: tmp,
+        });
+        socket.leave(message.name);
+      }
+      console.log("rooms after deletion: ", rooms);
     });
 
     socket.once("disconnect", () => {

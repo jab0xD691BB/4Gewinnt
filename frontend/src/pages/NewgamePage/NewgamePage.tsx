@@ -40,6 +40,7 @@ interface room {
   setting: setting;
 }
 
+
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
   const { token } = useContext(authContext);
@@ -71,11 +72,28 @@ export const NewgamePage = () => {
       });
 
       socket.on("createroom", (message: any) => {
-        console.log(message);
+        console.log("create received", message);
+
         if (Object.keys(message).length !== 0) {
           const r: GameRoom = message.settings;
 
           setRooms((rooms) => [...rooms, { key: r.name, value: r }]);
+        }
+      });
+
+      socket.on("deleteroom", (message: any) => {
+        console.log("delete received ", message);
+
+        if (Object.keys(message).length !== 0) {
+          const r: GameRoom[] = message.settings;
+          let newRooms = new Array<{
+            key: string;
+            value: GameRoom;
+          }>();
+          for(let entry of r){
+            newRooms.push({key: entry.name, value: entry})
+          }
+          setRooms(newRooms);
         }
       });
     }
