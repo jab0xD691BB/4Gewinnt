@@ -11,7 +11,9 @@ export const theme: DefaultTheme = {
     shadowColor: "rgba(0,0,0,0.3)",
     listBackgroundColor: "rgb(120, 120, 120)",
     listHoverColor: "rgb(65,65,65)",
-    fullyTransparentColor: "#00000000",
+    gameBoardColumnColor:  '#00000000',
+    gameBoardColumnBorderHighlightColor: '#52B788',
+    gameBoardFieldBorderColor: '#fff',
     text: "#00000000",
   },
 };

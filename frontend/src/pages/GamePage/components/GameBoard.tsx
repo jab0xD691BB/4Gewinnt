@@ -78,7 +78,7 @@ export const reverseButtonClicked = async (e: React.MouseEvent<HTMLDivElement>) 
         return;
     }
     let step = game.gameSteps[last_to_draw+1];
-    colorField(step.x, step.y, theme.colors.fullyTransparentColor);
+    colorField(step.x, step.y, theme.colors.gameBoardColumnColor);
 }
 
 export const advanceButtonClicked = async (e: React.MouseEvent<HTMLDivElement>) => {

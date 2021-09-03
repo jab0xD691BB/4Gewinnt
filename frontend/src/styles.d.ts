@@ -15,7 +15,9 @@ declare module "styled-components" {
       shadowColor: string;
       primary: string;
       listHoverColor: string;
-      fullyTransparentColor: string;
+      gameBoardColumnColor:  string,
+      gameBoardColumnBorderHighlightColor: string,
+      gameBoardFieldBorderColor: string,
       text: string;
     };
   }

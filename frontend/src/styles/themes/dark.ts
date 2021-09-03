@@ -15,7 +15,9 @@ export default {
         shadowColor: '#52B788',
         primary: '#333',
         listHoverColor: '#52B788',
-        fullyTransparentColor:  '#52B788',
+        gameBoardColumnColor:  '#00000000',
+        gameBoardColumnBorderHighlightColor: '#52B788',
+        gameBoardFieldBorderColor: '#fff',
         text:   '#EDE5A6',
     },
 }
