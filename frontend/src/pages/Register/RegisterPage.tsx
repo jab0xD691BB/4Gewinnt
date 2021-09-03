@@ -1,20 +1,20 @@
 import React, { useRef, useState, ChangeEvent, useContext} from "react";
 import { Button } from "./components/Button";
 import { Input } from "./components/Input";
-import { LoginMask, LoginMaskHolder, LogoHolder }  from "./LoginMask";
+import { RegisterMask as RegisterMask, RegisterMaskHolder as RegisterMaskHolder, LogoHolder }  from "./RegisterMask";
 import {Logo} from "../../components/Logo";
 import {
   authContext,
-  LoginOptions,
+  RegisterOptions,
 } from "../../context/AuthenticationContext";
-import { Link } from "react-router-dom";
 import { UnauthenticatedLayout } from "../../components/UnauthenticatedLayout";
 import {StyledLink} from "../../components/Link";
 
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
   const auth = useContext(authContext);
-  const [values, setValues] = useState<LoginOptions>({
+  const [values, setValues] = useState<RegisterOptions>({
+    name: "",
     email: "",
     password: "",
   });
@@ -26,20 +26,27 @@ export const LoginPage = () => {
     e.preventDefault();
     setFormError(null);
     try {
-      await auth.actions.login(values);
+      await auth.actions.register(values);
     } catch (e) {
       //setFormError(e.message);
     }
   };
   return (
     <UnauthenticatedLayout>
-      <LoginMaskHolder>
+      <RegisterMaskHolder>
         <form onSubmit={onSubmitForm}>
-          <LoginMask>
+          <RegisterMask>
             <LogoHolder>
               <Logo />
             </LogoHolder>
             <p style={{ color: "#000", textAlign: "center" }}>{formError}</p>
+            <Input
+              name="name"
+              type="text"
+              label="Name"
+              onChange={fieldDidChange}
+              required
+            />
             <Input
               name="email"
               type="email"
@@ -54,11 +61,11 @@ export const LoginPage = () => {
               onChange={fieldDidChange}
               required
             />
-            <Button type="submit">Log In</Button>
-            <StyledLink to="/register">Register</StyledLink>
-          </LoginMask>
+            <Button type="submit">Register</Button>
+            <StyledLink to="/login">Back to Login</StyledLink>
+          </RegisterMask>
         </form>
-      </LoginMaskHolder>
+      </RegisterMaskHolder>
     </UnauthenticatedLayout>
   );
 };

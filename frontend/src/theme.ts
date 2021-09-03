@@ -4,10 +4,12 @@ export const theme: DefaultTheme = {
   colors: {
     primary: "rgb(54,161,139)",
     backgroundColor: "#202020",
+    buttonColor: "#2b2b2b",
     fontColor: "#fff",
     secondaryFontColor: "rgb(191,191,191)",
     shadowColor: "rgba(0,0,0,0.3)",
     listBackgroundColor: "rgb(120, 120, 120)",
-    listHovorColor: "rgb(65,65,65)",
+    listHoverColor: "rgb(65,65,65)",
+    fullyTransparentColor: "#00000000",
   },
 };

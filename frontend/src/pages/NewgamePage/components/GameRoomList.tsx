@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
+import {GameSettings} from "./GameSettings";
 
 export type GameRoom = {
   id: string;
@@ -7,6 +8,8 @@ export type GameRoom = {
   player1: string;
   player2: string;
   guests: string[];
+  gameSetting: GameSettings;
+
 };
 
 const GameRoomFlex = styled.div`
@@ -29,17 +32,28 @@ export const GameRoomItemStyle = styled.div`
   min-height: 3rem;
   position: relative;
   padding: 0.7rem 2rem;
+  border-radius: 10px;
   &:hover {
-    background-color: ${(props) => props.theme.colors.primary};
+    background-color: green;
   }
 `;
+
+export const GameRoomListLayout = styled.div`
+  background-color: #2b2b2b;
+  border-radius: 10px;
+  margin: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align: center;
+`;
+
 export const GameRoomList = styled.ul`
+
   list-style: none;
   box-shadow: 0 0.125em 0.25em 0 ${(props) => props.theme.colors.shadowColor};
   width: 100%;
   padding: 0;
   border-radius: 0.5rem;
-  background-color: ${(props) => props.theme.colors.backgroundColor};
   ${GameRoomItemStyle} {
     border-bottom: 1px ${(props) => props.theme.colors.shadowColor} solid;
     &:last-of-type {
@@ -77,11 +91,8 @@ export type GameRoomItemProps = {
   onClick?: (gameRoom: GameRoom) => void;
 };
 
-export const GameRoomItem: React.FC<GameRoomItemProps> = ({
-  gameRoom,
-  onClick = () => undefined,
-}) => {
-  const [isClicked, setClicked] = useState(false);
+export const GameRoomItem: React.FC<GameRoomItemProps> = ({gameRoom, onClick = () => undefined}) => {
+
 
   const getGuests = (guests: string[]) => {
     var concatGuests = "";
@@ -93,18 +104,18 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
 
   const { id, name, player1, player2, guests } = gameRoom;
   return (
-    <div
+    <div id={id}
       style={{
         width: "100%",
         textAlign: "left",
-        backgroundColor: isClicked ? "rgb(54,161,139)" : "",
+//        backgroundColor: isClicked ? "rgb(54,161,139)" : "",
       }}
     >
       <GameRoomItemStyle
         data-testid="joke-item"
         onClick={() => {
-          setClicked(!isClicked);
-          //onClick(gameRoom);
+          onClick(gameRoom);
+
         }}
       >
         <GameRoomHighlight />
