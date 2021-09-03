@@ -4,6 +4,7 @@ import { UnauthenticatedLayout } from "./components/UnauthenticatedLayout";
 import "./App.css";
 import { DashboardPage } from "./pages/Dashboard/DashboardPage";
 import { NewgamePage } from "./pages/NewgamePage/NewgamePage";
+import { SettingsPage } from "./pages/SettingsPage/SettingsPage";
 import { ThemeProvider } from "styled-components";
 import {
   BrowserRouter,
@@ -13,11 +14,17 @@ import {
   RouteProps,
 } from "react-router-dom";
 import { theme } from "./theme";
-import { GlobalStyle } from "./components/GlobalStyle";
+//import { GlobalStyle } from "./components/GlobalStyle";
 import { LoginPage } from "./pages/Login/LoginPage";
 import { RegisterPage } from "./pages/Register/RegisterPage";
 import { GamePage } from "./pages/GamePage/GamePage";
 import { SocketProvider } from "./context/socket.context";
+import usePersistedState from "./utils/usePersistedState";
+import light from "./styles/themes/light";
+import dark from "./styles/themes/dark";
+import GlobalStyle from "./styles/global";
+import { DefaultTheme } from "styled-components";
+import Settings from "./components/Header";
 
 export const BasePage = () => {
   const { token } = useContext(authContext);
@@ -69,12 +76,19 @@ export const App = () => {
     })();
   });
 
+  const [theme, setTheme] = usePersistedState<DefaultTheme>("theme", light);
+
+  const toggleTheme = () => {
+    setTheme(theme.title === "light" ? dark : light);
+  };
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <AuthProvider>
           <SocketProvider>
             <GlobalStyle />
+            <Settings toggleTheme={toggleTheme} />
             <Switch>
               <UnauthenticatedRoute exact path="/login" component={LoginPage} />
               <UnauthenticatedRoute
@@ -96,7 +110,7 @@ export const App = () => {
               <AuthenticatedRoute
                 exact
                 path="/settings"
-                component={DashboardPage}
+                component={SettingsPage}
               />
               <Route path="/" component={BasePage}></Route>
             </Switch>
