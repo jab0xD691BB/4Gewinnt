@@ -13,10 +13,17 @@ import {
   RouteProps,
 } from "react-router-dom";
 import { theme } from "./theme";
-import { GlobalStyle } from "./components/GlobalStyle";
+//import { GlobalStyle } from "./components/GlobalStyle";
 import { LoginPage } from "./pages/Login/LoginPage";
 import { RegisterPage } from "./pages/Register/RegisterPage";
 import { GamePage } from "./pages/GamePage/GamePage";
+import usePersistedState from './utils/usePersistedState';
+import light from './styles/themes/light';
+import dark from './styles/themes/dark';
+import GlobalStyle from './styles/global';
+import { DefaultTheme} from "styled-components";
+import Settings from "./components/Header";
+
 
 export const BasePage = () => {
   const { token } = useContext(authContext);
@@ -68,11 +75,18 @@ export const App = () => {
     })();
   });
 
+  const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
+
+  const toggleTheme = () => {
+    setTheme(theme.title === 'light' ? dark : light)
+  }
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <AuthProvider>
           <GlobalStyle />
+          <Settings toggleTheme={toggleTheme} />
           <Switch>
             <UnauthenticatedRoute exact path="/login" component={LoginPage} />
             <UnauthenticatedRoute

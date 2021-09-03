@@ -1,6 +1,7 @@
 import {DefaultTheme} from "styled-components";
 
 export const theme: DefaultTheme = {
+    title: '',
     colors:{
         backgroundColor: "#202020",
         fontColor: "#fff",
@@ -11,5 +12,6 @@ export const theme: DefaultTheme = {
         listHoverColor: "rgb(65,65,65)",
         primary: "rgb(37, 194, 162)",
         fullyTransparentColor: "#00000000",
+        text: "#00000000",
     },
 };

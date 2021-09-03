@@ -2,7 +2,10 @@ import {} from "styled-components/cssprop";
 import "styled-components";
 
 declare module "styled-components" {
+ 
   export interface DefaultTheme {
+    title: string;
+    
     colors: {
       backgroundColor: string;
       listBackgroundColor: string;
@@ -13,6 +16,7 @@ declare module "styled-components" {
       primary: string;
       listHoverColor: string;
       fullyTransparentColor: string;
+      text: string;
     };
   }
 }

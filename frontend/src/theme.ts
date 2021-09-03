@@ -1,6 +1,7 @@
 import { DefaultTheme } from "styled-components";
 
 export const theme: DefaultTheme = {
+  title: '',
   colors: {
     primary: "rgb(54,161,139)",
     backgroundColor: "#202020",
@@ -11,5 +12,6 @@ export const theme: DefaultTheme = {
     listBackgroundColor: "rgb(120, 120, 120)",
     listHoverColor: "rgb(65,65,65)",
     fullyTransparentColor: "#00000000",
+    text: "#00000000",
   },
 };
