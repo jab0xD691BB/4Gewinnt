@@ -7,19 +7,22 @@ import {
     getAllPlayers,
     getPlayer,
     updatePlayer,
+    sorted,
 } from '../controller/player.controller';
 
 
 //Login & Register
+
 export const playerRouter = Router({mergeParams: true });
+
 playerRouter.post('/', registerPlayer);
 playerRouter.post('/token', loginPlayer);
 
+
 //Game
-playerRouter.get("/", getAllPlayers);
-playerRouter.get("/:id", getPlayer);
+playerRouter.get("/sortplayers",sorted)
+playerRouter.put("/:playerId", updatePlayer);
+playerRouter.get("/:playerId", getPlayer);
 playerRouter.post("/", createPlayer);
-playerRouter.delete("/:id", deletePlayer);
-playerRouter.put("/:id", updatePlayer);
-
-
+playerRouter.delete("/:playerId", deletePlayer);
+playerRouter.get("/", getAllPlayers);
