@@ -4,6 +4,7 @@ import { UnauthenticatedLayout } from "./components/UnauthenticatedLayout";
 import "./App.css";
 import { DashboardPage } from "./pages/Dashboard/DashboardPage";
 import { NewgamePage } from "./pages/NewgamePage/NewgamePage";
+import { SettingsPage } from "./pages/SettingsPage/SettingsPage";
 import { ThemeProvider } from "styled-components";
 import {
   BrowserRouter,
@@ -104,7 +105,7 @@ export const App = () => {
             <AuthenticatedRoute
               exact
               path="/settings"
-              component={DashboardPage}
+              component={SettingsPage}
             />
             <Route path="/" component={BasePage}></Route>
           </Switch>
