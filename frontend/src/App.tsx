@@ -17,6 +17,7 @@ import { GlobalStyle } from "./components/GlobalStyle";
 import { LoginPage } from "./pages/Login/LoginPage";
 import { RegisterPage } from "./pages/Register/RegisterPage";
 import { GamePage } from "./pages/GamePage/GamePage";
+import { SocketProvider } from "./context/socket.context";
 
 export const BasePage = () => {
   const { token } = useContext(authContext);
@@ -72,28 +73,34 @@ export const App = () => {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <GlobalStyle />
-          <Switch>
-            <UnauthenticatedRoute exact path="/login" component={LoginPage} />
-            <UnauthenticatedRoute
-              exact
-              path="/register"
-              component={RegisterPage}
-            />
-            <AuthenticatedRoute
-              exact
-              path="/dashboard"
-              component={DashboardPage}
-            />
-            <AuthenticatedRoute exact path="/newgame" component={NewgamePage} />
-            <AuthenticatedRoute exact path="/game" component={GamePage} />
-            <AuthenticatedRoute
-              exact
-              path="/settings"
-              component={DashboardPage}
-            />
-            <Route path="/" component={BasePage}></Route>
-          </Switch>
+          <SocketProvider>
+            <GlobalStyle />
+            <Switch>
+              <UnauthenticatedRoute exact path="/login" component={LoginPage} />
+              <UnauthenticatedRoute
+                exact
+                path="/register"
+                component={RegisterPage}
+              />
+              <AuthenticatedRoute
+                exact
+                path="/dashboard"
+                component={DashboardPage}
+              />
+              <AuthenticatedRoute
+                exact
+                path="/newgame"
+                component={NewgamePage}
+              />
+              <AuthenticatedRoute exact path="/game" component={GamePage} />
+              <AuthenticatedRoute
+                exact
+                path="/settings"
+                component={DashboardPage}
+              />
+              <Route path="/" component={BasePage}></Route>
+            </Switch>
+          </SocketProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
