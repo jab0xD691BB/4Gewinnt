@@ -33,7 +33,7 @@ export const Button = styled.button`
 `;
 
 export const DisabledButton = styled.button`
-  background-color: ${(props) => props.theme.colors.listHovorColor};
+  background-color: ${(props) => props.theme.colors.listHoverColor};
   border: 0px;
   border-radius: 10px;
   color: black;

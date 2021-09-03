@@ -12,6 +12,7 @@ game.addPlayer("test3_blu", "Brotfinger", "#269999", 1000000000);
 //game.addPlayer("test4_gra", "Brotfinger", "#969992", 1000000000);
 //game.addPlayer("test5_gren", "Brotfinger", "#299969", 1000000000);
 //game.addPlayer("test3_ree", "Brotfinger", "#924469", 1000000000);
+game.startGame();
 game.cyclePlayer();
 
 
@@ -43,14 +44,10 @@ const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
         reRenderBoard();
     }
     let column_number = parseInt(e.currentTarget.id.split("_")[1]);
-    let step: GameStep | undefined = game.insert(column_number);
+    //TODO: give player_id of logged in player instead
+    let step: GameStep | undefined = game.insert(column_number, game.activePlayer);
     if (step) {
-        document.getElementById(
-            "column_" + step.x + ".row_" + (game.boardHeight-1 - step.y))!
-            .style.backgroundColor = step.color;
-        document.getElementById(
-            "column_" + step.x + ".row_" + (game.boardHeight-1 - step.y))!
-            .style.borderColor = step.color;
+        colorField(step.x, step.y, step.color, step.color);
     }
     checkGameState();
 }
@@ -60,7 +57,7 @@ const reRenderBoard = function (simple: boolean = true) {
 
     if (simple) {
         game_steps.slice(1).forEach((step) => {
-            colorField(step.x, step.y, step.color);
+            colorField(step.x, step.y, step.color, step.color);
         });
     } else {
         let game_board = game.gameBoard;
@@ -81,7 +78,7 @@ export const reverseButtonClicked = async (e: React.MouseEvent<HTMLDivElement>) 
         return;
     }
     let step = game.gameSteps[last_to_draw+1];
-    colorField(step.x, step.y, theme.colors.fullyTransparentColor, theme.colors.fontColor);
+    colorField(step.x, step.y, theme.colors.fullyTransparentColor);
 }
 
 export const advanceButtonClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -102,13 +99,15 @@ export const resign = async(e: React.MouseEvent<HTMLButtonElement>) => {
     checkGameState();
 }
 
-const colorField = function (x: number, y: number, bg_color: string, border_color: string = bg_color) {
+const colorField = function (x: number, y: number, bg_color: string, border_color?: string) {
     document.getElementById(
         "column_" + x + ".row_" + (game.boardHeight-1 - y))!
         .style.backgroundColor = bg_color;
-    document.getElementById(
-        "column_" + x + ".row_" + (game.boardHeight-1 - y))!
-        .style.borderColor = border_color;
+    if (border_color !== undefined) {
+        document.getElementById(
+            "column_" + x + ".row_" + (game.boardHeight - 1 - y))!
+            .style.borderColor = border_color;
+    }
 }
 
 const checkGameState = function() {

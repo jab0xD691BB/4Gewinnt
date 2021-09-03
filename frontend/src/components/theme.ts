@@ -8,7 +8,7 @@ export const theme: DefaultTheme = {
         secondaryFontColor: "rgb(191,191,191)",
         shadowColor: "rgb(0,0,0,0.3)",
         listBackgroundColor: "rgb(45,45,45)",
-        listHovorColor: "rgb(65,65,65)",
+        listHoverColor: "rgb(65,65,65)",
         primary: "rgb(37, 194, 162)",
         fullyTransparentColor: "#00000000",
     },

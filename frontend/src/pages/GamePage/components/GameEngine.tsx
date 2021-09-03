@@ -165,6 +165,22 @@ export class Game {
         }
     }
 
+    public startGame() {
+        if (this.state.state === GameStateEnum.NOT_STARTED) {
+            let keys = Array.from( this.state.players.keys() );
+            let active_player = 0;
+            for (let i: number = 0; i < keys.length; i++) {
+                if (this.state.players.get(keys[i])!.active) {
+                    active_player++;
+                }
+            }
+            if (active_player > 1) {
+                this.state.state = GameStateEnum.IN_PROGRESS;
+                return;
+            }
+        }
+    }
+
     /**
      * Suspends the game.
      */
@@ -284,6 +300,9 @@ export class Game {
      * @param id : string
      */
     public activatePlayer(id: string = this.state.active_player) {
+        if (this.state.state !== GameStateEnum.IN_PROGRESS) {
+            return;
+        }
         if (this.state.players.get(id) === undefined) {
             throw new Error(
                 `Player with that ID does not exist!`
@@ -292,10 +311,6 @@ export class Game {
             this.state.active_player_state = PlayerStateEnum.ACTIVE;
             this.state.active_player = id;
             this.state.active_start = new Date();
-
-            if (this.state.state === GameStateEnum.NOT_STARTED) {
-                this.state.state = GameStateEnum.IN_PROGRESS;
-            }
         }
     }
 
@@ -326,13 +341,17 @@ export class Game {
      * Sets active_player to undefined.
      * Checks if game-over conditions have been met.
      * @param column : number
+     * @param player_id : string - Verifies that the given player_id is the currently active player
      *
      * @exception Error if no active player is set.
      *
      * @return GameStep | undefined
      */
-    public insert(column: number): GameStep | undefined {
-        if (this.state.state !== GameStateEnum.IN_PROGRESS) {
+    public insert(column: number, player_id?: string): GameStep | undefined {
+        if (this.state.state !== GameStateEnum.IN_PROGRESS ||
+            (player_id !== undefined && player_id !== this.state.active_player)
+        )
+        {
             return undefined;
         }
         this.check_active_player();
@@ -350,7 +369,6 @@ export class Game {
 
         this.stopPlayer(true);
         this.cyclePlayer();
-
 
         return this.state.steps[this.state.steps.length - 1];
     }

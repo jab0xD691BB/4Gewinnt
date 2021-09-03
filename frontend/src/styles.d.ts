@@ -11,7 +11,7 @@ declare module "styled-components" {
       secondaryFontColor: string;
       shadowColor: string;
       primary: string;
-      listHovorColor: string;
+      listHoverColor: string;
       fullyTransparentColor: string;
     };
   }
