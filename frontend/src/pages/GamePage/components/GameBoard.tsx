@@ -5,7 +5,7 @@ import styled from "styled-components";
 import {FieldColumn} from "./Column";
 import {theme} from "../../../theme";
 
-export const game = new Game(20, 15, 8);
+export const game = new Game(20, 15, 10);
 game.addPlayer("test1", "Wurstkönig", "#999926", 10000000000);
 game.addPlayer("test2", "Käsepeter", "#996299", 10000000000);
 game.addPlayer("test3", "Brotfinger", "#269999", 1000000000);
@@ -73,12 +73,18 @@ const reRenderBoard = function (simple: boolean = true) {
 
 export const reverseButtonClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
     let last_to_draw = game.reverseStep();
+    if (last_to_draw === undefined) {
+        return;
+    }
     let step = game.gameSteps[last_to_draw+1];
     colorField(step.x, step.y, theme.colors.fullyTransparentColor, theme.colors.fontColor);
 }
 
 export const advanceButtonClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
     let last_to_draw = game.advanceStep();
+    if (last_to_draw === undefined) {
+        return;
+    }
     let step = game.gameSteps[last_to_draw];
     colorField(step.x, step.y, step.color);
 }
