@@ -178,3 +178,26 @@ export const getplayersfromgame = async (req: Request, res: Response) => {
         data: games,
     });
 };
+
+// Get Number of lost games by player
+export const numLostGames = async (req: Request, res: Response) => {
+    const playerid = req.params.playerid;
+    const gameRepository = await getRepository(Game);
+    const sqlQueryGame = `select id from game where id in (select gameId from game_players_player where playerId = "${playerid}") `;
+    const sqlQuery = `select count(id) as gamesLost from game where winnerId <> "${playerid}" and id in (${sqlQueryGame})`;
+    const numGames = await gameRepository.query(sqlQuery);
+    res.send({
+        data: numGames,
+    });
+  };
+
+// Number of won games by player
+export const numWonGames = async (req: Request, res: Response) => {
+    const playerid = req.params.playerid;
+    const gameRepository = await getRepository(Game);
+    const sqlQueryGame = `select count(id) as gamesWon from game where winnerId = "${playerid}"`;
+    const numGames = await gameRepository.query(sqlQueryGame);
+    res.send({
+        data: numGames,
+    });
+};
