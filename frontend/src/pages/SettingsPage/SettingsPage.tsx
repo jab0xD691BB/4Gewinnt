@@ -1,15 +1,27 @@
-import React, { useRef, useState, ChangeEvent, useContext} from "react";
+import React, { useRef, useState, ChangeEvent, useContext } from "react";
 import { Input } from "./components/input";
 import { Layout } from "../../components/Layout";
-import styled, {ThemeProvider} from "styled-components";
+import styled, {
+  DefaultTheme,
+  ThemeContext,
+  ThemeProvider,
+} from "styled-components";
 import * as themeConf from "../../theme";
 import { authContext } from "../../context/AuthenticationContext";
+import Settings from "../../components/Header";
+import usePersistedState from "../../utils/usePersistedState";
+import light from "../../styles/themes/light";
+import dark from "../../styles/themes/dark";
 
+interface props {
+  providerSetTheme: (t: string) => void;
+}
 
-export const SettingsPage =()=>{
-
-  const {token} = useContext(authContext);
+export const SettingsPage: React.FC<props> = ({ providerSetTheme }) => {
+  const { token } = useContext(authContext);
   const [newName, setnewName] = useState(null);
+  const themeTitel = useContext(ThemeContext);
+
   const getTokenData = () => {
     if (token) {
       const playerid = JSON.parse(atob(token.split(".")[1])).id;
@@ -18,22 +30,22 @@ export const SettingsPage =()=>{
     }
     return null;
   };
-  const getnewName = async function(val: any){
+  const getnewName = async function (val: any) {
     setnewName(val.target.value);
-  }
+  };
 
   const updateName = async (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      const id = getTokenData();
-      await fetch(`/api/player/${id}`,{
-        body:  `{"name": "${newName}"}`,
-        headers: {'Content-Type': 'application/json'}, method: 'PUT' 
+    e.preventDefault();
+    const id = getTokenData();
+    await fetch(`/api/player/${id}`, {
+      body: `{"name": "${newName}"}`,
+      headers: { "Content-Type": "application/json" },
+      method: "PUT",
     });
-    console.log("new name is ",newName);
-    alert("Your name has been successfully updated")
+    console.log("new name is ", newName);
+    alert("Your name has been successfully updated");
   };
-  
-  
+
   const Button1 = styled.button`
         background-color: ${(props) => props.theme.colors.primary};
         border: 0px;
@@ -58,21 +70,31 @@ export const SettingsPage =()=>{
         }
   `;
 
+  const toggleTheme = () => {
+    providerSetTheme(themeTitel.title);
+  };
+
   return (
-      
-      <Layout>
+    <Layout>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-        }}>
-        <Input label="Change Name" name="changename" type ="changename" onChange={getnewName}></Input>
+        }}
+      >
+        <Input
+          label="Change Name"
+          name="changename"
+          type="changename"
+          onChange={getnewName}
+        ></Input>
         <br></br>
-        
       </div>
       <Button1 onClick={updateName}>Change Name</Button1>
-      </Layout>
-     
-    
+
+      <div>
+        <Settings toggleTheme={toggleTheme} />
+      </div>
+    </Layout>
   );
-}
+};
