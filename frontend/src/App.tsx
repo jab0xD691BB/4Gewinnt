@@ -78,8 +78,8 @@ export const App = () => {
 
   const [theme, setTheme] = usePersistedState<DefaultTheme>("theme", light);
 
-  const toggleTheme = () => {
-    setTheme(theme.title === "light" ? dark : light);
+  const toggleThemeInParent = (t: string) => {
+    setTheme(t === "light" ? dark : light);
   };
 
   return (
@@ -88,7 +88,6 @@ export const App = () => {
         <AuthProvider>
           <SocketProvider>
             <GlobalStyle />
-            <Settings toggleTheme={toggleTheme} />
             <Switch>
               <UnauthenticatedRoute exact path="/login" component={LoginPage} />
               <UnauthenticatedRoute
@@ -110,7 +109,13 @@ export const App = () => {
               <AuthenticatedRoute
                 exact
                 path="/settings"
-                component={SettingsPage}
+                component={() => {
+                  return (
+                    <SettingsPage
+                      providerSetTheme={toggleThemeInParent}
+                    ></SettingsPage>
+                  );
+                }}
               />
               <Route path="/" component={BasePage}></Route>
             </Switch>
