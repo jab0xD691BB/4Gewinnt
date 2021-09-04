@@ -39,7 +39,8 @@ export const GameBoard = () => {
     );
     if (step) {
       colorField(step.x, step.y, step.color, step.color);
-      socket.emit("refreshGameState", game.game);
+      let gameStateWrapper = {gameState: game.game, playerValuesAsArray: game.players, playerIdsAsArray: game.playerIds}
+      socket.emit("refreshGameState", gameStateWrapper);
 
     }
     checkGameState();

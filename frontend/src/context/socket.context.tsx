@@ -95,10 +95,17 @@ export const SocketProvider: React.FC = ({ children }) => {
 
     socket.on("refreshGameState", (message: any) => {
 
-      const r: GameState = message.gameState;
-      game.setGame(r);
+      const gameState: GameState = message.gameState.gameState;
+      const playerValuesAsArray: any[] = message.gameState.playerValuesAsArray;
+      const playerIdsAsArray: any[] = message.gameState.playerIdsAsArray;
+      gameState.players = new Map<string, Player>();
+
+      for (let i = 0; i < playerValuesAsArray.length; i++) {
+        gameState.players.set(playerIdsAsArray[i], playerValuesAsArray[i]);
+      }
+      game.setGame(gameState);
       reRenderBoard();
-      console.log("refresh state ", r);
+      console.log("refresh state ", gameState);
 
     });
 

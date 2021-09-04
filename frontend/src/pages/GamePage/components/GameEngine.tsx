@@ -320,6 +320,7 @@ export class Game {
      * @param add_bonus_time : boolean - Decides whether to add the time_bonus defined for the active player.
      */
     public stopPlayer(add_bonus_time: boolean = false) {
+        /*
         if (this.state.active_player !== undefined) {
             let time_bonus = add_bonus_time ? this.state.players.get(this.state.active_player!)!.time_bonus : 0;
             this.state.players.get(this.state.active_player!)!.time +=
@@ -331,7 +332,7 @@ export class Game {
             );
             this.state.active_player_state = PlayerStateEnum.FINISHED;
             this.state.active_start = undefined;
-        }
+        }*/
     }
 
     /**
