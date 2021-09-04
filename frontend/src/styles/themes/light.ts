@@ -18,6 +18,6 @@ export default {
         gameBoardColumnColor:  '#00000000',
         gameBoardColumnBorderHighlightColor: '#52B788',
         gameBoardFieldBorderColor: '#333',
-        text:  '#52B788',
+        text:  '#EDE5A6',
     },
 }

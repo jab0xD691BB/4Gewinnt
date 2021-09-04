@@ -15,6 +15,7 @@ const InputLabel = styled.label`
 
 const InputField = styled.input`
   background-color: transparent;
+  border-radius: 20px;
   padding: 35px 21px 13px;
   outline-width: 0px;
   border-width: 0;
@@ -33,14 +34,14 @@ const InputContainer = styled.div`
   transition-property: box-shadow, border-color;
   border: 1px solid rgb(230, 230, 230);
 
-  border-radius: 5px;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
   color: #000;
   position: relative;
-  height: 72px;
-  margin-bottom: 16px;
+  height: 52px;
+  margin-bottom: 10px;
 
   &:focus-within {
     border: 1px solid ${(props) => props.theme.colors.primary};
