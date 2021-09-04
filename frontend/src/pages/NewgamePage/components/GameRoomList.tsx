@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {GameSettings} from "./GameSettings";
+import { GameSettings } from "./GameSettings";
 
 export type GameRoom = {
   id: string;
@@ -9,7 +9,6 @@ export type GameRoom = {
   player2: string;
   guests: string[];
   gameSetting: GameSettings;
-
 };
 
 const GameRoomFlex = styled.div`
@@ -48,7 +47,6 @@ export const GameRoomListLayout = styled.div`
 `;
 
 export const GameRoomList = styled.ul`
-
   list-style: none;
   box-shadow: 0 0.125em 0.25em 0 ${(props) => props.theme.colors.shadowColor};
   width: 100%;
@@ -91,9 +89,10 @@ export type GameRoomItemProps = {
   onClick?: (gameRoom: GameRoom) => void;
 };
 
-export const GameRoomItem: React.FC<GameRoomItemProps> = ({gameRoom, onClick = () => undefined}) => {
-
-
+export const GameRoomItem: React.FC<GameRoomItemProps> = ({
+  gameRoom,
+  onClick = () => undefined,
+}) => {
   const getGuests = (guests: string[]) => {
     var concatGuests = "";
     for (let guest of guests) {
@@ -104,18 +103,18 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({gameRoom, onClick = (
 
   const { id, name, player1, player2, guests } = gameRoom;
   return (
-    <div id={id}
+    <div
+      id={id}
       style={{
         width: "100%",
         textAlign: "left",
-//        backgroundColor: isClicked ? "rgb(54,161,139)" : "",
+        //        backgroundColor: isClicked ? "rgb(54,161,139)" : "",
       }}
     >
       <GameRoomItemStyle
         data-testid="joke-item"
         onClick={() => {
           onClick(gameRoom);
-
         }}
       >
         <GameRoomHighlight />

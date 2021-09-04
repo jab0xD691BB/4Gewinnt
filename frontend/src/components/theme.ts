@@ -1,6 +1,7 @@
 import {DefaultTheme} from "styled-components";
 
 export const theme: DefaultTheme = {
+    title: '',
     colors:{
         backgroundColor: "#202020",
         fontColor: "#fff",
@@ -10,6 +11,9 @@ export const theme: DefaultTheme = {
         listBackgroundColor: "rgb(45,45,45)",
         listHoverColor: "rgb(65,65,65)",
         primary: "rgb(37, 194, 162)",
-        fullyTransparentColor: "#00000000",
+        gameBoardColumnColor:  '#00000000',
+        gameBoardColumnBorderHighlightColor: '#52B788',
+        gameBoardFieldBorderColor: '#fff',
+        text: "#00000000",
     },
 };
