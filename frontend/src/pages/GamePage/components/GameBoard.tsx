@@ -1,9 +1,10 @@
 import { StyledField } from "./Field";
-import React from "react";
-import { Game, GameStateEnum, GameStep } from "./GameEngine";
+import React, {useContext, useState} from "react";
+import {Game, GameState, GameStateEnum, GameStep} from "./GameEngine";
 import styled from "styled-components";
 import { FieldColumn } from "./Column";
 import { theme } from "../../../theme";
+import {SocketContext} from "../../../context/socket.context";
 
 export const game = new Game(20, 15, 10);
 game.addPlayer("test1_yello", "Wurstkönig", "#999926", 10000000000);
@@ -23,6 +24,27 @@ export const GameBoardWrapper = styled.div`
 
 export const GameBoard = () => {
   let columnId = -1;
+
+  const { socket, rooms, joinedRoom, gameState } = useContext(SocketContext);
+
+  const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
+    if (game.activeStep !== undefined) {
+      reRenderBoard();
+    }
+    let column_number = parseInt(e.currentTarget.id.split("_")[1]);
+    //TODO: give player_id of logged in player instead
+    let step: GameStep | undefined = game.insert(
+        column_number,
+        game.activePlayer
+    );
+    if (step) {
+      colorField(step.x, step.y, step.color, step.color);
+      socket.emit("refreshGameState", game.game);
+
+    }
+    checkGameState();
+  };
+
   return (
     <div
       id="game_board"
@@ -53,7 +75,7 @@ export const GameBoard = () => {
     </div>
   );
 };
-
+/*
 const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
   if (game.activeStep !== undefined) {
     reRenderBoard();
@@ -66,11 +88,13 @@ const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
   );
   if (step) {
     colorField(step.x, step.y, step.color, step.color);
+    socket.emit("refreshGameState", game.game);
+
   }
   checkGameState();
 };
-
-const reRenderBoard = function (simple: boolean = true) {
+*/
+export const reRenderBoard = function (simple: boolean = true) {
   let game_steps = game.gameSteps;
 
   if (simple) {

@@ -11,7 +11,7 @@ import {
 } from "../pages/GamePage/components/GameEngine";
 import { GameRoom } from "../pages/NewgamePage/components/GameRoomList";
 import { authContext } from "./AuthenticationContext";
-import { game } from "../pages/GamePage/components/GameBoard";
+import {game, reRenderBoard} from "../pages/GamePage/components/GameBoard";
 
 const socket = io();
 
@@ -93,7 +93,14 @@ export const SocketProvider: React.FC = ({ children }) => {
       setRooms(g);
     });
 
-    socket.on("newGameState", (message: any) => {});
+    socket.on("refreshGameState", (message: any) => {
+
+      const r: GameState = message.gameState;
+      game.setGame(r);
+      reRenderBoard();
+      console.log("refresh state ", r);
+
+    });
 
     socket.on("deleteroom", (message: any) => {
       console.log("delete received ", message);

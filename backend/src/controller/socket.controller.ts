@@ -116,8 +116,13 @@ export const socket = ({ io }: { io: Server }) => {
       console.log("rooms", io.sockets.adapter.rooms);
     });
 
-    socket.on("newGameState", (message: any) => {
-      console.log("newGameState", message);
+    socket.on("refreshGameState", (message: any) => {
+
+      socket.broadcast.emit("refreshGameState", {
+        gameState: message,
+      });
+
+      console.log("refreshGameState", message);
     });
 
     socket.once("disconnect", () => {
