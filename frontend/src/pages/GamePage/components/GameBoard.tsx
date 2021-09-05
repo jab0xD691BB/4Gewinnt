@@ -53,13 +53,15 @@ export const GameBoard = () => {
       socketContext.joinedRoom?.player1 != "" &&
       socketContext.joinedRoom?.player2 != ""
     ) {
-      if (socketContext.gameState) game.setGame(socketContext.gameState!);
+      if (socketContext.gameState) game.setGame(socketContext.gameState);
       game.startGame();
       game.cyclePlayer();
     }
   }
   const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
-    if (game.activePlayer == name) {
+    console.log("columnClicked gamestate", game.game);
+
+    if (game.activePlayer == name && game.gameState === 1) {
       if (game.activeStep !== undefined) {
         reRenderBoard();
       }
@@ -71,16 +73,17 @@ export const GameBoard = () => {
       );
       if (step) {
         colorField(step.x, step.y, step.color, step.color);
-        let gameStateWrapper = {
-          gameState: game.game,
-          playerValuesAsArray: game.players,
-          playerIdsAsArray: game.playerIds,
-        };
-        socketContext.socket.emit("refreshGameState", gameStateWrapper);
       }
       checkGameState();
+      let gameStateWrapper = {
+        gameState: game.game,
+        playerValuesAsArray: game.players,
+        playerIdsAsArray: game.playerIds,
+      };
+      socketContext.socket.emit("refreshGameState", gameStateWrapper);
+      socketContext.setGameStateFromGameBoard(game.game);
     } else {
-      alert("its not your turn");
+      alert("its not your turn or the game has ended");
     }
   };
 
@@ -211,6 +214,7 @@ const checkGameState = function () {
     console.log("gamestate " + game.gameState);
     if (game.gameState === GameStateEnum.HAS_WINNER) {
       console.log("winner id" + game.winner);
+      console.log("gamestate", game.game);
     }
   }
 };

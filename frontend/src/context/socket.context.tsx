@@ -55,6 +55,7 @@ export const SocketProvider: React.FC = ({ children }) => {
 
   console.log("rooms ", rooms);
   console.log("joinRoom ", joinedRoom);
+  console.log("gameState ", gameState);
 
   useEffect(() => {
     socket.on("joinNewPage", (message: any) => {
@@ -67,6 +68,8 @@ export const SocketProvider: React.FC = ({ children }) => {
           setJoinRoom(item);
         }
       });
+
+      setGameState(null);
     });
 
     socket.on("createroom", (message: any) => {
@@ -110,8 +113,8 @@ export const SocketProvider: React.FC = ({ children }) => {
       game.setGame(gameState);
       reRenderBoard();
       console.log("refresh state ", gameState);
-      if (gameState.state === GameStateEnum.HAS_WINNER) {
-        setGameState(new Game().game);
+      if (gameState.state === 3) {
+        setGameState(null);
       }
     });
 
@@ -128,10 +131,6 @@ export const SocketProvider: React.FC = ({ children }) => {
   };
 
   const setGameStateFromGameBoard = (gs: GameState) => {
-    if (gs.state === GameStateEnum.HAS_WINNER) {
-      setGameState(new Game().game);
-    }
-
     setGameState(gs);
   };
 
