@@ -20,7 +20,7 @@ import {
 
 import {
   GameHeaderWrapper,
-  GameHeaderWrapperSingle,
+  PlayerNameWrapperActive, PlayerNameWrapperInactive,
 } from "./components/GameHeader";
 
 import { GameRoom, GameRoomItem } from "../NewgamePage/components/GameRoomList";
@@ -54,7 +54,7 @@ const gameRoom: GameRoom = {
 
 export const GamePage = () => {
   const [stepCounterRerender, setStepCounterRerenderer] = useState(0);
-  const { socket, rooms, joinedRoom } = useContext(SocketContext);
+  const { socket, rooms, gameState, joinedRoom } = useContext(SocketContext);
 
   const rerenderStepCounter = function () {
     setStepCounterRerenderer(
@@ -71,13 +71,29 @@ export const GamePage = () => {
         <div style={{ display: "flex", flexDirection: "row", height: "800px" }}>
           <div style={{ width: "70%", height: "100%" }}>
             <GameHeaderWrapper>
-              <GameHeaderWrapperSingle>
-                {joinedRoom !== null ? joinedRoom.player1 : ""}
-              </GameHeaderWrapperSingle>
-              <GameHeaderWrapperSingle>VS</GameHeaderWrapperSingle>
-              <GameHeaderWrapperSingle>
-                {joinedRoom !== null ? joinedRoom.player2 : ""}
-              </GameHeaderWrapperSingle>
+              {(game && game.playerIds[0] == gameState?.active_player) && (
+                  <PlayerNameWrapperActive style={{  backgroundColor: theme.colors.player1Color
+                  }}>
+                    {joinedRoom !== null ? joinedRoom.player1 : ""}
+                  </PlayerNameWrapperActive>
+              )}
+              {(game &&game.playerIds[0] != gameState?.active_player) && (
+                  <PlayerNameWrapperInactive>
+                    {joinedRoom !== null ? joinedRoom.player1 : ""}
+                  </PlayerNameWrapperInactive>
+              )}
+              <PlayerNameWrapperInactive>VS</PlayerNameWrapperInactive>
+              {(game &&game.playerIds[1] == gameState?.active_player) && (
+                  <PlayerNameWrapperActive style={{  backgroundColor: theme.colors.player2Color
+                  }}>
+                    {joinedRoom !== null ? joinedRoom.player2 : ""}
+                  </PlayerNameWrapperActive>
+              )}
+              {(game &&game.playerIds[1] != gameState?.active_player) && (
+                  <PlayerNameWrapperInactive>
+                    {joinedRoom !== null ? joinedRoom.player2 : ""}
+                  </PlayerNameWrapperInactive>
+              )}
             </GameHeaderWrapper>
             <GameBoardWrapper onClick={rerenderStepCounter}>
               <GameBoard />

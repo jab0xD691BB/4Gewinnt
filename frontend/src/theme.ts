@@ -15,5 +15,8 @@ export const theme: DefaultTheme = {
     gameBoardColumnBorderHighlightColor: "#52B788",
     gameBoardFieldBorderColor: "#fff",
     text: "#00000000",
+
+    player1Color: '#999926',
+    player2Color: '#996299'
   },
 };

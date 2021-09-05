@@ -422,7 +422,7 @@ export class Game {
    *
    * @return GameState
    */
-  public get game(): GameState {
+  public get getGameState(): GameState {
     return this.state;
   }
 

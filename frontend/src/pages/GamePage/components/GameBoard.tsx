@@ -39,13 +39,13 @@ export const GameBoard = () => {
     game.addPlayer(
       socketContext.joinedRoom?.player1,
       socketContext.joinedRoom?.player1,
-      "#999926",
+      theme.colors.player1Color,
       Number(socketContext.joinedRoom?.gameSetting.time)
     );
     game.addPlayer(
       socketContext.joinedRoom?.player2,
       socketContext.joinedRoom?.player2,
-      "#996299",
+        theme.colors.player2Color,
       Number(socketContext.joinedRoom?.gameSetting.time)
     );
 
@@ -59,7 +59,7 @@ export const GameBoard = () => {
     }
   }
   const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log("columnClicked gamestate", game.game);
+    console.log("columnClicked gamestate", game.getGameState);
 
     if (game.activePlayer == name && game.gameState === 1) {
       if (game.activeStep !== undefined) {
@@ -73,15 +73,15 @@ export const GameBoard = () => {
       );
       if (step) {
         colorField(step.x, step.y, step.color, step.color);
+        checkGameState();
+        let gameStateWrapper = {
+          gameState: game.getGameState,
+          playerValuesAsArray: game.players,
+          playerIdsAsArray: game.playerIds,
+        };
+        socketContext.socket.emit("refreshGameState", gameStateWrapper);
+        socketContext.setGameStateFromGameBoard(game.getGameState);
       }
-      checkGameState();
-      let gameStateWrapper = {
-        gameState: game.game,
-        playerValuesAsArray: game.players,
-        playerIdsAsArray: game.playerIds,
-      };
-      socketContext.socket.emit("refreshGameState", gameStateWrapper);
-      socketContext.setGameStateFromGameBoard(game.game);
     } else {
       alert("its not your turn or the game has ended");
     }
@@ -96,7 +96,7 @@ export const GameBoard = () => {
         justifyContent: "center",
       }}
     >
-      {game.gameBoard.map((column) => {
+      {game && game.gameBoard.map((column) => {
         let rowId = -1;
         return (
           <FieldColumn id={"column_" + ++columnId} onClick={columnClicked}>
@@ -214,7 +214,7 @@ const checkGameState = function () {
     console.log("gamestate " + game.gameState);
     if (game.gameState === GameStateEnum.HAS_WINNER) {
       console.log("winner id" + game.winner);
-      console.log("gamestate", game.game);
+      console.log("gamestate", game.getGameState);
     }
   }
 };
