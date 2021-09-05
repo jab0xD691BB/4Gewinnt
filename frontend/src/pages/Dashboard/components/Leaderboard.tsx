@@ -78,7 +78,7 @@ export const Leaderboard: React.FC<{ players: Player[] }> = ({ players }) => {
       <PlayerList>
         {players.map((player, index) => {
           return (
-            <PlayerWrapper>
+            <PlayerWrapper key={index}>
               <IndexStyle>#{index + 1}</IndexStyle>
               <PlayerText>{player.name}</PlayerText>
               <PlayerTextValue>{player.elo}</PlayerTextValue>

@@ -1,5 +1,5 @@
-import React, {useRef} from 'react';
-import styled from 'styled-components';
+import React, { useRef } from "react";
+import styled from "styled-components";
 // @ts-ignore
 const SelectLabel = styled.label`
   position: absolute;
@@ -54,31 +54,35 @@ const SelectContainer = styled.div`
 
   &:focus-within {
     border: 1px solid ${(props) => props.theme.colors.primary};
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), inset 0 0 0 2px ${(props) => props.theme.colors.primary};
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1),
+      inset 0 0 0 2px ${(props) => props.theme.colors.primary};
   }
 `;
 
 export const SelectGameMode = ({
-                                   label,
-                                   option1,
-                                   option2,
-                                   ...props
-                               }: React.ComponentPropsWithoutRef<'select'> & {
-    label: string;
-    option1: string;
-    option2: string;
-    type?: 'text' | 'password' | 'number' | 'email';
+  label,
+  option1,
+  option2,
+  ...props
+}: React.ComponentPropsWithoutRef<"select"> & {
+  label: string;
+  option1: string;
+  option2: string;
+  type?: "text" | "password" | "number" | "email";
 }) => {
-    const id = useRef(`${label.replace(' ', '-')}`);
+  const id = useRef(`${label.replace(" ", "-")}`);
 
-
-    return (
-        <SelectContainer style={{}}>
-            <SelectField {...props} id={id.current} placeholder=" ">
-                <SelectOption id={id.current} value="player" selected>{option1}</SelectOption>
-                <SelectOption id={id.current} value="computer">{option2}</SelectOption>
-            </SelectField>
-            <SelectLabel htmlFor={id.current}>{label}</SelectLabel>
-        </SelectContainer>
-    );
+  return (
+    <SelectContainer style={{}}>
+      <SelectField {...props} id={id.current} placeholder=" ">
+        <SelectOption id={id.current} value="player" defaultValue="player">
+          {option1}
+        </SelectOption>
+        <SelectOption id={id.current} value="computer">
+          {option2}
+        </SelectOption>
+      </SelectField>
+      <SelectLabel htmlFor={id.current}>{label}</SelectLabel>
+    </SelectContainer>
+  );
 };

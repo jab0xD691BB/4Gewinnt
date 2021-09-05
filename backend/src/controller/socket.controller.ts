@@ -62,9 +62,9 @@ export const socket = ({ io }: { io: Server }) => {
         socket.broadcast.emit("refreshRoom", {
           settings: returnRooms,
         });
-        socket.emit("createroom", {
-          settings: rooms[message.name],
-        });
+        //socket.emit("createroom", {
+        //settings: rooms[message.name],
+        //});
       }
       console.log("rooms after creation: ", rooms);
     });
@@ -92,9 +92,9 @@ export const socket = ({ io }: { io: Server }) => {
       rooms[message.roomName].player2 = message.myName;
       console.log("joinedroom after", rooms[message.roomName]);
 
-      socket.emit("joinedRoom", {
-        settings: rooms[message.roomName],
-      });
+      //socket.emit("joinedRoom", {
+      //settings: rooms[message.roomName],
+      //});
       socket.to(message.roomName).emit("player2join", {
         settings: rooms[message.roomName],
       });
@@ -117,7 +117,6 @@ export const socket = ({ io }: { io: Server }) => {
     });
 
     socket.on("refreshGameState", (message: any) => {
-
       socket.broadcast.emit("refreshGameState", {
         gameState: message,
       });

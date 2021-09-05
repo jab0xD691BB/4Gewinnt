@@ -77,9 +77,9 @@ export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
         <Title>Moves</Title>
         <Title>Date</Title>
       </Titles>
-      {games.map((game) => {
+      {games.map((game, index) => {
         return (
-          <GameWrapper>
+          <GameWrapper key={index}>
             <PlayersWrapper>
               <PlayerStyle>
                 {game.player1.name + " (" + game.player1.elo + ")"}

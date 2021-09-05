@@ -1,20 +1,20 @@
 import { StyledField } from "./Field";
-import React, {useContext, useState} from "react";
-import {Game, GameState, GameStateEnum, GameStep} from "./GameEngine";
+import React, { useContext, useEffect, useState } from "react";
+import { Game, GameState, GameStateEnum, GameStep } from "./GameEngine";
 import styled from "styled-components";
 import { FieldColumn } from "./Column";
 import { theme } from "../../../theme";
-import {SocketContext} from "../../../context/socket.context";
+import { SocketContext } from "../../../context/socket.context";
+import { authContext } from "../../../context/AuthenticationContext";
 
-export const game = new Game(20, 15, 10);
-game.addPlayer("test1_yello", "Wurstkönig", "#999926", 10000000000);
-game.addPlayer("test2_purp", "Käsepeter", "#996299", 10000000000);
-game.addPlayer("test3_blu", "Brotfinger", "#269999", 1000000000);
+export var game: Game;
+
+//game.addPlayer("test3_blu", "Brotfinger", "#269999", 1000000000);
 //game.addPlayer("test4_gra", "Brotfinger", "#969992", 1000000000);
 //game.addPlayer("test5_gren", "Brotfinger", "#299969", 1000000000);
 //game.addPlayer("test3_ree", "Brotfinger", "#924469", 1000000000);
-game.startGame();
-game.cyclePlayer();
+//game.startGame();
+//game.cyclePlayer();
 
 export const GameBoardWrapper = styled.div`
   margin: 10px;
@@ -25,25 +25,63 @@ export const GameBoardWrapper = styled.div`
 export const GameBoard = () => {
   let columnId = -1;
 
-  const { socket, rooms, joinedRoom, gameState } = useContext(SocketContext);
+  const socketContext = useContext(SocketContext);
+  const { token } = useContext(authContext);
+  const name = JSON.parse(atob(token!.split(".")[1])).name;
 
-  const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
-    if (game.activeStep !== undefined) {
-      reRenderBoard();
+  if (socketContext.joinedRoom) {
+    game = new Game(
+      Number(socketContext.joinedRoom?.gameSetting.boardWidth),
+      Number(socketContext.joinedRoom?.gameSetting.boardHeigth),
+      Number(socketContext.joinedRoom?.gameSetting.rowCountToWin)
+    );
+
+    game.addPlayer(
+      socketContext.joinedRoom?.player1,
+      socketContext.joinedRoom?.player1,
+      "#999926",
+      Number(socketContext.joinedRoom?.gameSetting.time)
+    );
+    game.addPlayer(
+      socketContext.joinedRoom?.player2,
+      socketContext.joinedRoom?.player2,
+      "#996299",
+      Number(socketContext.joinedRoom?.gameSetting.time)
+    );
+
+    if (
+      socketContext.joinedRoom?.player1 != "" &&
+      socketContext.joinedRoom?.player2 != ""
+    ) {
+      if (socketContext.gameState) game.setGame(socketContext.gameState!);
+      game.startGame();
+      game.cyclePlayer();
     }
-    let column_number = parseInt(e.currentTarget.id.split("_")[1]);
-    //TODO: give player_id of logged in player instead
-    let step: GameStep | undefined = game.insert(
+  }
+  const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
+    if (game.activePlayer == name) {
+      if (game.activeStep !== undefined) {
+        reRenderBoard();
+      }
+      let column_number = parseInt(e.currentTarget.id.split("_")[1]);
+      //TODO: give player_id of logged in player instead
+      let step: GameStep | undefined = game.insert(
         column_number,
         game.activePlayer
-    );
-    if (step) {
-      colorField(step.x, step.y, step.color, step.color);
-      let gameStateWrapper = {gameState: game.game, playerValuesAsArray: game.players, playerIdsAsArray: game.playerIds}
-      socket.emit("refreshGameState", gameStateWrapper);
-
+      );
+      if (step) {
+        colorField(step.x, step.y, step.color, step.color);
+        let gameStateWrapper = {
+          gameState: game.game,
+          playerValuesAsArray: game.players,
+          playerIdsAsArray: game.playerIds,
+        };
+        socketContext.socket.emit("refreshGameState", gameStateWrapper);
+      }
+      checkGameState();
+    } else {
+      alert("its not your turn");
     }
-    checkGameState();
   };
 
   return (

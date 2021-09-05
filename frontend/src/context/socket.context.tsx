@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { createContext } from "react";
 import { io, Socket } from "socket.io-client";
 import {
+  Game,
   GameState,
   GameStateEnum,
   GameStep,
@@ -11,7 +12,7 @@ import {
 } from "../pages/GamePage/components/GameEngine";
 import { GameRoom } from "../pages/NewgamePage/components/GameRoomList";
 import { authContext } from "./AuthenticationContext";
-import {game, reRenderBoard} from "../pages/GamePage/components/GameBoard";
+import { game, reRenderBoard } from "../pages/GamePage/components/GameBoard";
 
 const socket = io();
 
@@ -20,6 +21,8 @@ interface SocketContext {
   joinedRoom: GameRoom | null;
   rooms: GameRoom[];
   gameState: GameState | null;
+  setJoinedRoom: (g: GameRoom) => void;
+  setGameStateFromGameBoard: (gs: GameState) => void;
 }
 
 export const SocketContext = React.createContext<SocketContext>({
@@ -31,12 +34,14 @@ export const SocketContext = React.createContext<SocketContext>({
     winner: "undefined",
     active_player: "undefined",
     active_player_state: PlayerStateEnum.ACTIVE,
-    active_start: new Date(),
+    active_start: new Date().getTime(),
     players: new Map<string, Player>(),
     state: GameStateEnum.NOT_STARTED,
     steps: new Array<GameStep>(),
     date: new Date(),
   },
+  setJoinedRoom: (g: GameRoom) => {},
+  setGameStateFromGameBoard: (gs: GameState) => {},
 });
 
 export const SocketProvider: React.FC = ({ children }) => {
@@ -54,8 +59,8 @@ export const SocketProvider: React.FC = ({ children }) => {
   useEffect(() => {
     socket.on("joinNewPage", (message: any) => {
       const g: GameRoom[] = message.settings;
-      console.log("joinNewPage ", g);
-      setRooms(g);
+
+      g.length != 0 && setRooms(g);
 
       g.map((item: GameRoom) => {
         if (item.name === tokenName) {
@@ -68,7 +73,7 @@ export const SocketProvider: React.FC = ({ children }) => {
       if (Object.keys(message).length !== 0) {
         const r: GameRoom = message.settings;
 
-        setJoinRoom(r);
+        //setJoinRoom(r);
       }
     });
 
@@ -94,7 +99,6 @@ export const SocketProvider: React.FC = ({ children }) => {
     });
 
     socket.on("refreshGameState", (message: any) => {
-
       const gameState: GameState = message.gameState.gameState;
       const playerValuesAsArray: any[] = message.gameState.playerValuesAsArray;
       const playerIdsAsArray: any[] = message.gameState.playerIdsAsArray;
@@ -106,7 +110,9 @@ export const SocketProvider: React.FC = ({ children }) => {
       game.setGame(gameState);
       reRenderBoard();
       console.log("refresh state ", gameState);
-
+      if (gameState.state === GameStateEnum.HAS_WINNER) {
+        setGameState(new Game().game);
+      }
     });
 
     socket.on("deleteroom", (message: any) => {
@@ -117,8 +123,29 @@ export const SocketProvider: React.FC = ({ children }) => {
     });
   }, []);
 
+  const setJoinedRoom = (g: GameRoom) => {
+    setJoinRoom(g);
+  };
+
+  const setGameStateFromGameBoard = (gs: GameState) => {
+    if (gs.state === GameStateEnum.HAS_WINNER) {
+      setGameState(new Game().game);
+    }
+
+    setGameState(gs);
+  };
+
   return (
-    <SocketContext.Provider value={{ socket, joinedRoom, rooms, gameState }}>
+    <SocketContext.Provider
+      value={{
+        socket,
+        joinedRoom,
+        rooms,
+        gameState,
+        setJoinedRoom,
+        setGameStateFromGameBoard,
+      }}
+    >
       {children}
     </SocketContext.Provider>
   );

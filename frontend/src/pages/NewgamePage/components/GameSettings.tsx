@@ -33,18 +33,19 @@ interface props {
 
 export const SettingsContainer: React.FC<props> = ({ ws }) => {
   const [values, setValues] = useState({
-    boardWidth: "",
-    boardHeigth: "",
-    rowCountToWin: "",
-    time: "",
+    boardWidth: "6",
+    boardHeigth: "7",
+    rowCountToWin: "4",
+    time: "10",
     gameMode: "player",
-    bestOf: "",
-    rated: "",
+    bestOf: "1",
+    rated: "false",
   });
 
   const [sessionStarted, setSessionStarted] = useState<boolean>(false);
   const { token } = useContext(authContext);
-  const { socket, rooms, joinedRoom } = useContext(SocketContext);
+  const { socket, rooms, joinedRoom, setJoinedRoom } =
+    useContext(SocketContext);
   let history = useHistory();
 
   const fieldDidChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +77,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
 
     socket.emit("createroom", gameRoom);
     setSessionStarted(true);
-    console.log("rooms in context", joinedRoom);
+    setJoinedRoom(gameRoom);
     history.push("/game");
   };
 
@@ -124,6 +125,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           max="10"
           onChange={fieldDidChangeInput}
           required
+          defaultValue="7"
           //            value={values.funnyCounter}
         />
         <Input
@@ -133,6 +135,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           step="1.00"
           onChange={fieldDidChangeInput}
           required
+          defaultValue="6"
           //            value={values.funnyCounter}
         />
         <Input
@@ -142,6 +145,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           step="1.00"
           onChange={fieldDidChangeInput}
           required
+          defaultValue="4"
           //            value={values.funnyCounter}
         />
         <Input
@@ -151,6 +155,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           step="1.00"
           onChange={fieldDidChangeInput}
           required
+          defaultValue="10"
           //            value={values.funnyCounter}
         />
         <SelectGameMode
@@ -162,6 +167,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           //                        step="1.00"
           onChange={fieldDidChangeSelect}
           required
+          defaultValue="Against Human"
           //            value={values.funnyCounter}
         />
         <Input
@@ -171,6 +177,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           step="1.00"
           onChange={fieldDidChangeInput}
           required
+          defaultValue="1"
         />
         <InputCheckbox
           id="rated"
@@ -181,6 +188,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           onChange={fieldDidChangeInput}
           //                        required
           //            value={values.funnyCounter}
+          defaultValue="false"
         />
         {!sessionStarted && !joinedRoom ? (
           <Button onClick={createGameSession}>Create Game Session</Button>

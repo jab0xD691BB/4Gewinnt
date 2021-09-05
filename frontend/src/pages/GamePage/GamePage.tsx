@@ -56,8 +56,6 @@ export const GamePage = () => {
   const [stepCounterRerender, setStepCounterRerenderer] = useState(0);
   const { socket, rooms, joinedRoom } = useContext(SocketContext);
 
-  console.log("log from Gamepage", joinedRoom);
-
   const rerenderStepCounter = function () {
     setStepCounterRerenderer(
       game.activeStep === undefined
@@ -65,10 +63,6 @@ export const GamePage = () => {
         : game.activeStep
     );
   };
-
-  useEffect(() => {
-    console.log("games", rooms);
-  }, []);
 
   return (
     <Layout>

@@ -44,7 +44,7 @@ interface room {
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
   const { token } = useContext(authContext);
-  const { socket, rooms } = useContext(SocketContext);
+  const { socket, rooms, setJoinedRoom } = useContext(SocketContext);
   let history = useHistory();
 
   const [websocket, updateWebsocket] = useState(false);
@@ -70,6 +70,12 @@ export const NewgamePage = () => {
       roomName: gameSelected?.id,
       myName: JSON.parse(atob(token!.split(".")[1])).name,
     });
+
+    let gameRoom = rooms.find((x) => x.id === gameSelected?.id);
+    gameRoom!.player2 = JSON.parse(atob(token!.split(".")[1])).name;
+
+    setJoinedRoom(gameRoom!);
+
     history.push("/game");
   };
 
