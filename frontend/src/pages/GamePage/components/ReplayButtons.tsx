@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import React from "react";
 
 export const ReplayButtonWrapper = styled.div`
   background-color: #2b2b2b;

@@ -109,9 +109,7 @@ export const GamePage = () => {
 
   const rerenderStepCounter = function () {
     setStepCounterRerenderer(
-      game.activeStep === undefined
-        ? game.gameSteps.length - 1
-        : game.activeStep
+      game.getCurrentStep()
     );
   };
   //calc(100vh - ${headerHeight} - ${footerHeight});

@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom';
 import disableScroll from 'disable-scroll';
 import { useCallback } from "react-use-callback";
 import { useState } from 'react';
+import { Button } from './Button';
 
 export interface ModalProps {
   children: React.ReactNode;
@@ -118,18 +119,17 @@ export const GameoverPopup = () => {
         <button onClick={open}>OPEN</button>
         <Modal>
             <div style={modalStyle}>
-            <div        
-                style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "flex-end",
-                marginLeft: "180px"
-            }}>
-                <button onClick={close}>X</button>
-            </div>
             <h1>GAME OVER</h1>
             <p>Player1: Felix won </p>
             <p>Player2: Lucca lost</p>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "flex-end",
+                    }}>
+                    <Button onClick={close}>X</Button>
+                </div>
             </div>
         </Modal>
         </div>
