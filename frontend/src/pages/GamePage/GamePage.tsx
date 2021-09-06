@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { theme } from "../../theme";
 import { footerHeight, headerHeight, Layout } from "../../components/Layout";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   advanceButtonClicked,
   GameBoard,
@@ -34,6 +34,7 @@ import { ReadyCheck } from "./components/ReadyCheck";
 import { Game, GameStateEnum } from "./components/GameEngine";
 import { Chat } from "./components/Chat";
 import { GameoverPopup } from "./components/GameoverPopup";
+import { authContext } from "../../context/AuthenticationContext";
 
 const GameBody = styled.div`
   height: 100%;
@@ -60,8 +61,11 @@ export var game: Game;
 
 export const GamePage = () => {
   const [stepCounterRerender, setStepCounterRerenderer] = useState(0);
+  const [persistOnce, setPersistOnce] = useState(true);
   const { socket, rooms, gameState, joinedRoom } = useContext(SocketContext);
   const socketContext = useContext(SocketContext);
+  const { token } = useContext(authContext);
+  const name = JSON.parse(atob(token!.split(".")[1])).name;
 
   if (
     socketContext.joinedRoom &&
@@ -112,6 +116,16 @@ export const GamePage = () => {
       });
     }
   }
+  if (game && game.getGameState) {
+    if (
+      game.getGameState.state === GameStateEnum.HAS_WINNER &&
+      name === game.getGameState.winner &&
+      persistOnce
+    ) {
+      console.log("@@@@@@@@ SPEICHER GAME IN DB @@@@@@@");
+      setPersistOnce(false);
+    }
+  }
 
   const rerenderStepCounter = function () {
     setStepCounterRerenderer(game.getCurrentStep());
@@ -119,8 +133,8 @@ export const GamePage = () => {
   //calc(100vh - ${headerHeight} - ${footerHeight});
   return (
     <Layout>
-      {game.players.length == 2 ? <ReadyCheck /> : ""}
-      {game.winner && <GameoverPopup />}
+      {game && game.players.length == 2 ? <ReadyCheck /> : ""}
+      {game && game.winner && <GameoverPopup />}
       <GameBody>
         <div
           style={{
