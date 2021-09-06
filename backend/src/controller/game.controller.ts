@@ -18,10 +18,25 @@ export const getAllGames = async (req: Request, res: Response) => {
 export const getGamesOfPlayer = async (req: Request, res: Response) => {
     const playerid = req.params.playerid;
     const gameRepository = await getRepository(Game);
-    const sqlQueryGame = `select * from game where id in (select gameId from game_players_player where playerId = "${playerid}") `;
-    const playergames = await gameRepository.query(sqlQueryGame);
+    const playerRepository = await getRepository(Player);
+
+    const playerGames = await playerRepository.findOneOrFail({
+        relations: ['games'],
+        where: {id: playerid}
+    });
+
+    let gamesWithPlayerList = new Array<Game>();
+
+    for(let game of playerGames.games){
+        const completeGame = await gameRepository.findOneOrFail({
+            relations: ['players'],
+            where: {id: game.id}
+        });
+        gamesWithPlayerList.push(completeGame);
+    }
+
     res.send({
-        data: playergames
+        data: gamesWithPlayerList
     });
 };
 
@@ -56,7 +71,7 @@ export const createGame = async (req: Request, res: Response) => {
     game.players = players;
     game.winner = winner;
 
-    if (game.players.length == 2) {
+    if (settings.rated == "on" && game.players.length == 2) {
 
         const eloArray = await updateRatings(game.players[0], game.players[1], game.winner);
         if (eloArray) {
@@ -64,7 +79,7 @@ export const createGame = async (req: Request, res: Response) => {
             game.players[1].eloScore = eloArray[1];
         }
     }
-
+//TODO: save settings and moves
 //    game.settings = settings;
 //    game.moves = moves;
     const gameRepository = await getRepository(Game);
