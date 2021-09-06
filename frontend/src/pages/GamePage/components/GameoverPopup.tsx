@@ -1,8 +1,9 @@
 import { createPortal } from 'react-dom';
 import disableScroll from 'disable-scroll';
 import { useCallback } from "react-use-callback";
-import { useState } from 'react';
+import {useContext, useState} from 'react';
 import { Button } from './Button';
+import { SocketContext } from "../../../context/socket.context";
 
 export interface ModalProps {
   children: React.ReactNode;
@@ -60,7 +61,7 @@ const containerStyle: React.CSSProperties = {
   zIndex: 100001,
 };
 
-const Modal: React.FC<ModalProps> = ({ children, isOpen = false, onOverlayClick, elementId = 'root' }) => {
+const Modal: React.FC<ModalProps> = ({ children, isOpen = true, onOverlayClick, elementId = 'root' }) => {
   if (isOpen === false) {
     return null;
   }
@@ -110,18 +111,17 @@ export const useModal: UseModal = (elementId = 'root', options = {}) => {
 };
 
 export const GameoverPopup = () => {
+    const socketContext = useContext(SocketContext);
     const [Modal, open, close, isOpen] = useModal('root', {
         preventScroll: true,
         closeOnOverlayClick: false,
       });
       return (
         <div>
-        <button onClick={open}>OPEN</button>
         <Modal>
             <div style={modalStyle}>
             <h1>GAME OVER</h1>
-            <p>Player1: Felix won </p>
-            <p>Player2: Lucca lost</p>
+            <p>{socketContext.gameState?.winner} has won! </p>
                 <div
                     style={{
                         display: "flex",

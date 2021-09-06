@@ -61,4 +61,20 @@ export const ArrowRightButton = styled.div`
   margin-left: 15px;
 
   outline: 0;
-`;
+
+  `;
+
+export const ArrowRightDangerButton = styled.div`
+  width: 0;
+  height: 0;
+  
+  border-top: 20px solid transparent;
+  border-left: 60px solid red;
+  border-bottom: 20px solid transparent;
+  
+  margin-right: 10px;
+  margin-left: 15px;
+    
+  outline: 0;
+
+  `;

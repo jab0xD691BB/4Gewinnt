@@ -343,6 +343,7 @@ export class Game {
      * @param column : number
      * @param player_id : string - Verifies that the given player_id is the currently active player
      *
+     * @param timestamp : number - optional timestamp for step, otherwise new Date().getTime()
      * @exception Error if no active player is set.
      *
      * @return GameStep | undefined

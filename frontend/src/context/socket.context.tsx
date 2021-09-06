@@ -121,7 +121,7 @@ export const SocketProvider: React.FC = ({ children }) => {
       if (game) game.setGame(newGameState);
 
       setGameState(newGameState);
-      reRenderBoard();
+      reRenderBoard(true, false);
       console.log("refresh state ", newGameState);
       if (newGameState.state === 3) {
         //        setGameState(null);

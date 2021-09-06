@@ -1,37 +1,35 @@
 import styled from "styled-components";
-import { theme } from "../../theme";
-import { footerHeight, headerHeight, Layout } from "../../components/Layout";
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import {theme} from "../../theme";
+import {footerHeight, headerHeight, Layout} from "../../components/Layout";
+import React, {useContext, useState} from "react";
 import {
-  advanceButtonClicked,
-  GameBoard,
-  GameBoardWrapper,
-  resign,
-  reverseButtonClicked,
+    advanceButtonClicked,
+    GameBoard,
+    GameBoardWrapper,
+    resign,
+    reverseButtonClicked,
+    toLastStep,
 } from "./components/GameBoard";
 
 import {
-  ArrowLeftButton,
-  ArrowRightButton,
-  ReplayButtonWrapper,
-  ReplayButtonWrapperSingle,
+    ArrowLeftButton,
+    ArrowRightButton,
+    ArrowRightDangerButton,
+    ReplayButtonWrapper,
+    ReplayButtonWrapperSingle,
 } from "./components/ReplayButtons";
 
-import {
-  GameHeaderWrapper,
-  PlayerNameWrapperActive,
-  PlayerNameWrapperInactive,
-} from "./components/GameHeader";
+import {GameHeaderWrapper, PlayerNameWrapperActive, PlayerNameWrapperInactive,} from "./components/GameHeader";
 
-import { GameRoom, GameRoomItem } from "../NewgamePage/components/GameRoomList";
-import { GameDetails } from "./components/GameDetails";
-import { Button, VerticalButtonWrapper } from "./components/Button";
-import { SocketContext } from "../../context/socket.context";
-import { GameoverPopup } from "./components/GameoverPopup";
-import { ReadyCheck } from "./components/ReadyCheck";
+import {GameRoom} from "../NewgamePage/components/GameRoomList";
+import {GameDetails} from "./components/GameDetails";
+import {Button, VerticalButtonWrapper} from "./components/Button";
+import {SocketContext} from "../../context/socket.context";
+import {ReadyCheck} from "./components/ReadyCheck";
 
-import { Game, GameStateEnum } from "./components/GameEngine";
-import { Chat } from "./components/Chat";
+import {Game, GameStateEnum} from "./components/GameEngine";
+import {Chat} from "./components/Chat";
+import {GameoverPopup} from "./components/GameoverPopup";
 import { Console } from "console";
 
 const GameBody = styled.div`
@@ -120,86 +118,90 @@ export const GamePage = () => {
     }
   }
 
-  const rerenderStepCounter = function () {
-    setStepCounterRerenderer(game.getCurrentStep());
-  };
-  //calc(100vh - ${headerHeight} - ${footerHeight});
-  return (
-    <Layout>
-      <ReadyCheck></ReadyCheck>
-      <GameBody>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            height: "100%",
-          }}
-        >
-          <div style={{ width: "70%", height: "100%" }}>
-            <GameHeaderWrapper>
-              {game && game.playerIds[0] == gameState?.active_player && (
-                <PlayerNameWrapperActive
-                  style={{ backgroundColor: theme.colors.player1Color }}
+    const rerenderStepCounter = function () {
+        setStepCounterRerenderer(
+            game.getCurrentStep()
+        );
+    };
+    //calc(100vh - ${headerHeight} - ${footerHeight});
+    return (
+        <Layout>
+            <GameoverPopup></GameoverPopup>
+            <ReadyCheck></ReadyCheck>
+            <GameBody>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        height: "100%",
+                    }}
                 >
-                  {joinedRoom !== null ? joinedRoom.player1 : ""}
-                </PlayerNameWrapperActive>
-              )}
-              {game && game.playerIds[0] != gameState?.active_player && (
-                <PlayerNameWrapperInactive>
-                  {joinedRoom !== null ? joinedRoom.player1 : ""}
-                </PlayerNameWrapperInactive>
-              )}
-              <PlayerNameWrapperInactive>VS</PlayerNameWrapperInactive>
-              {game && game.playerIds[1] == gameState?.active_player && (
-                <PlayerNameWrapperActive
-                  style={{ backgroundColor: theme.colors.player2Color }}
-                >
-                  {joinedRoom !== null ? joinedRoom.player2 : ""}
-                </PlayerNameWrapperActive>
-              )}
-              {game && game.playerIds[1] != gameState?.active_player && (
-                <PlayerNameWrapperInactive>
-                  {joinedRoom !== null ? joinedRoom.player2 : ""}
-                </PlayerNameWrapperInactive>
-              )}
-            </GameHeaderWrapper>
-            <GameBoardWrapper onClick={rerenderStepCounter}>
-              <GameBoard />
-            </GameBoardWrapper>
-            <ReplayButtonWrapper onClick={rerenderStepCounter}>
-              <div style={{ width: "30%" }}>
-                <h3>Back</h3>
-              </div>
-              <ReplayButtonWrapperSingle onClick={reverseButtonClicked}>
-                <ArrowLeftButton></ArrowLeftButton>
-              </ReplayButtonWrapperSingle>
-              <ReplayButtonWrapperSingle>
-                {gameState !== null ? gameState?.steps.length - 1 : ""}
-              </ReplayButtonWrapperSingle>
-              <ReplayButtonWrapperSingle onClick={advanceButtonClicked}>
-                <ArrowRightButton></ArrowRightButton>
-              </ReplayButtonWrapperSingle>
-              <div style={{ width: "30%", textAlign: "end" }}>
-                <h3>Forth</h3>
-              </div>
-            </ReplayButtonWrapper>
-          </div>
-          <div
-            css={`
-              height: 100%;
-            `}
-          >
-            <GameDetails
-              gameDetails={joinedRoom !== null ? joinedRoom : gameRoom}
-            />
-            <Chat />
-            <VerticalButtonWrapper>
-              <Button onClick={resign}>Resign</Button>
-              <Button>Back to Dashboard</Button>
-            </VerticalButtonWrapper>
-          </div>
-        </div>
-      </GameBody>
-    </Layout>
-  );
+                    <div style={{width: "70%", height: "100%"}}>
+                        <GameHeaderWrapper>
+                            {game && game.playerIds[0] == gameState?.active_player && (
+                                <PlayerNameWrapperActive
+                                    style={{backgroundColor: theme.colors.player1Color}}
+                                >
+                                    {joinedRoom !== null ? joinedRoom.player1 : ""}
+                                </PlayerNameWrapperActive>
+                            )}
+                            {game && game.playerIds[0] != gameState?.active_player && (
+                                <PlayerNameWrapperInactive>
+                                    {joinedRoom !== null ? joinedRoom.player1 : ""}
+                                </PlayerNameWrapperInactive>
+                            )}
+                            <PlayerNameWrapperInactive>VS</PlayerNameWrapperInactive>
+                            {game && game.playerIds[1] == gameState?.active_player && (
+                                <PlayerNameWrapperActive
+                                    style={{backgroundColor: theme.colors.player2Color}}
+                                >
+                                    {joinedRoom !== null ? joinedRoom.player2 : ""}
+                                </PlayerNameWrapperActive>
+                            )}
+                            {game && game.playerIds[1] != gameState?.active_player && (
+                                <PlayerNameWrapperInactive>
+                                    {joinedRoom !== null ? joinedRoom.player2 : ""}
+                                </PlayerNameWrapperInactive>
+                            )}
+                        </GameHeaderWrapper>
+                        <GameBoardWrapper onClick={rerenderStepCounter}>
+                            <GameBoard/>
+                        </GameBoardWrapper>
+                        <ReplayButtonWrapper onClick={rerenderStepCounter}>
+                            <div style={{width: "30%"}}>
+                                <h3>Back</h3>
+                            </div>
+                            <ReplayButtonWrapperSingle onClick={reverseButtonClicked}>
+                                <ArrowLeftButton></ArrowLeftButton>
+                            </ReplayButtonWrapperSingle>
+                            <ReplayButtonWrapperSingle>
+                                {game !== null ? game?.getCurrentStep() : "Not Started"}
+                            </ReplayButtonWrapperSingle>
+                            <ReplayButtonWrapperSingle onClick={advanceButtonClicked}>
+                                <ArrowRightButton></ArrowRightButton>
+                            </ReplayButtonWrapperSingle>
+                            <ReplayButtonWrapperSingle onClick={toLastStep}>
+                                <ArrowRightDangerButton></ArrowRightDangerButton>
+                            </ReplayButtonWrapperSingle>
+                            <div style={{width: "30%", textAlign: "end"}}>
+                                <h3>Forth</h3>
+                            </div>
+                        </ReplayButtonWrapper>
+                    </div>
+                    <div css={`
+                      height: 100%;
+                     `}>
+                        <GameDetails
+                            gameDetails={joinedRoom !== null ? joinedRoom : gameRoom}
+                        />
+                        <Chat/>
+                        <VerticalButtonWrapper>
+                            <Button onClick={resign}>Resign</Button>
+                            <Button>Back to Dashboard</Button>
+                        </VerticalButtonWrapper>
+                    </div>
+                </div>
+            </GameBody>
+        </Layout>
+    );
 };
