@@ -19,7 +19,7 @@ import { authContext } from "../../context/AuthenticationContext";
 import { GameDetails, GameDetailsEmpty } from "./components/GameDetails";
 import { SocketContext } from "../../context/socket.context";
 import { useHistory } from "react-router";
-import {game} from "../GamePage/components/GameBoard"
+import { game } from "../GamePage/GamePage";
 
 const NewgameBody = styled.div`
   height: 100%;
@@ -67,7 +67,7 @@ export const NewgamePage = () => {
 
   const joinAsPlayer = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if(game) game.suspendGame();
+    if (game) game.suspendGame();
     socket.emit("joinedRoom", {
       roomName: gameSelected?.id,
       myName: JSON.parse(atob(token!.split(".")[1])).name,
@@ -83,7 +83,7 @@ export const NewgamePage = () => {
 
   const joinAsGuest = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if(game) game.suspendGame();
+    if (game) game.suspendGame();
     let tokenDecoded = JSON.parse(atob(token!.split(".")[1]));
     await fetch(`/api/game/`, {
       body: JSON.stringify({

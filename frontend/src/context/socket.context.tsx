@@ -12,7 +12,8 @@ import {
 } from "../pages/GamePage/components/GameEngine";
 import { GameRoom } from "../pages/NewgamePage/components/GameRoomList";
 import { authContext } from "./AuthenticationContext";
-import { game, reRenderBoard } from "../pages/GamePage/components/GameBoard";
+import { reRenderBoard } from "../pages/GamePage/components/GameBoard";
+import { game } from "../pages/GamePage/GamePage";
 
 const socket = io();
 
@@ -93,7 +94,6 @@ export const SocketProvider: React.FC = ({ children }) => {
         const r: GameRoom = message.settings;
 
         setJoinRoom(r);
-
       }
     });
 
@@ -111,13 +111,13 @@ export const SocketProvider: React.FC = ({ children }) => {
       for (let i = 0; i < playerValuesAsArray.length; i++) {
         newGameState.players.set(playerIdsAsArray[i], playerValuesAsArray[i]);
       }
-      game.setGame(newGameState);
+      if (game) game.setGame(newGameState);
 
-      setGameState(newGameState)
+      setGameState(newGameState);
       reRenderBoard();
       console.log("refresh state ", newGameState);
       if (newGameState.state === 3) {
-//        setGameState(null);
+        //        setGameState(null);
       }
     });
 

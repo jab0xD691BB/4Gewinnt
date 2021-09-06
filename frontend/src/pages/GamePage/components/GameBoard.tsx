@@ -6,9 +6,7 @@ import { FieldColumn } from "./Column";
 import { theme } from "../../../theme";
 import { SocketContext } from "../../../context/socket.context";
 import { authContext } from "../../../context/AuthenticationContext";
-
-export var game: Game;
-
+import { game } from "../GamePage";
 
 //game.addPlayer("test3_blu", "Brotfinger", "#269999", 1000000000);
 //game.addPlayer("test4_gra", "Brotfinger", "#969992", 1000000000);
@@ -30,42 +28,10 @@ export const GameBoard = () => {
   const { token } = useContext(authContext);
   const name = JSON.parse(atob(token!.split(".")[1])).name;
 
-  if (socketContext.joinedRoom && socketContext.joinedRoom?.player1 != "" &&
-      socketContext.joinedRoom?.player2 != "" && (!game || game.gameState == GameStateEnum.SUSPENDED)) {
-    game = new Game(
-      Number(socketContext.joinedRoom?.gameSetting.boardWidth),
-      Number(socketContext.joinedRoom?.gameSetting.boardHeigth),
-      Number(socketContext.joinedRoom?.gameSetting.rowCountToWin)
-    );
-
-    game.addPlayer(
-      socketContext.joinedRoom?.player1,
-      socketContext.joinedRoom?.player1,
-      theme.colors.player1Color,
-      Number(socketContext.joinedRoom?.gameSetting.time)
-    );
-    game.addPlayer(
-      socketContext.joinedRoom?.player2,
-      socketContext.joinedRoom?.player2,
-        theme.colors.player2Color,
-      Number(socketContext.joinedRoom?.gameSetting.time)
-    );
-
-    if (
-      socketContext.joinedRoom?.player1 != "" &&
-      socketContext.joinedRoom?.player2 != ""
-    ) {
-//      if (socketContext.gameState) game.setGame(socketContext.gameState);
-      game.startGame();
-      game.cyclePlayer();
-//      socketContext.setGameStateFromGameBoard(game.getGameState);
-
-    }
-  }
   const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
     console.log("columnClicked gamestate", game.getGameState);
 
-/*    if(socketContext.gameState){
+    /*    if(socketContext.gameState){
       game.setGame(socketContext.gameState);
     } else{
       return;
@@ -106,24 +72,25 @@ export const GameBoard = () => {
         justifyContent: "center",
       }}
     >
-      {game && game.gameBoard.map((column) => {
-        let rowId = -1;
-        return (
-          <FieldColumn id={"column_" + ++columnId} onClick={columnClicked}>
-            {" "}
-            {column.map((element) => {
-              return (
-                <StyledField
-                  id={"column_" + columnId + ".row_" + ++rowId}
-                  style={{
-                    padding: `min(calc(700px/(2*${game.boardWidth})), calc(500px/(2*${game.boardHeight})))`,
-                  }}
-                />
-              );
-            })}
-          </FieldColumn>
-        );
-      })}
+      {game &&
+        game.gameBoard.map((column) => {
+          let rowId = -1;
+          return (
+            <FieldColumn id={"column_" + ++columnId} onClick={columnClicked}>
+              {" "}
+              {column.map((element) => {
+                return (
+                  <StyledField
+                    id={"column_" + columnId + ".row_" + ++rowId}
+                    style={{
+                      padding: `min(calc(700px/(2*${game.boardWidth})), calc(500px/(2*${game.boardHeight})))`,
+                    }}
+                  />
+                );
+              })}
+            </FieldColumn>
+          );
+        })}
     </div>
   );
 };
