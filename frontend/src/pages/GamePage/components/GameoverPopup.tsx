@@ -3,6 +3,7 @@ import disableScroll from "disable-scroll";
 import { useCallback } from "react-use-callback";
 import { useContext, useState } from "react";
 import { Button } from "./Button";
+
 import { SocketContext } from "../../../context/socket.context";
 
 export interface ModalProps {

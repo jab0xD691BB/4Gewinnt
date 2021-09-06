@@ -7,6 +7,7 @@ import { theme } from "../../../theme";
 import { SocketContext } from "../../../context/socket.context";
 import { authContext } from "../../../context/AuthenticationContext";
 import { game } from "../GamePage";
+import {GameoverPopup} from "./GameoverPopup";
 
 //game.addPlayer("test3_blu", "Brotfinger", "#269999", 1000000000);
 //game.addPlayer("test4_gra", "Brotfinger", "#969992", 1000000000);
@@ -31,19 +32,7 @@ export const GameBoard = () => {
   const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
     console.log("columnClicked gamestate", game.getGameState);
 
-    /*    if(socketContext.gameState){
-      game.setGame(socketContext.gameState);
-    } else{
-      return;
-    }*/
-
-    if (
-      game.activePlayer == name &&
-      game.gameState === GameStateEnum.IN_PROGRESS
-    ) {
-      if (game.activeStep !== undefined) {
-        reRenderBoard();
-      }
+    if (game.activePlayer == name && game.gameState === GameStateEnum.IN_PROGRESS) {
       let column_number = parseInt(e.currentTarget.id.split("_")[1]);
       //TODO: give player_id of logged in player instead
       let step: GameStep | undefined = game.insert(
@@ -107,32 +96,23 @@ export const GameBoard = () => {
     </div>
   );
 };
-/*
-const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
-  if (game.activeStep !== undefined) {
-    reRenderBoard();
-  }
-  let column_number = parseInt(e.currentTarget.id.split("_")[1]);
-  //TODO: give player_id of logged in player instead
-  let step: GameStep | undefined = game.insert(
-    column_number,
-    game.activePlayer
-  );
-  if (step) {
-    colorField(step.x, step.y, step.color, step.color);
-    socket.emit("refreshGameState", game.game);
 
-  }
-  checkGameState();
-};
-*/
-export const reRenderBoard = function (simple: boolean = true) {
+export const toLastStep = function () {
+  game.resetCurrentStep();
+  reRenderBoard();
+}
+
+export const reRenderBoard = function (simple: boolean = true, toTotalStep: boolean = true) {
   let game_steps = game.gameSteps;
 
   if (simple) {
-    game_steps.slice(1).forEach((step) => {
-      colorField(step.x, step.y, step.color, step.color);
-    });
+    for( let i: number = 1; i < game_steps.length; i++) {
+      if (!toTotalStep && i > game.getCurrentStep()) {
+        colorField(game_steps[i].x, game_steps[i].y, theme.colors.gameBoardColumnColor, game_steps[i].color);
+      } else {
+        colorField(game_steps[i].x, game_steps[i].y, game_steps[i].color, game_steps[i].color);
+      }
+    }
   } else {
     let game_board = game.gameBoard;
 

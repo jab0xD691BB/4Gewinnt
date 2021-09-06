@@ -138,7 +138,6 @@ export const ReadyCheck = () => {
   });
   return (
     <div>
-      <button onClick={open}>OPEN</button>
       <Modal>
         <div style={modalStyle}>
           <div style={closeButtonStyle}>

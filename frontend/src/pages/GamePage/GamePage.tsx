@@ -1,18 +1,20 @@
 import styled from "styled-components";
 import { theme } from "../../theme";
 import { footerHeight, headerHeight, Layout } from "../../components/Layout";
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   advanceButtonClicked,
   GameBoard,
   GameBoardWrapper,
   resign,
   reverseButtonClicked,
+  toLastStep,
 } from "./components/GameBoard";
 
 import {
   ArrowLeftButton,
   ArrowRightButton,
+  ArrowRightDangerButton,
   ReplayButtonWrapper,
   ReplayButtonWrapperSingle,
 } from "./components/ReplayButtons";
@@ -23,15 +25,15 @@ import {
   PlayerNameWrapperInactive,
 } from "./components/GameHeader";
 
-import { GameRoom, GameRoomItem } from "../NewgamePage/components/GameRoomList";
+import { GameRoom } from "../NewgamePage/components/GameRoomList";
 import { GameDetails } from "./components/GameDetails";
 import { Button, VerticalButtonWrapper } from "./components/Button";
 import { SocketContext } from "../../context/socket.context";
-import { GameoverPopup } from "./components/GameoverPopup";
 import { ReadyCheck } from "./components/ReadyCheck";
 
 import { Game, GameStateEnum } from "./components/GameEngine";
 import { Chat } from "./components/Chat";
+import { GameoverPopup } from "./components/GameoverPopup";
 import { Console } from "console";
 
 const GameBody = styled.div`
@@ -122,7 +124,6 @@ export const GamePage = () => {
     <Layout>
       {game.players.length == 2 ? <ReadyCheck /> : ""}
       {game.winner && <GameoverPopup />}
-
       <GameBody>
         <div
           style={{
@@ -170,10 +171,13 @@ export const GamePage = () => {
                 <ArrowLeftButton></ArrowLeftButton>
               </ReplayButtonWrapperSingle>
               <ReplayButtonWrapperSingle>
-                {gameState !== null ? gameState?.steps.length - 1 : ""}
+                {game !== null ? game?.getCurrentStep() : "Not Started"}
               </ReplayButtonWrapperSingle>
               <ReplayButtonWrapperSingle onClick={advanceButtonClicked}>
                 <ArrowRightButton></ArrowRightButton>
+              </ReplayButtonWrapperSingle>
+              <ReplayButtonWrapperSingle onClick={toLastStep}>
+                <ArrowRightDangerButton></ArrowRightDangerButton>
               </ReplayButtonWrapperSingle>
               <div style={{ width: "30%", textAlign: "end" }}>
                 <h3>Forth</h3>
