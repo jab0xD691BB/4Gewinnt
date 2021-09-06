@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import {PlayerDetails} from "../DashboardPage";
 
 const PlayerLayout = styled.div`
   background-color: #2b2b2b;
@@ -36,27 +37,28 @@ export interface Player {
     id: string
   name: string;
   eloScore: number;
+  ready?: boolean;
 }
 
-export const PlayerProfile: React.FC<{ player: Player }> = ({ player }) => {
+export const PlayerProfile: React.FC<{ playerDetails: PlayerDetails | null}> = ({ playerDetails }) => {
   return (
     <PlayerLayout>
-      <PlayerTitel>{player.name}</PlayerTitel>
+      <PlayerTitel>{playerDetails?.name}</PlayerTitel>
       <PlayerStatsWrapper>
         <PlayerText>Elo</PlayerText>
-        <PlayerTextValue>{player.eloScore}</PlayerTextValue>
+        <PlayerTextValue>{playerDetails?.eloScore}</PlayerTextValue>
       </PlayerStatsWrapper>
       <PlayerStatsWrapper>
         <PlayerText>Won</PlayerText>
-        <PlayerTextValue>{/*player.won*/}</PlayerTextValue>
+        <PlayerTextValue>{playerDetails?.won}</PlayerTextValue>
       </PlayerStatsWrapper>
       <PlayerStatsWrapper>
         <PlayerText>Lost</PlayerText>
-        <PlayerTextValue>{/*player.lost*/}</PlayerTextValue>
+        <PlayerTextValue>{playerDetails?.lost}</PlayerTextValue>
       </PlayerStatsWrapper>
       <PlayerStatsWrapper>
         <PlayerText>Winrate</PlayerText>
-        <PlayerTextValue>{/*player.winrate*/}</PlayerTextValue>
+        <PlayerTextValue>{playerDetails?.winrate}</PlayerTextValue>
       </PlayerStatsWrapper>
     </PlayerLayout>
   );
