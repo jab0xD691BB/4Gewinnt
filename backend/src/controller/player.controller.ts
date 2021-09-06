@@ -133,8 +133,7 @@ export const createPlayer = async (req: Request, res: Response) => {
   player.name = name;
   player.password = password;
   player.email = email;
-  player.eloScore = eloScore;
-  player.preferredTheme = preferredTheme;
+  /* player.preferredTheme = preferredTheme; */
   const playerRepository = await getRepository(Player);
   const createdPlayer = await playerRepository.save(player);
 

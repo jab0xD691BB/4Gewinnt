@@ -41,8 +41,8 @@ import {
       default: null})
     preferredTheme!: string;
 
-    @Column({nullable: true,
-      default: null})
+    @Column({
+      default: 1200})
     eloScore!: number;
   
     @CreateDateColumn()
