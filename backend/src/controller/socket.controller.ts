@@ -120,7 +120,9 @@ export const socket = ({ io }: { io: Server }) => {
       socket.broadcast.emit("refreshGameState", {
         gameState: message,
       });
-
+      socket.emit("refreshGameState", {
+        gameState: message,
+      });
       console.log("refreshGameState", message);
     });
 

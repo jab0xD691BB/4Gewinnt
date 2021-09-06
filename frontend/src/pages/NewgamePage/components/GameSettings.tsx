@@ -10,7 +10,7 @@ import io, { Socket } from "socket.io-client";
 import { authContext } from "../../../context/AuthenticationContext";
 import { SocketContext, SocketProvider } from "../../../context/socket.context";
 import { useHistory } from "react-router";
-import {game} from "../../GamePage/components/GameBoard";
+import { game } from "../../GamePage/GamePage";
 
 export type GameSettings = {
   boardWidth: string;
@@ -76,7 +76,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
       method: "POST",
     });*/
 
-    if(game) game.suspendGame();
+    if (game) game.suspendGame();
 
     socket.emit("createroom", gameRoom);
     setSessionStarted(true);
@@ -193,9 +193,10 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           //            value={values.funnyCounter}
           defaultValue="false"
         />
-        {!sessionStarted && !joinedRoom ? (
+        {joinedRoom?.id !== JSON.parse(atob(token!.split(".")[1])).name && (
           <Button onClick={createGameSession}>Create Game Session</Button>
-        ) : (
+        )}
+        {joinedRoom?.id === JSON.parse(atob(token!.split(".")[1])).name && (
           <WarnButton onClick={deleteGameSession}>
             Delete Game Session
           </WarnButton>

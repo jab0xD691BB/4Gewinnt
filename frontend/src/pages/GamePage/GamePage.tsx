@@ -4,7 +4,6 @@ import { footerHeight, headerHeight, Layout } from "../../components/Layout";
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import {
   advanceButtonClicked,
-  game,
   GameBoard,
   GameBoardWrapper,
   resign,
@@ -20,7 +19,8 @@ import {
 
 import {
   GameHeaderWrapper,
-  PlayerNameWrapperActive, PlayerNameWrapperInactive,
+  PlayerNameWrapperActive,
+  PlayerNameWrapperInactive,
 } from "./components/GameHeader";
 
 import { GameRoom, GameRoomItem } from "../NewgamePage/components/GameRoomList";
@@ -28,6 +28,8 @@ import { GameDetails } from "./components/GameDetails";
 import { Button, VerticalButtonWrapper } from "./components/Button";
 import { SocketContext } from "../../context/socket.context";
 import { GameoverPopup } from "./components/GameoverPopup";
+import { Game, GameStateEnum } from "./components/GameEngine";
+import { Chat } from "./components/Chat";
 
 const GameBody = styled.div`
   height: 100%;
@@ -52,9 +54,58 @@ const gameRoom: GameRoom = {
   },
 };
 
+export var game: Game;
+
 export const GamePage = () => {
   const [stepCounterRerender, setStepCounterRerenderer] = useState(0);
   const { socket, rooms, gameState, joinedRoom } = useContext(SocketContext);
+  const socketContext = useContext(SocketContext);
+
+  if (
+    socketContext.joinedRoom &&
+    socketContext.joinedRoom?.player1 != "" &&
+    (!game || game.gameState == GameStateEnum.SUSPENDED)
+  ) {
+    game = new Game(
+      Number(socketContext.joinedRoom?.gameSetting.boardWidth),
+      Number(socketContext.joinedRoom?.gameSetting.boardHeigth),
+      Number(socketContext.joinedRoom?.gameSetting.rowCountToWin)
+    );
+
+    game.addPlayer(
+      socketContext.joinedRoom?.player1,
+      socketContext.joinedRoom?.player1,
+      theme.colors.player1Color,
+      Number(socketContext.joinedRoom?.gameSetting.time)
+    );
+
+    //dummy
+    game.addPlayer(
+      socketContext.joinedRoom?.player2,
+      socketContext.joinedRoom?.player2,
+      theme.colors.player2Color,
+      Number(socketContext.joinedRoom?.gameSetting.time)
+    );
+
+    if (socketContext.joinedRoom && socketContext.joinedRoom?.player2 != "") {
+      //      if (socketContext.gameState) game.setGame(socketContext.gameState);
+      game.addPlayer(
+        socketContext.joinedRoom?.player2,
+        socketContext.joinedRoom?.player2,
+        theme.colors.player2Color,
+        Number(socketContext.joinedRoom?.gameSetting.time)
+      );
+      game.startGame();
+      game.cyclePlayer();
+      let gameStateWrapper = {
+        gameState: game.getGameState,
+        playerValuesAsArray: game.players,
+        playerIdsAsArray: game.playerIds,
+      };
+      socketContext.socket.emit("refreshGameState", gameStateWrapper);
+      //      socketContext.setGameStateFromGameBoard(game.getGameState);
+    }
+  }
 
   const rerenderStepCounter = function () {
     setStepCounterRerenderer(
@@ -63,36 +114,44 @@ export const GamePage = () => {
         : game.activeStep
     );
   };
-
+  //calc(100vh - ${headerHeight} - ${footerHeight});
   return (
     <Layout>
       <GameoverPopup></GameoverPopup>
       <GameBody>
-        <div style={{ display: "flex", flexDirection: "row", height: "800px" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            height: "100%",
+          }}
+        >
           <div style={{ width: "70%", height: "100%" }}>
             <GameHeaderWrapper>
-              {(game && game.playerIds[0] == gameState?.active_player) && (
-                  <PlayerNameWrapperActive style={{  backgroundColor: theme.colors.player1Color
-                  }}>
-                    {joinedRoom !== null ? joinedRoom.player1 : ""}
-                  </PlayerNameWrapperActive>
+              {game && game.playerIds[0] == gameState?.active_player && (
+                <PlayerNameWrapperActive
+                  style={{ backgroundColor: theme.colors.player1Color }}
+                >
+                  {joinedRoom !== null ? joinedRoom.player1 : ""}
+                </PlayerNameWrapperActive>
               )}
-              {(game &&game.playerIds[0] != gameState?.active_player) && (
-                  <PlayerNameWrapperInactive>
-                    {joinedRoom !== null ? joinedRoom.player1 : ""}
-                  </PlayerNameWrapperInactive>
+              {game && game.playerIds[0] != gameState?.active_player && (
+                <PlayerNameWrapperInactive>
+                  {joinedRoom !== null ? joinedRoom.player1 : ""}
+                </PlayerNameWrapperInactive>
               )}
               <PlayerNameWrapperInactive>VS</PlayerNameWrapperInactive>
-              {(game &&game.playerIds[1] == gameState?.active_player) && (
-                  <PlayerNameWrapperActive style={{  backgroundColor: theme.colors.player2Color
-                  }}>
-                    {joinedRoom !== null ? joinedRoom.player2 : ""}
-                  </PlayerNameWrapperActive>
+              {game && game.playerIds[1] == gameState?.active_player && (
+                <PlayerNameWrapperActive
+                  style={{ backgroundColor: theme.colors.player2Color }}
+                >
+                  {joinedRoom !== null ? joinedRoom.player2 : ""}
+                </PlayerNameWrapperActive>
               )}
-              {(game &&game.playerIds[1] != gameState?.active_player) && (
-                  <PlayerNameWrapperInactive>
-                    {joinedRoom !== null ? joinedRoom.player2 : ""}
-                  </PlayerNameWrapperInactive>
+              {game && game.playerIds[1] != gameState?.active_player && (
+                <PlayerNameWrapperInactive>
+                  {joinedRoom !== null ? joinedRoom.player2 : ""}
+                </PlayerNameWrapperInactive>
               )}
             </GameHeaderWrapper>
             <GameBoardWrapper onClick={rerenderStepCounter}>
@@ -106,7 +165,7 @@ export const GamePage = () => {
                 <ArrowLeftButton></ArrowLeftButton>
               </ReplayButtonWrapperSingle>
               <ReplayButtonWrapperSingle>
-                { gameState !== null ? gameState?.steps.length-1 : ""}
+                {gameState !== null ? gameState?.steps.length - 1 : ""}
               </ReplayButtonWrapperSingle>
               <ReplayButtonWrapperSingle onClick={advanceButtonClicked}>
                 <ArrowRightButton></ArrowRightButton>
@@ -120,6 +179,7 @@ export const GamePage = () => {
             <GameDetails
               gameDetails={joinedRoom !== null ? joinedRoom : gameRoom}
             />
+            <Chat />
             <VerticalButtonWrapper>
               <Button onClick={resign}>Resign</Button>
               <Button>Back to Dashboard</Button>
