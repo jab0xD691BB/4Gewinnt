@@ -7,32 +7,46 @@ import {RequestHandler, Request, Response} from "express";
 
 // Get all Games
 export const getAllGames = async (req: Request, res: Response) => {
-    const gameRepository = await getRepository(Game);
-    const games = await gameRepository.find();
-    res.send({
-        data: games
-    });
+    try {
+        const gameRepository = await getRepository(Game);
+        const games = await gameRepository.find();
+        res.send({
+            data: games
+        });
+    } catch (error) {
+        res.status(404).send({status: 'There are no Games found'});
+    }
 };
 
 // Get games of one player
 export const getGamesOfPlayer = async (req: Request, res: Response) => {
-    const playerid = req.params.playerid;
-    const gameRepository = await getRepository(Game);
-    const sqlQueryGame = `select * from game where id in (select gameId from game_players_player where playerId = "${playerid}") `;
-    const playergames = await gameRepository.query(sqlQueryGame);
-    res.send({
-        data: playergames
-    });
+    try {
+        const playerid = req.params.playerid;
+        const gameRepository = await getRepository(Game);
+        const sqlQueryGame = `select * from game where id in (select gameId from game_players_player where playerId = "${playerid}") `;
+        const playergames = await gameRepository.query(sqlQueryGame);
+        res.send({
+            data: playergames
+        });
+    } catch (error) {
+        res.status(404).send({status: 'There are no Games found'});
+    }
+
 };
 
 // Limit all games as Parameter
 export const getSomeGames = async (req: Request, res: Response) => {
-    const limit = Number(req.query.limit);
-    const gameRepository = await getRepository(Game);
-    const games = await gameRepository.createQueryBuilder("game").limit(limit).getMany();
-    res.send({
-        data: games,
-    });
+    try {
+        const limit = Number(req.query.limit);
+        const gameRepository = await getRepository(Game);
+        const games = await gameRepository.createQueryBuilder("game").limit(limit).getMany();
+        res.send({
+            data: games,
+        });
+    } catch (error) {
+        res.status(404).send({status: 'There are no Games found'});
+    }
+
 }
 
 
@@ -69,10 +83,14 @@ export const createGame = async (req: Request, res: Response) => {
 //    game.moves = moves;
     const gameRepository = await getRepository(Game);
     const createdGame = await gameRepository.save(game);
+    try {
+        res.send({
+            data: createdGame,
+        });
+    } catch (error) {
+        res.status(404).send({status: 'Could not create game'});
+    }
 
-    res.send({
-        data: createdGame,
-    });
 };
 
 const updateRatings = async (player1byCreateGame: Player, player2byCreateGame: Player, winner: Player | undefined) => {
@@ -174,9 +192,14 @@ export const getplayersfromgame = async (req: Request, res: Response) => {
     const gameRepository = await getRepository(Game);
     const sqlQueryGame = `select * from player where id in (select playerId from game_players_player where gameId = "${gameid}") `;
     const games = await gameRepository.query(sqlQueryGame);
-    res.send({
-        data: games,
-    });
+    try {
+        res.send({
+            data: games,
+        });
+    } catch (error) {
+        res.status(404).send({status: 'Could not find game'});
+    }
+
 };
 
 // Get Number of lost games by player
@@ -186,9 +209,14 @@ export const numLostGames = async (req: Request, res: Response) => {
     const sqlQueryGame = `select id from game where id in (select gameId from game_players_player where playerId = "${playerid}") `;
     const sqlQuery = `select count(id) as gamesLost from game where winnerId <> "${playerid}" and id in (${sqlQueryGame})`;
     const numGames = await gameRepository.query(sqlQuery);
-    res.send({
-        data: numGames,
-    });
+    try {
+        res.send({
+            data: numGames,
+        });
+    } catch (error) {
+        res.status(404).send({status: 'Could not find results'});
+    }
+
   };
 
 // Number of won games by player
@@ -197,7 +225,12 @@ export const numWonGames = async (req: Request, res: Response) => {
     const gameRepository = await getRepository(Game);
     const sqlQueryGame = `select count(id) as gamesWon from game where winnerId = "${playerid}"`;
     const numGames = await gameRepository.query(sqlQueryGame);
-    res.send({
-        data: numGames,
-    });
+    try {
+        res.send({
+            data: numGames,
+        });
+    } catch (error) {
+        res.status(404).send({status: 'Could not find results'});
+    }
+
 };

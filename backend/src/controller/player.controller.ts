@@ -77,18 +77,30 @@ export const registerPlayer = async (req: Request, res: Response) => {
   const sortedplayers= players.sort(function (a,b){
     return b.eloScore - a.eloScore;
   });
-  res.send({
-    data: sortedplayers,
-  });
+  try {
+    res.send({
+      data: sortedplayers,
+    });
+  } catch (error) {
+    res.status(404).send({status: 'Could not sort Players'});
+  }
+
 } 
+
+
 //// CRUD Functions 
 // Get all Players
 export const getAllPlayers = async (req: Request, res: Response) => {
   const playerRepository = await getRepository(Player);
   const players =  await playerRepository.find() ;
-  res.send({ 
-    data: players
-  });
+  try {
+    res.send({ 
+      data: players
+    });
+  } catch (error) {
+    res.status(404).send({status: 'Could not Create Player'});
+  }
+
 };
 
 // Get one Player
@@ -136,10 +148,14 @@ export const createPlayer = async (req: Request, res: Response) => {
   /* player.preferredTheme = preferredTheme; */
   const playerRepository = await getRepository(Player);
   const createdPlayer = await playerRepository.save(player);
-
-  res.send({
-    data: createdPlayer,
-  });
+  try {
+    res.send({
+      data: createdPlayer,
+    });
+  } catch (error) {
+    res.status(404).send({status: 'Could not Create Player'})
+  }
+  
 };
 
 // Delete Player

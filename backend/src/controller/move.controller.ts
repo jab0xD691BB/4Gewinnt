@@ -10,9 +10,13 @@ export const getAllMoves = async (req: Request, res: Response) => {
     const moveRepository = await getRepository(Move);
     const sqlQuery = `select * from move where gameid = "${gameid}"`;
     const moves = await moveRepository.query(sqlQuery);
-    res.send({ 
-      data: moves
-    });
+    try {
+      res.send({ 
+        data: moves
+      });
+    } catch (error) {
+      res.status(404).send({status:'Could not find any moves'});
+    }
   };
   
   // Get one Move
@@ -35,23 +39,13 @@ export const createMove = async (req: Request, res: Response) => {
   
     const moveRepository = await getRepository(Move);
     const createdMove = await moveRepository.save(move);
-  
-    res.send({
-      data: createdMove,
-    });
+    try {
+      res.send({
+        data: createdMove,
+      });
+    } catch (error) {
+      res.status(404).send({status: 'Could not create Move'});
+    }
+
   };
   
-  // Delete Game
-  /* export const deleteMove = async (req: Request, res: Response) => {
-    const moveid = req.params.moveId;
-    const moveRepository = await getRepository(Move);
-    try {
-      const move = await moveRepository.findOneOrFail(moveid);
-      await moveRepository.remove(move);
-      res.send({});
-    } catch (error) {
-      res.status(404).send({
-        status: 'Move not found'
-      });
-    }
-  }; */
