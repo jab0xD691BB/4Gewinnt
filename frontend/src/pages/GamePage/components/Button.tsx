@@ -1,11 +1,13 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const VerticalButtonWrapper = styled.div`
   width: 100%;
   display: flex;
-  flexDirection: row;
+  flexdirection: row;
   background-color: ${(props) => props.theme.colors.buttonColor};
   border-radius: 10px;
+  margin-top: 7%;
+  height: 10%;
 `;
 
 export const Button = styled.button`
@@ -51,4 +53,3 @@ export const DisabledButton = styled.button`
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
 `;
-

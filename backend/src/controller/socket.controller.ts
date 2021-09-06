@@ -126,6 +126,11 @@ export const socket = ({ io }: { io: Server }) => {
       console.log("refreshGameState", message);
     });
 
+    socket.on("message", ({ name, message }) => {
+      socket.broadcast.emit("message", { name, message });
+      socket.emit("message", { name, message });
+    });
+
     socket.once("disconnect", () => {
       console.log("disconnect " + socket.id);
     });

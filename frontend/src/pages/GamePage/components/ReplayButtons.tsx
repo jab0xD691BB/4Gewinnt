@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import React from "react";
 
 export const ReplayButtonWrapper = styled.div`
@@ -7,10 +7,11 @@ export const ReplayButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 75px;
+  height: 10%;
   padding: 10px;
   margin-left: 10px;
   margin-right: 10px;
+  margin-top: 2%;
 `;
 
 export const ReplayButtonWrapperSingle = styled.div`
@@ -37,29 +38,27 @@ export const ReplayButtonWrapperSingle = styled.div`
 export const ArrowLeftButton = styled.div`
   width: 0;
   height: 0;
-  
+
   border-top: 20px solid transparent;
   border-right: 60px solid ${(props) => props.theme.colors.primary};
   border-bottom: 20px solid transparent;
-  
+
   margin-right: 15px;
   margin-left: 10px;
 
   outline: 0;
-
-  `;
+`;
 
 export const ArrowRightButton = styled.div`
   width: 0;
   height: 0;
-  
+
   border-top: 20px solid transparent;
   border-left: 60px solid ${(props) => props.theme.colors.primary};
   border-bottom: 20px solid transparent;
-  
+
   margin-right: 10px;
   margin-left: 15px;
-    
-  outline: 0;
 
-  `;
+  outline: 0;
+`;

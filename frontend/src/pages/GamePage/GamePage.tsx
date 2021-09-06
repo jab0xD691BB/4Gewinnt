@@ -30,6 +30,7 @@ import { SocketContext } from "../../context/socket.context";
 import { GameoverPopup } from "./components/GameoverPopup";
 import { Game, GameStateEnum } from "./components/GameEngine";
 import { Chat } from "./components/Chat";
+import { Console } from "console";
 
 const GameBody = styled.div`
   height: 100%;
@@ -66,6 +67,7 @@ export const GamePage = () => {
     socketContext.joinedRoom?.player1 != "" &&
     (!game || game.gameState == GameStateEnum.SUSPENDED)
   ) {
+    console.log("CREATE NEW GAME");
     game = new Game(
       Number(socketContext.joinedRoom?.gameSetting.boardWidth),
       Number(socketContext.joinedRoom?.gameSetting.boardHeigth),
@@ -103,7 +105,16 @@ export const GamePage = () => {
         playerIdsAsArray: game.playerIds,
       };
       socketContext.socket.emit("refreshGameState", gameStateWrapper);
+      socketContext.socket.emit("message", {
+        name: "System",
+        message: "Player joined ... Game Started ... GL HF",
+      });
       //      socketContext.setGameStateFromGameBoard(game.getGameState);
+    } else {
+      socketContext.socket.emit("message", {
+        name: "System",
+        message: "Waiting for opponent...",
+      });
     }
   }
 
@@ -117,7 +128,6 @@ export const GamePage = () => {
   //calc(100vh - ${headerHeight} - ${footerHeight});
   return (
     <Layout>
-      <GameoverPopup></GameoverPopup>
       <GameBody>
         <div
           style={{
@@ -175,7 +185,11 @@ export const GamePage = () => {
               </div>
             </ReplayButtonWrapper>
           </div>
-          <div>
+          <div
+            css={`
+              height: 100%;
+            `}
+          >
             <GameDetails
               gameDetails={joinedRoom !== null ? joinedRoom : gameRoom}
             />

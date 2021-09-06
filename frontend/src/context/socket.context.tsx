@@ -24,6 +24,7 @@ interface SocketContext {
   gameState: GameState | null;
   setJoinedRoom: (g: GameRoom) => void;
   setGameStateFromGameBoard: (gs: GameState) => void;
+  messages: { name: string; message: string }[];
 }
 
 export const SocketContext = React.createContext<SocketContext>({
@@ -43,12 +44,16 @@ export const SocketContext = React.createContext<SocketContext>({
   },
   setJoinedRoom: (g: GameRoom) => {},
   setGameStateFromGameBoard: (gs: GameState) => {},
+  messages: [],
 });
 
 export const SocketProvider: React.FC = ({ children }) => {
   const [joinedRoom, setJoinRoom] = useState<GameRoom | null>(null);
   const [rooms, setRooms] = useState<GameRoom[]>([]);
   const [gameState, setGameState] = useState<GameState | null>(null);
+  const [messages, setMessages] = useState<{ name: string; message: string }[]>(
+    []
+  );
 
   const { token } = useContext(authContext);
   const tokenName =
@@ -87,6 +92,8 @@ export const SocketProvider: React.FC = ({ children }) => {
 
         setJoinRoom(r);
       }
+
+      //
     });
     socket.on("player2join", (message: any) => {
       console.log("some one joined", message);
@@ -121,6 +128,11 @@ export const SocketProvider: React.FC = ({ children }) => {
       }
     });
 
+    socket.on("message", ({ name, message }) => {
+      console.log("message: ", message);
+      setMessages((messages) => [...messages, { name, message }]);
+    });
+
     socket.on("deleteroom", (message: any) => {
       console.log("delete received ", message);
 
@@ -146,6 +158,7 @@ export const SocketProvider: React.FC = ({ children }) => {
         gameState,
         setJoinedRoom,
         setGameStateFromGameBoard,
+        messages,
       }}
     >
       {children}

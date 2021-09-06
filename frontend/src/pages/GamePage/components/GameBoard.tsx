@@ -37,7 +37,10 @@ export const GameBoard = () => {
       return;
     }*/
 
-    if (game.activePlayer == name && game.gameState === 1) {
+    if (
+      game.activePlayer == name &&
+      game.gameState === GameStateEnum.IN_PROGRESS
+    ) {
       if (game.activeStep !== undefined) {
         reRenderBoard();
       }
@@ -60,6 +63,12 @@ export const GameBoard = () => {
       }
     } else {
       alert("its not your turn or the game has ended");
+    }
+    if (game.gameState === GameStateEnum.HAS_WINNER) {
+      socketContext.socket.emit("message", {
+        name: "System",
+        message: game.winner + " win!",
+      });
     }
   };
 
