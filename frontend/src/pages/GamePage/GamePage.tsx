@@ -28,6 +28,7 @@ import { GameDetails } from "./components/GameDetails";
 import { Button, VerticalButtonWrapper } from "./components/Button";
 import { SocketContext } from "../../context/socket.context";
 import { GameoverPopup } from "./components/GameoverPopup";
+import { ReadyCheck } from "./components/ReadyCheck";
 
 const GameBody = styled.div`
   height: 100%;
@@ -66,7 +67,7 @@ export const GamePage = () => {
 
   return (
     <Layout>
-      <GameoverPopup></GameoverPopup>
+      <ReadyCheck></ReadyCheck>
       <GameBody>
         <div style={{ display: "flex", flexDirection: "row", height: "800px" }}>
           <div style={{ width: "70%", height: "100%" }}>
