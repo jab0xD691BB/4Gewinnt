@@ -53,14 +53,11 @@ export const DashboardPage = () => {
         const [playerList, setPlayerList] = useState<Player[]>([]);
         const [playerDetails, setPlayerDetails] = useState<PlayerDetails | null>(null);
 
-        let dataLoaded: boolean = false;
 
         useEffect(() => {
 
                 (async () => {
-                    if (!dataLoaded) {
 
-                        dataLoaded = true;
                         //load gameList
                         let urlGameList = '/api/game/gameplayedby/' + JSON.parse(atob(token!.split(".")[1])).id;
                         const gameListRequest = await fetch(urlGameList, {
@@ -115,8 +112,6 @@ export const DashboardPage = () => {
                             winrate: (playerGamesWon/(playerGamesWon+playerGamesLost)*100)
                         };
                         setPlayerDetails(loadedPlayerDetails);
-
-                    }
                 })()
 
             }, []

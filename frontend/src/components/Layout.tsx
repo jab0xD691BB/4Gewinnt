@@ -1,11 +1,10 @@
 import React, {useContext} from "react";
-import styled, { css } from "styled-components/macro";
-import { Connect4Img } from "../img/Connect4";
-import { Logo } from "./Logo";
-import { Link, NavLink, Route, Switch } from "react-router-dom";
-import { BrowserRouter } from 'react-router-dom';
-import { authContext } from "../context/AuthenticationContext";
-
+import styled, {css} from "styled-components/macro";
+import {Connect4Img} from "../img/Connect4";
+import {Logo} from "./Logo";
+import {Link, NavLink, Route, Switch} from "react-router-dom";
+import {BrowserRouter} from 'react-router-dom';
+import {authContext} from "../context/AuthenticationContext";
 
 
 const TextButton = styled.button`
@@ -66,53 +65,48 @@ const Titel = styled.span`
 `;
 
 
-export const Layout: React.FC = ({ children }) => {
+export const Layout: React.FC = ({children}) => {
 
-const {
-  actions: { logout },
-} = useContext(authContext);    
-  return (
-    <>
-      <Header>
-        <LogoTitel>
-          <Connect4Img />
-          <Titel>
-            Connect
-            <span
-              css={`
+    const {
+        actions: {logout},
+    } = useContext(authContext);
+    return (
+        <>
+            <Header>
+                <LogoTitel>
+                    <Connect4Img/>
+                    <Titel>
+                        Connect
+                        <span
+                            css={`
                 color: red;
                 text-shadow: 0 0 4px #ffffff;
               `}
-            >
+                        >
               4
             </span>
-          </Titel>
-        </LogoTitel>
-        <NavigationList>
-        <NavigationItem> 
-            <BrowserRouter>
-              <NavLink to="/settings">Settings
-              <Switch>
-                <Route exact path="/settings">
-                </Route>
-              </Switch>
-              </NavLink>
-            </BrowserRouter>
-          </NavigationItem>
-          <NavigationItem>
-             <TextButton
-            onClick={() => {
-              logout();
-            }}
-          >
-            Logout
-            </TextButton>
-            </NavigationItem>
-          <NavigationItem> Help</NavigationItem>
-        </NavigationList>
-      </Header>
-      <Main>{children}</Main>
-      <Footer>Footer</Footer>
-    </>
-  );
+                    </Titel>
+                </LogoTitel>
+                <NavigationList>
+                    <Link to="/settings" style={{textDecoration: "none"}}>
+                        <NavigationItem>
+                            Settings
+                        </NavigationItem>
+                    </Link>
+                    <NavigationItem>
+                        <TextButton
+                            onClick={() => {
+                                logout();
+                            }}
+                        >
+                            Logout
+                        </TextButton>
+                    </NavigationItem>
+                    <NavigationItem> Help</NavigationItem>
+                </NavigationList>
+            </Header>
+            <Main>{children}</Main>
+            <Footer>Footer</Footer>
+        </>
+    );
 };
