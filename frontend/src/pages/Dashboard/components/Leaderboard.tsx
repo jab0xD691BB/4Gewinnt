@@ -59,11 +59,9 @@ const EloTitel = styled(PlayerTextValue)``;
 const PlayerList = styled.div``;
 
 export interface Player {
+    id: string;
   name: string;
-  elo: number;
-  won: number;
-  lost: number;
-  winrate: number;
+  eloScore: number;
 }
 
 export const Leaderboard: React.FC<{ players: Player[] }> = ({ players }) => {
@@ -81,7 +79,7 @@ export const Leaderboard: React.FC<{ players: Player[] }> = ({ players }) => {
             <PlayerWrapper key={index}>
               <IndexStyle>#{index + 1}</IndexStyle>
               <PlayerText>{player.name}</PlayerText>
-              <PlayerTextValue>{player.elo}</PlayerTextValue>
+              <PlayerTextValue>{player.eloScore}</PlayerTextValue>
             </PlayerWrapper>
           );
         })}

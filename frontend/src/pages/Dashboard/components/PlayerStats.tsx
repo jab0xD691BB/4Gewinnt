@@ -33,11 +33,9 @@ const PlayerTextValue = styled.p`
 `;
 
 export interface Player {
+    id: string
   name: string;
-  elo: number;
-  won: number;
-  lost: number;
-  winrate: number;
+  eloScore: number;
 }
 
 export const PlayerProfile: React.FC<{ player: Player }> = ({ player }) => {
@@ -46,19 +44,19 @@ export const PlayerProfile: React.FC<{ player: Player }> = ({ player }) => {
       <PlayerTitel>{player.name}</PlayerTitel>
       <PlayerStatsWrapper>
         <PlayerText>Elo</PlayerText>
-        <PlayerTextValue>{player.elo}</PlayerTextValue>
+        <PlayerTextValue>{player.eloScore}</PlayerTextValue>
       </PlayerStatsWrapper>
       <PlayerStatsWrapper>
         <PlayerText>Won</PlayerText>
-        <PlayerTextValue>{player.won}</PlayerTextValue>
+        <PlayerTextValue>{/*player.won*/}</PlayerTextValue>
       </PlayerStatsWrapper>
       <PlayerStatsWrapper>
         <PlayerText>Lost</PlayerText>
-        <PlayerTextValue>{player.lost}</PlayerTextValue>
+        <PlayerTextValue>{/*player.lost*/}</PlayerTextValue>
       </PlayerStatsWrapper>
       <PlayerStatsWrapper>
         <PlayerText>Winrate</PlayerText>
-        <PlayerTextValue>{player.winrate}</PlayerTextValue>
+        <PlayerTextValue>{/*player.winrate*/}</PlayerTextValue>
       </PlayerStatsWrapper>
     </PlayerLayout>
   );

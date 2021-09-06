@@ -4,7 +4,9 @@ import { Game, GamesList } from "./components/GamesList";
 import { Leaderboard } from "./components/Leaderboard";
 import { NextGameButton } from "./components/NextGameButton";
 import { Player, PlayerProfile } from "./components/PlayerStats";
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
+import {authContext} from "../../context/AuthenticationContext";
+import {GameRoom} from "../NewgamePage/components/GameRoomList";
 
 const DashboardBody = styled.div`
   display: flex;
@@ -28,138 +30,115 @@ const RightDiv = styled.div`
 `;
 
 const p: Player = {
+  id: "123",
   name: "L2P",
-  elo: 1234,
-  won: 100,
-  lost: 11,
-  winrate: 9000,
+  eloScore: 1234,
+
 };
 
 const players: Player[] = [
   {
+    id: "123",
     name: "L2P",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
+    eloScore: 1234,
   },
   {
-    name: "Ayy",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
+    id: "123",
+    name: "L2P",
+    eloScore: 1234,
   },
   {
-    name: "Scurr",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Burr",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Sheesh",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "LilPeepe",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Gude",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Ayy",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Lmao",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Test",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
+    id: "123",
+    name: "L2P",
+    eloScore: 1234,
+  }
 ];
 
 const games: Game[] = [
   {
-    player1: {
+    id: "123",
+    players: [{
+      id: "123",
       name: "Lmao",
-      elo: 1234,
-      won: 100,
-      lost: 11,
-      winrate: 9000,
+      eloScore: 1234,
     },
-    player2: {
-      name: "Test",
-      elo: 1234,
-      won: 100,
-      lost: 11,
-      winrate: 9000,
-    },
-    date: "31.08.2021",
-    gameStatus: "won",
-    moves: 20,
+    {
+      id: "123",
+      name: "Lmao",
+      eloScore: 1234,
+    }],
+    createdAt: "31.08.2021",
+    winner: {
+      id: "123",
+      name: "Lmao",
+      eloScore: 1234,
+    }
   },
   {
-    player1: {
+    id: "123",
+    players: [{
+      id: "123",
       name: "Lmao",
-      elo: 1234,
-      won: 100,
-      lost: 11,
-      winrate: 9000,
+      eloScore: 1234,
     },
-    player2: {
-      name: "Gude",
-      elo: 1234,
-      won: 100,
-      lost: 11,
-      winrate: 9000,
-    },
-    date: "31.08.2021",
-    gameStatus: "won",
-    moves: 20,
+      {
+        id: "123",
+        name: "Lmao",
+        eloScore: 1234,
+      }],
+    createdAt: "31.08.2021",
+    winner: {
+      id: "123",
+      name: "Lmao",
+      eloScore: 1234,
+    }
   },
 ];
 
 export const DashboardPage = () => {
-  return (
+
+  const { token } = useContext(authContext);
+  const [gameList, setGameList] = useState<Game[]>([]);
+  const [playerList, setPlayerList] = useState<Player[]>([]);
+
+
+  useEffect(() => {
+
+    (async () => {
+
+      //load gameList
+      var url = '/api/game/gameplayedby/' + JSON.parse(atob(token!.split(".")[1])).id;
+      const gameListRequest = await fetch(url, {
+        headers: {'content-type': 'application/json'},
+      });
+      if (gameListRequest.status === 200) {
+        const transactionJSON = await gameListRequest.json();
+        setGameList(transactionJSON.data);
+      }
+
+      //load leaderboard
+      var url = '/api/player/sortplayers';
+      const leaderListRequest = await fetch(url, {
+        headers: {'content-type': 'application/json'},
+      });
+      if (leaderListRequest.status === 200) {
+        const transactionJSON = await leaderListRequest.json();
+        setPlayerList(transactionJSON.data);
+      }
+    })()
+
+  });
+
+    return (
     <Layout>
       <DashboardBody>
         <LeftDiv>
-          <GamesList games={games} />
+          <GamesList games={gameList} />
           <NextGameButton />
         </LeftDiv>
         <RightDiv>
           <PlayerProfile player={p} />
-          <Leaderboard players={players} />
+          <Leaderboard players={playerList} />
         </RightDiv>
       </DashboardBody>
     </Layout>

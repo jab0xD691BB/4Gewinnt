@@ -48,10 +48,14 @@ export const GameBoard = () => {
       //TODO: give player_id of logged in player instead
       let step: GameStep | undefined = game.insert(
         column_number,
-        game.activePlayer
+          name
       );
       if (step) {
-        colorField(step.x, step.y, step.color, step.color);
+        if (game.getCurrentStep() !== game.getTotalStep()) {
+          colorField(step.x, step.y, theme.colors.gameBoardColumnColor, step.color);
+        } else {
+          colorField(step.x, step.y, step.color, step.color);
+        }
         checkGameState();
         let gameStateWrapper = {
           gameState: game.getGameState,

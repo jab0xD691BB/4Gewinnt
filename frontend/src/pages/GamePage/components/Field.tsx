@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StyledField = styled.div`
   border: 2px solid ${(props) => props.theme.colors.gameBoardFieldBorderColor};

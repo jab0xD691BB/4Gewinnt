@@ -16,7 +16,7 @@ export const Button = styled.button`
   border-radius: 10px;
   color: black;
   line-height: 22.4px;
-  padding: 13.2px 26.4px;
+  padding: 10.2px 26.4px;
   text-align: center;
   width: 100%;
   font-weight: 500;
@@ -50,6 +50,16 @@ export const DisabledButton = styled.button`
 
   outline: 0;
 
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+export const DangerButton = styled(Button)`
+  background-color:  #d01c1f};
+  outline: 0;
+  &:hover {
+    background-color:  #fe0000;
+  }
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
 `;

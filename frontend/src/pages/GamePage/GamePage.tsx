@@ -28,6 +28,8 @@ import { GameDetails } from "./components/GameDetails";
 import { Button, VerticalButtonWrapper } from "./components/Button";
 import { SocketContext } from "../../context/socket.context";
 import { GameoverPopup } from "./components/GameoverPopup";
+import { ReadyCheck } from "./components/ReadyCheck";
+
 import { Game, GameStateEnum } from "./components/GameEngine";
 import { Chat } from "./components/Chat";
 import { Console } from "console";
@@ -119,15 +121,12 @@ export const GamePage = () => {
   }
 
   const rerenderStepCounter = function () {
-    setStepCounterRerenderer(
-      game.activeStep === undefined
-        ? game.gameSteps.length - 1
-        : game.activeStep
-    );
+    setStepCounterRerenderer(game.getCurrentStep());
   };
   //calc(100vh - ${headerHeight} - ${footerHeight});
   return (
     <Layout>
+      <ReadyCheck></ReadyCheck>
       <GameBody>
         <div
           style={{
