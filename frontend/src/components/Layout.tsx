@@ -2,8 +2,11 @@ import React, {useContext} from "react";
 import styled, { css } from "styled-components/macro";
 import { Connect4Img } from "../img/Connect4";
 import { Logo } from "./Logo";
-import { Link } from "react-router-dom";
+import { Link, NavLink, Route, Switch } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 import { authContext } from "../context/AuthenticationContext";
+
+
 
 const TextButton = styled.button`
   all: unset;
@@ -86,7 +89,16 @@ const {
           </Titel>
         </LogoTitel>
         <NavigationList>
-          <NavigationItem>Settings</NavigationItem>
+        <NavigationItem> 
+            <BrowserRouter>
+              <NavLink to="/settings">Settings
+              <Switch>
+                <Route exact path="/settings">
+                </Route>
+              </Switch>
+              </NavLink>
+            </BrowserRouter>
+          </NavigationItem>
           <NavigationItem>
              <TextButton
             onClick={() => {
@@ -96,7 +108,7 @@ const {
             Logout
             </TextButton>
             </NavigationItem>
-          <NavigationItem>Help</NavigationItem>
+          <NavigationItem> Help</NavigationItem>
         </NavigationList>
       </Header>
       <Main>{children}</Main>
