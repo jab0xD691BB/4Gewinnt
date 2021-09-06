@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React from "react";
 
 const PlayerLayout = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   height: 40%;
   width: 100%;

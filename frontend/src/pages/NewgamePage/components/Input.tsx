@@ -78,14 +78,12 @@ export const Input = ({
 };
 
 export const InputCheckbox = ({
-                          label,
-                          ...props
-                      }: React.ComponentPropsWithoutRef<'input'> & {
+    label,
+    ...props
+  }: React.ComponentPropsWithoutRef<'input'> & {
     label: string;
-    type?: 'text' | 'password' | 'number' | 'email' | 'checkbox';
-}) => {
+    type?: 'text' | 'password' | 'number' | 'email' | 'checkbox'; }) => {
     const id = useRef(`${label.replace(' ', '-')}`);
-
     return (
         <InputContainer style={{}}>
             <div style={{width: "50%"}}>

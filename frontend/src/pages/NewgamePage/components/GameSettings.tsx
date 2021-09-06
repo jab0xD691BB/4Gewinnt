@@ -18,7 +18,7 @@ export type GameSettings = {
 };
 
 export const GameSettingsLayout = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   margin: 10px;
 `;

@@ -1,8 +1,7 @@
 import React, {useContext} from "react";
 import styled, { css } from "styled-components/macro";
 import { Connect4Img } from "../img/Connect4";
-import { Logo } from "./Logo";
-import { Link, NavLink, Route, Switch } from "react-router-dom";
+import { NavLink, Route, Switch } from "react-router-dom";
 import { BrowserRouter } from 'react-router-dom';
 import { authContext } from "../context/AuthenticationContext";
 
@@ -112,7 +111,7 @@ const {
         </NavigationList>
       </Header>
       <Main>{children}</Main>
-      <Footer>Footer</Footer>
+      <Footer>&copy;Connect4 2021 </Footer>
     </>
   );
 };

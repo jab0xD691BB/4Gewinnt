@@ -18,6 +18,9 @@ declare module "styled-components" {
       gameBoardColumnBorderHighlightColor: string;
       gameBoardFieldBorderColor: string;
       text: string;
+      boardColor: string;
+      titleWrapperColor: string;
+      dangerButton: string;
 
       player1Color: string;
       player2Color: string;

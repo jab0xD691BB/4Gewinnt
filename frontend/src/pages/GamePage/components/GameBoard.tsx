@@ -7,7 +7,6 @@ import { theme } from "../../../theme";
 import { SocketContext } from "../../../context/socket.context";
 import { authContext } from "../../../context/AuthenticationContext";
 import { game } from "../GamePage";
-import {GameoverPopup} from "./GameoverPopup";
 
 //game.addPlayer("test3_blu", "Brotfinger", "#269999", 1000000000);
 //game.addPlayer("test4_gra", "Brotfinger", "#969992", 1000000000);

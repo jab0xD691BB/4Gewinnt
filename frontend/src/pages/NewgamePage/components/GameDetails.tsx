@@ -3,7 +3,7 @@ import React from "react";
 import { GameRoom } from "./GameRoomList";
 
 const GameDetailsLayout = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   width: 100%;
   margin: 10px;
