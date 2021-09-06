@@ -1,28 +1,26 @@
-import { createPortal } from 'react-dom';
-import disableScroll from 'disable-scroll';
+import { createPortal } from "react-dom";
+import disableScroll from "disable-scroll";
 import { useCallback } from "react-use-callback";
-import { useState } from 'react';
-import { Button, DangerButton } from './Button';
-
+import { useState } from "react";
+import { Button, DangerButton } from "./Button";
 
 export interface ModalProps {
   children: React.ReactNode;
   isOpen: boolean;
   onOverlayClick: React.MouseEventHandler<HTMLDivElement>;
-  elementId: 'root' | string;
-};
+  elementId: "root" | string;
+}
 
 export interface ModalOptions {
   preventScroll?: boolean;
   closeOnOverlayClick?: boolean;
-};
+}
 
 const modalStyle: React.CSSProperties = {
-    backgroundColor: '#fff',
-    padding: '180px 200px',
-    borderRadius: '50px',
+  backgroundColor: "#fff",
+  padding: "180px 200px",
+  borderRadius: "50px",
 };
-  
 
 export type UseModal = (
   elementId: string,
@@ -35,29 +33,29 @@ export type UseModal = (
 ];
 
 const wrapperStyle: React.CSSProperties = {
-  position: 'fixed',
+  position: "fixed",
   top: 0,
   left: -400,
   bottom: 0,
   right: 0,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   zIndex: 100,
 };
 
 const overlayStyle: React.CSSProperties = {
-  position: 'fixed',
+  position: "fixed",
   top: 0,
   left: 0,
   bottom: 0,
   right: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
   zIndex: 100000,
 };
 
 const containerStyle: React.CSSProperties = {
-  position: 'relative',
+  position: "relative",
   zIndex: 100001,
 };
 
@@ -65,15 +63,19 @@ const closeButtonStyle: React.CSSProperties = {
   display: "flex",
   flexDirection: "row",
   alignItems: "flex-end",
-  marginLeft: "300px"
-}
+  marginLeft: "300px",
+};
 const textStyle: React.CSSProperties = {
-  marginLeft:"100px",
-  marginRight:"100px"
-}
+  marginLeft: "100px",
+  marginRight: "100px",
+};
 
-
-const Modal: React.FC<ModalProps> = ({ children, isOpen = false, onOverlayClick, elementId = 'root' }) => {
+const Modal: React.FC<ModalProps> = ({
+  children,
+  isOpen = true,
+  onOverlayClick,
+  elementId = "root",
+}) => {
   if (isOpen === false) {
     return null;
   }
@@ -86,9 +88,9 @@ const Modal: React.FC<ModalProps> = ({ children, isOpen = false, onOverlayClick,
   );
 };
 
-export const useModal: UseModal = (elementId = 'root', options = {}) => {
+export const useModal: UseModal = (elementId = "root", options = {}) => {
   const { preventScroll = false, closeOnOverlayClick = true } = options;
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const [isOpen, setOpen] = useState<boolean>(true);
   const open = useCallback(() => {
     setOpen(true);
     if (preventScroll) {
@@ -101,17 +103,24 @@ export const useModal: UseModal = (elementId = 'root', options = {}) => {
       disableScroll.off();
     }
   }, [setOpen, preventScroll]);
-  const onOverlayClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation();
-    if (closeOnOverlayClick) {
-      close();
-    }    
-  }, [closeOnOverlayClick, close]);
+  const onOverlayClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+      if (closeOnOverlayClick) {
+        close();
+      }
+    },
+    [closeOnOverlayClick, close]
+  );
 
   const ModalWrapper = useCallback(
     ({ children }) => {
       return (
-        <Modal isOpen={isOpen} onOverlayClick={onOverlayClick} elementId={elementId}>
+        <Modal
+          isOpen={isOpen}
+          onOverlayClick={onOverlayClick}
+          elementId={elementId}
+        >
           {children}
         </Modal>
       );
@@ -123,26 +132,26 @@ export const useModal: UseModal = (elementId = 'root', options = {}) => {
 };
 
 export const ReadyCheck = () => {
-    const [Modal, open, close, isOpen] = useModal('root', {
-        preventScroll: true,
-        closeOnOverlayClick: false,
-      });
-      return (
-        <div>
-        <button onClick={open}>OPEN</button>
-        <Modal>
-            <div style={modalStyle}>
-            <div style={closeButtonStyle}>
-                <button onClick={close}>X</button>
-            </div>
-            <div style={textStyle}>
+  const [Modal, open, close, isOpen] = useModal("root", {
+    preventScroll: true,
+    closeOnOverlayClick: false,
+  });
+  return (
+    <div>
+      <button onClick={open}>OPEN</button>
+      <Modal>
+        <div style={modalStyle}>
+          <div style={closeButtonStyle}>
+            <button onClick={close}>X</button>
+          </div>
+          <div style={textStyle}>
             <h1>READY CHECK</h1>
-              <p>Player1 requested a ready Check</p>
-            </div>
-            <Button>Ready</Button>
-            <DangerButton>Not Ready</DangerButton>
-            </div>
-        </Modal>
+            <p>Player1 requested a ready Check</p>
+          </div>
+          <Button>Ready</Button>
+          <DangerButton>Not Ready</DangerButton>
         </div>
-      );
+      </Modal>
+    </div>
+  );
 };

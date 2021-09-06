@@ -84,12 +84,6 @@ export const GamePage = () => {
     );
 
     //dummy
-    game.addPlayer(
-      socketContext.joinedRoom?.player2,
-      socketContext.joinedRoom?.player2,
-      theme.colors.player2Color,
-      Number(socketContext.joinedRoom?.gameSetting.time)
-    );
 
     if (socketContext.joinedRoom && socketContext.joinedRoom?.player2 != "") {
       //      if (socketContext.gameState) game.setGame(socketContext.gameState);
@@ -126,7 +120,9 @@ export const GamePage = () => {
   //calc(100vh - ${headerHeight} - ${footerHeight});
   return (
     <Layout>
-      <ReadyCheck></ReadyCheck>
+      {game.players.length == 2 ? <ReadyCheck /> : ""}
+      {game.winner && <GameoverPopup />}
+
       <GameBody>
         <div
           style={{

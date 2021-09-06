@@ -25,6 +25,7 @@ interface SocketContext {
   setJoinedRoom: (g: GameRoom) => void;
   setGameStateFromGameBoard: (gs: GameState) => void;
   messages: { name: string; message: string }[];
+  resetMessages: () => void;
 }
 
 export const SocketContext = React.createContext<SocketContext>({
@@ -45,6 +46,7 @@ export const SocketContext = React.createContext<SocketContext>({
   setJoinedRoom: (g: GameRoom) => {},
   setGameStateFromGameBoard: (gs: GameState) => {},
   messages: [],
+  resetMessages: () => {},
 });
 
 export const SocketProvider: React.FC = ({ children }) => {
@@ -149,6 +151,10 @@ export const SocketProvider: React.FC = ({ children }) => {
     setGameState(gs);
   };
 
+  const resetMessages = () => {
+    setMessages([]);
+  };
+
   return (
     <SocketContext.Provider
       value={{
@@ -159,6 +165,7 @@ export const SocketProvider: React.FC = ({ children }) => {
         setJoinedRoom,
         setGameStateFromGameBoard,
         messages,
+        resetMessages,
       }}
     >
       {children}

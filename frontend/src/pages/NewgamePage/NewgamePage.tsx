@@ -45,7 +45,8 @@ interface room {
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
   const { token } = useContext(authContext);
-  const { socket, rooms, setJoinedRoom } = useContext(SocketContext);
+  const { socket, rooms, setJoinedRoom, resetMessages } =
+    useContext(SocketContext);
   let history = useHistory();
 
   const [websocket, updateWebsocket] = useState(false);
@@ -63,6 +64,7 @@ export const NewgamePage = () => {
     });
     function receive() {}
     receive();
+    resetMessages();
   }, []);
 
   const joinAsPlayer = async (e: React.MouseEvent<HTMLButtonElement>) => {
