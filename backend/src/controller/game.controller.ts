@@ -29,7 +29,7 @@ export const getGamesOfPlayer = async (req: Request, res: Response) => {
 
     for(let game of playerGames.games){
         const completeGame = await gameRepository.findOneOrFail({
-            relations: ['players'],
+            relations: ['players', 'winner'],
             where: {id: game.id}
         });
         gamesWithPlayerList.push(completeGame);
@@ -65,29 +65,36 @@ export const getGame = async (req: Request, res: Response) => {
 
 // Create Game
 export const createGame = async (req: Request, res: Response) => {
-    const {createdAt, winner, players, settings, moves} = req.body;
+    try{
+        const {createdAt, winner, players, settings, moves} = req.body;
 
-    const game = new Game();
-    game.players = players;
-    game.winner = winner;
+        const game = new Game();
+        game.players = players;
+        game.winner = winner;
 
-    if (settings.rated == "on" && game.players.length == 2) {
+        if (game.players.length == 2) {
 
-        const eloArray = await updateRatings(game.players[0], game.players[1], game.winner);
-        if (eloArray) {
-            game.players[0].eloScore = eloArray[0];
-            game.players[1].eloScore = eloArray[1];
+            const eloArray = await updateRatings(game.players[0], game.players[1], game.winner);
+            if (eloArray) {
+                game.players[0].eloScore = eloArray[0];
+                game.players[1].eloScore = eloArray[1];
+            }
         }
-    }
 //TODO: save settings and moves
 //    game.settings = settings;
 //    game.moves = moves;
-    const gameRepository = await getRepository(Game);
-    const createdGame = await gameRepository.save(game);
+        const gameRepository = await getRepository(Game);
+        const createdGame = await gameRepository.save(game);
 
-    res.send({
-        data: createdGame,
-    });
+        res.send({
+            data: createdGame,
+        });
+    } catch (e) {
+        res.status(400).send({
+            status: 'Bad Request'
+        });
+    }
+
 };
 
 const updateRatings = async (player1byCreateGame: Player, player2byCreateGame: Player, winner: Player | undefined) => {

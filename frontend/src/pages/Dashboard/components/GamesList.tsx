@@ -1,17 +1,16 @@
 import styled from "styled-components";
 import { Player } from "./Leaderboard";
-import React from "react";
+import React, {useContext} from "react";
+import {authContext} from "../../../context/AuthenticationContext";
 
 export const PlayedGamesTitel = styled.p`
   text-align: center;
 `;
 
-export interface Game {
-  player1: Player;
-  player2: Player;
-  date: string;
-  gameStatus: string;
-  moves: number;
+export interface Game {id: string;
+  players: Player[];
+  winner: Player;
+  createdAt: string;
 }
 
 const GamesPlayedWrapper = styled.div`
@@ -68,6 +67,20 @@ const GameText = styled.div`
 `;
 
 export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
+
+    const { token } = useContext(authContext);
+
+    const getGameStatus = (game: Game) => {
+        if(!game.winner){
+            return "draw"
+        }
+        if(JSON.parse(atob(token!.split(".")[1])).id == game.winner){
+            return "won"
+        }else{
+            return "lost"
+        }
+    }
+
   return (
     <GamesPlayedWrapper>
       <PlayedGamesTitel>Played Games</PlayedGamesTitel>
@@ -82,15 +95,14 @@ export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
           <GameWrapper key={index}>
             <PlayersWrapper>
               <PlayerStyle>
-                {game.player1.name + " (" + game.player1.elo + ")"}
+                {game.players[0].name + " (" + game.players[0].eloScore + ")"}
               </PlayerStyle>
               <PlayerStyle>
-                {game.player2.name + " (" + game.player2.elo + ")"}
+                {game.players[1].name + " (" + game.players[1].eloScore + ")"}
               </PlayerStyle>
             </PlayersWrapper>
-            <GameText>{game.gameStatus}</GameText>
-            <GameText>{game.moves}</GameText>
-            <GameText>{game.date}</GameText>
+            <GameText>{getGameStatus(game)}</GameText>
+            <GameText>{game.createdAt}</GameText>
           </GameWrapper>
         );
       })}
