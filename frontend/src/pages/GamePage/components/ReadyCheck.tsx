@@ -2,7 +2,8 @@ import { createPortal } from 'react-dom';
 import disableScroll from 'disable-scroll';
 import { useCallback } from "react-use-callback";
 import { useState } from 'react';
-import { Button } from './Button';
+import { Button, DangerButton } from './Button';
+
 
 export interface ModalProps {
   children: React.ReactNode;
@@ -60,6 +61,18 @@ const containerStyle: React.CSSProperties = {
   zIndex: 100001,
 };
 
+const closeButtonStyle: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "flex-end",
+  marginLeft: "300px"
+}
+const textStyle: React.CSSProperties = {
+  marginLeft:"100px",
+  marginRight:"100px"
+}
+
+
 const Modal: React.FC<ModalProps> = ({ children, isOpen = false, onOverlayClick, elementId = 'root' }) => {
   if (isOpen === false) {
     return null;
@@ -109,7 +122,7 @@ export const useModal: UseModal = (elementId = 'root', options = {}) => {
   return [ModalWrapper, open, close, isOpen];
 };
 
-export const GameoverPopup = () => {
+export const ReadyCheck = () => {
     const [Modal, open, close, isOpen] = useModal('root', {
         preventScroll: true,
         closeOnOverlayClick: false,
@@ -119,17 +132,15 @@ export const GameoverPopup = () => {
         <button onClick={open}>OPEN</button>
         <Modal>
             <div style={modalStyle}>
-            <h1>GAME OVER</h1>
-            <p>Player1: Felix won </p>
-            <p>Player2: Lucca lost</p>
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "flex-end",
-                    }}>
-                    <Button onClick={close}>X</Button>
-                </div>
+            <div style={closeButtonStyle}>
+                <button onClick={close}>X</button>
+            </div>
+            <div style={textStyle}>
+            <h1>READY CHECK</h1>
+              <p>Player1 requested a ready Check</p>
+            </div>
+            <Button>Ready</Button>
+            <DangerButton>Not Ready</DangerButton>
             </div>
         </Modal>
         </div>
