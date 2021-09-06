@@ -93,6 +93,7 @@ export const SocketProvider: React.FC = ({ children }) => {
         const r: GameRoom = message.settings;
 
         setJoinRoom(r);
+
       }
     });
 
@@ -102,19 +103,21 @@ export const SocketProvider: React.FC = ({ children }) => {
     });
 
     socket.on("refreshGameState", (message: any) => {
-      const gameState: GameState = message.gameState.gameState;
+      const newGameState: GameState = message.gameState.gameState;
       const playerValuesAsArray: any[] = message.gameState.playerValuesAsArray;
       const playerIdsAsArray: any[] = message.gameState.playerIdsAsArray;
-      gameState.players = new Map<string, Player>();
+      newGameState.players = new Map<string, Player>();
 
       for (let i = 0; i < playerValuesAsArray.length; i++) {
-        gameState.players.set(playerIdsAsArray[i], playerValuesAsArray[i]);
+        newGameState.players.set(playerIdsAsArray[i], playerValuesAsArray[i]);
       }
-      game.setGame(gameState);
+      game.setGame(newGameState);
+
+      setGameState(newGameState)
       reRenderBoard();
-      console.log("refresh state ", gameState);
-      if (gameState.state === 3) {
-        setGameState(null);
+      console.log("refresh state ", newGameState);
+      if (newGameState.state === 3) {
+//        setGameState(null);
       }
     });
 

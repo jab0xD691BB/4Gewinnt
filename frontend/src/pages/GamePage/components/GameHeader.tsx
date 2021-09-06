@@ -50,34 +50,3 @@ export const PlayerNameWrapperInactive = styled.div`
   margin-left: 10px;
   margin-right: 10px;
   `;
-/*
-@keyframes blink {
-  0% { color: red; }
-  100% { color: black; }
-}
-@-webkit-keyframes blink {
-  0% { color: red; }
-  100% { color: black; }
-}
-.blink {
-  -webkit-animation: blink 1s linear infinite;
-  -moz-animation: blink 1s linear infinite;
-  animation: blink 1s linear infinite;
-}
-
-
-  animation: blink-animation 1s steps(5, start) infinite;
-  -webkit-animation: blink-animation 1s steps(5, start) infinite;
-
-@keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
-}
-@-webkit-keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
-}
-
- */

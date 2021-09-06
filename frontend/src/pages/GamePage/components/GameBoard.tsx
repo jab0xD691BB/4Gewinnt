@@ -9,6 +9,7 @@ import { authContext } from "../../../context/AuthenticationContext";
 
 export var game: Game;
 
+
 //game.addPlayer("test3_blu", "Brotfinger", "#269999", 1000000000);
 //game.addPlayer("test4_gra", "Brotfinger", "#969992", 1000000000);
 //game.addPlayer("test5_gren", "Brotfinger", "#299969", 1000000000);
@@ -29,7 +30,8 @@ export const GameBoard = () => {
   const { token } = useContext(authContext);
   const name = JSON.parse(atob(token!.split(".")[1])).name;
 
-  if (socketContext.joinedRoom) {
+  if (socketContext.joinedRoom && socketContext.joinedRoom?.player1 != "" &&
+      socketContext.joinedRoom?.player2 != "" && (!game || game.gameState == GameStateEnum.SUSPENDED)) {
     game = new Game(
       Number(socketContext.joinedRoom?.gameSetting.boardWidth),
       Number(socketContext.joinedRoom?.gameSetting.boardHeigth),
@@ -53,13 +55,21 @@ export const GameBoard = () => {
       socketContext.joinedRoom?.player1 != "" &&
       socketContext.joinedRoom?.player2 != ""
     ) {
-      if (socketContext.gameState) game.setGame(socketContext.gameState);
+//      if (socketContext.gameState) game.setGame(socketContext.gameState);
       game.startGame();
       game.cyclePlayer();
+//      socketContext.setGameStateFromGameBoard(game.getGameState);
+
     }
   }
   const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
     console.log("columnClicked gamestate", game.getGameState);
+
+/*    if(socketContext.gameState){
+      game.setGame(socketContext.gameState);
+    } else{
+      return;
+    }*/
 
     if (game.activePlayer == name && game.gameState === 1) {
       if (game.activeStep !== undefined) {

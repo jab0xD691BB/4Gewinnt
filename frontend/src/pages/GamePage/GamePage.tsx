@@ -106,7 +106,7 @@ export const GamePage = () => {
                 <ArrowLeftButton></ArrowLeftButton>
               </ReplayButtonWrapperSingle>
               <ReplayButtonWrapperSingle>
-                {stepCounterRerender}
+                { gameState !== null ? gameState?.steps.length-1 : ""}
               </ReplayButtonWrapperSingle>
               <ReplayButtonWrapperSingle onClick={advanceButtonClicked}>
                 <ArrowRightButton></ArrowRightButton>

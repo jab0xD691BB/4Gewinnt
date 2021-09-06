@@ -10,6 +10,7 @@ import io, { Socket } from "socket.io-client";
 import { authContext } from "../../../context/AuthenticationContext";
 import { SocketContext, SocketProvider } from "../../../context/socket.context";
 import { useHistory } from "react-router";
+import {game} from "../../GamePage/components/GameBoard";
 
 export type GameSettings = {
   boardWidth: string;
@@ -74,6 +75,8 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
       headers: { "Content-Type": "application/json" },
       method: "POST",
     });*/
+
+    if(game) game.suspendGame();
 
     socket.emit("createroom", gameRoom);
     setSessionStarted(true);
