@@ -70,14 +70,6 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
         <GameTextValue>{gameDetails.gameSetting.time}</GameTextValue>
       </GameDetailsWrapper>
       <GameDetailsWrapper>
-        <GameText>Game Mode</GameText>
-        <GameTextValue>{gameDetails.gameSetting.gameMode}</GameTextValue>
-      </GameDetailsWrapper>
-      <GameDetailsWrapper>
-        <GameText>Best Of</GameText>
-        <GameTextValue>{gameDetails.gameSetting.bestOf}</GameTextValue>
-      </GameDetailsWrapper>
-      <GameDetailsWrapper>
         <GameText>Rated</GameText>
         <GameTextValue>{gameDetails.gameSetting.rated}</GameTextValue>
       </GameDetailsWrapper>

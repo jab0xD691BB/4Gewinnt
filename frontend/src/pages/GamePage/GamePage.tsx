@@ -34,7 +34,6 @@ import { ReadyCheck } from "./components/ReadyCheck";
 import { Game, GameStateEnum } from "./components/GameEngine";
 import { Chat } from "./components/Chat";
 import { GameoverPopup } from "./components/GameoverPopup";
-import { Console } from "console";
 
 const GameBody = styled.div`
   height: 100%;
@@ -51,8 +50,6 @@ const gameRoom: GameRoom = {
   gameSetting: {
     boardWidth: "7",
     boardHeigth: "7",
-    bestOf: "7",
-    gameMode: "human",
     rated: "on",
     rowCountToWin: "4",
     time: "7",

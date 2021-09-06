@@ -1,14 +1,11 @@
 import React, { ChangeEvent, useContext, useState } from "react";
 import styled from "styled-components";
-import { Layout } from "../../../components/Layout";
 import { Input, InputCheckbox } from "./Input";
-import { SelectGameMode } from "./Select";
 import { Button, WarnButton } from "./Button";
 import { GameRoom } from "./GameRoomList";
-import { Game } from "../../GamePage/components/GameEngine";
 import io, { Socket } from "socket.io-client";
 import { authContext } from "../../../context/AuthenticationContext";
-import { SocketContext, SocketProvider } from "../../../context/socket.context";
+import { SocketContext } from "../../../context/socket.context";
 import { useHistory } from "react-router";
 import { game } from "../../GamePage/GamePage";
 
@@ -17,8 +14,6 @@ export type GameSettings = {
   boardHeigth: string;
   rowCountToWin: string;
   time: string;
-  gameMode: string;
-  bestOf: string;
   rated: string;
 };
 
@@ -38,8 +33,6 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     boardHeigth: "7",
     rowCountToWin: "4",
     time: "10",
-    gameMode: "player",
-    bestOf: "1",
     rated: "false",
   });
 
@@ -160,27 +153,6 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           required
           defaultValue="10"
           //            value={values.funnyCounter}
-        />
-        <SelectGameMode
-          name="gameMode"
-          label="Game Mode"
-          option1="Against Human"
-          option2="Against Computer"
-          type="text"
-          //                        step="1.00"
-          onChange={fieldDidChangeSelect}
-          required
-          defaultValue="Against Human"
-          //            value={values.funnyCounter}
-        />
-        <Input
-          name="bestOf"
-          label="Best Of"
-          type="number"
-          step="1.00"
-          onChange={fieldDidChangeInput}
-          required
-          defaultValue="1"
         />
         <InputCheckbox
           id="rated"

@@ -58,31 +58,3 @@ const SelectContainer = styled.div`
       inset 0 0 0 2px ${(props) => props.theme.colors.primary};
   }
 `;
-
-export const SelectGameMode = ({
-  label,
-  option1,
-  option2,
-  ...props
-}: React.ComponentPropsWithoutRef<"select"> & {
-  label: string;
-  option1: string;
-  option2: string;
-  type?: "text" | "password" | "number" | "email";
-}) => {
-  const id = useRef(`${label.replace(" ", "-")}`);
-
-  return (
-    <SelectContainer style={{}}>
-      <SelectField {...props} id={id.current} placeholder=" ">
-        <SelectOption id={id.current} value="player" defaultValue="player">
-          {option1}
-        </SelectOption>
-        <SelectOption id={id.current} value="computer">
-          {option2}
-        </SelectOption>
-      </SelectField>
-      <SelectLabel htmlFor={id.current}>{label}</SelectLabel>
-    </SelectContainer>
-  );
-};

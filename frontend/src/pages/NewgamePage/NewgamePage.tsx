@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { footerHeight, headerHeight, Layout } from "../../components/Layout";
 import React, { ChangeEvent, useContext, useState } from "react";
 import { SettingsContainer, GameSettings } from "./components/GameSettings";
-import { SelectGameMode } from "./components/Select";
 import { Button, DisabledButton } from "./components/Button";
 import {
   GameRoom,
@@ -13,8 +12,6 @@ import {
   GameRoomList,
   GameRoomListLayout,
 } from "./components/GameRoomList";
-import { Modal } from "./components/Modal";
-import { theme } from "../../theme";
 import { authContext } from "../../context/AuthenticationContext";
 import { GameDetails, GameDetailsEmpty } from "./components/GameDetails";
 import { SocketContext } from "../../context/socket.context";
@@ -28,10 +25,8 @@ const NewgameBody = styled.div`
 `;
 
 interface setting {
-  bestOf: string;
   boardHeigth: string;
   boardWidth: string;
-  gameMode: string;
   rated: string;
   rowCountToWin: string;
   time: string;
@@ -45,8 +40,7 @@ interface room {
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
   const { token } = useContext(authContext);
-  const { socket, rooms, setJoinedRoom, resetMessages } =
-    useContext(SocketContext);
+  const { socket, rooms, setJoinedRoom } = useContext(SocketContext);
   let history = useHistory();
 
   const [websocket, updateWebsocket] = useState(false);
@@ -64,7 +58,6 @@ export const NewgamePage = () => {
     });
     function receive() {}
     receive();
-    resetMessages();
   }, []);
 
   const joinAsPlayer = async (e: React.MouseEvent<HTMLButtonElement>) => {
