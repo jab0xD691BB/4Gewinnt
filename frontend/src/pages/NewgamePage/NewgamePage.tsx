@@ -16,7 +16,7 @@ import { GameDetails, GameDetailsEmpty } from "./components/GameDetails";
 import { SocketContext } from "../../context/socket.context";
 import { useHistory } from "react-router";
 import { game } from "../GamePage/GamePage";
-
+import { Game } from "../GamePage/components/GameEngine"
 const NewgameBody = styled.div`
   height: 100%;
   min-height: calc(100vh - ${headerHeight} - ${footerHeight});
@@ -47,12 +47,18 @@ export const ComponentHeadline = styled.div`
   height: 55px;
 `;
 
+export var game1: Game;
+
+
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
+  const [activateJoin, setActivateJoin] = useState(false);
   const { token } = useContext(authContext);
   const { socket, rooms, setJoinedRoom } = useContext(SocketContext);
+  
   let history = useHistory();
 
+  
   const [websocket, updateWebsocket] = useState(false);
   const [ws, setSocket] = useState();
   /*const [rooms, setRooms] = useState<
@@ -106,6 +112,15 @@ export const NewgamePage = () => {
     });
   };
 
+  /* let joinButton = document.querySelector("Button") as HTMLButtonElement;
+  joinButton.addEventListener('click', () => {
+      if(game.players.length <= 2) {
+        joinButton.disabled = true;
+      } else {
+        joinButton.disabled = false;
+      }
+  }) */
+
   return (
     <Layout>
       <NewgameBody>
@@ -149,7 +164,7 @@ export const NewgamePage = () => {
             <div style={{ alignSelf: "flex-end" }}>
               {gameSelected && (
                 <div>
-                  <Button onClick={joinAsPlayer}>Join As Player</Button>
+                  <Button disabled={gameSelected.player2.name === ""? false : true} onClick={joinAsPlayer}>Join As Player</Button>
                   <Button onClick={joinAsGuest}>Join As Guest</Button>
                 </div>
               )}
@@ -159,6 +174,7 @@ export const NewgamePage = () => {
                   <DisabledButton>Join As Guest</DisabledButton>
                 </div>
               )}
+            
             </div>
           </GameRoomListLayout>
           {gameSelected && <GameDetails gameDetails={gameSelected!} />}
