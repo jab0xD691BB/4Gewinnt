@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { theme } from "../../theme";
 import { footerHeight, headerHeight, Layout } from "../../components/Layout";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   advanceButtonClicked,
   GameBoard,
@@ -27,7 +27,7 @@ import {
 
 import { GameRoom } from "../NewgamePage/components/GameRoomList";
 import { GameDetails } from "./components/GameDetails";
-import { Button, VerticalButtonWrapper } from "./components/Button";
+import { Button, VerticalButtonWrapper } from "../../components/Button";
 import { SocketContext } from "../../context/socket.context";
 import { ReadyCheck } from "./components/ReadyCheck";
 

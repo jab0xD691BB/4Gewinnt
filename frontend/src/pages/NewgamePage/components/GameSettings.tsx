@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useContext, useState } from "react";
 import styled from "styled-components";
 import { Input, InputCheckbox } from "./Input";
-import { Button, WarnButton } from "./Button";
+import { Button, DangerButton } from "../../../components/Button";
 import { GameRoom } from "./GameRoomList";
 import io, { Socket } from "socket.io-client";
 import { authContext } from "../../../context/AuthenticationContext";
@@ -181,9 +181,9 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           <Button onClick={createGameSession}>Create Game Session</Button>
         )}
         {joinedRoom?.id === JSON.parse(atob(token!.split(".")[1])).name && (
-          <WarnButton onClick={deleteGameSession}>
+          <DangerButton onClick={deleteGameSession}>
             Delete Game Session
-          </WarnButton>
+          </DangerButton>
         )}
       </div>
     </GameSettingsLayout>

@@ -2,15 +2,12 @@
 export default {
     title: 'dark',
     colors: {
-       /* primary: '#333',
-        secondaryFontColor: '#EDE5A6',
-        backgroundColor: '#222',
-        text: '#EDE5A6',*/
-
         backgroundColor: '#222',
         listBackgroundColor: '#F5F5F5',
         buttonColor:  '#333',
         buttonHoverColor: '#777777',
+        mainButtonColor: 'green',
+        mainButtonHoverColor: '#50e150',
         fontColor:  '#52B788',
         secondaryFontColor: '#EDE5A6',
         shadowColor: '#52B788',

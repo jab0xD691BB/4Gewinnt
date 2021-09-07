@@ -48,7 +48,7 @@ const NavigationList = styled.div`
 
 const NaviSectionWrapper = styled.div`
 
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   display: flex;
   flex-direction: column;

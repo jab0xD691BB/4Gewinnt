@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import React from "react";
 
 export const ReplayButtonWrapper = styled.div`
-  background-color: ${(props) => props.theme.colors.boardColor};;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   display: flex;
   flex-direction: row;
@@ -12,10 +11,11 @@ export const ReplayButtonWrapper = styled.div`
   margin-left: 10px;
   margin-right: 10px;
   margin-top: 2%;
+  margin-bottom: 2%;
 `;
 
 export const ReplayButtonWrapperSingle = styled.div`
-  background-color: #4b4b4b;
+  background-color: ${(props) => props.theme.colors.buttonColor};
   border-radius: 10px;
   position: relative;
   padding: 8px;
@@ -28,7 +28,7 @@ export const ReplayButtonWrapperSingle = styled.div`
   transition-duration: 250ms;
   outline: 0;
   &:hover {
-    background-color: #6b6b6b;
+    background-color: ${(props) => props.theme.colors.buttonHoverColor};
   }
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
@@ -40,7 +40,7 @@ export const ArrowLeftButton = styled.div`
   height: 0;
 
   border-top: 20px solid transparent;
-  border-right: 60px solid ${(props) => props.theme.colors.primary};
+  border-right: 60px solid ${(props) => props.theme.colors.fontColor};
   border-bottom: 20px solid transparent;
 
   margin-right: 15px;
@@ -54,7 +54,7 @@ export const ArrowRightButton = styled.div`
   height: 0;
 
   border-top: 20px solid transparent;
-  border-left: 60px solid ${(props) => props.theme.colors.primary};
+  border-left: 60px solid ${(props) => props.theme.colors.fontColor};
   border-bottom: 20px solid transparent;
 
   margin-right: 10px;
@@ -69,7 +69,7 @@ export const ArrowRightDangerButton = styled.div`
   height: 0;
   
   border-top: 20px solid transparent;
-  border-left: 60px solid red;
+  border-left: 60px solid ${(props) => props.theme.colors.dangerButton};
   border-bottom: 20px solid transparent;
   
   margin-right: 10px;

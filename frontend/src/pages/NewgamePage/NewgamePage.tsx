@@ -1,11 +1,10 @@
-import { Input } from "./components/Input";
 import styled from "styled-components";
 
 import { useEffect } from "react";
 import { footerHeight, headerHeight, Layout } from "../../components/Layout";
-import React, { ChangeEvent, useContext, useState } from "react";
-import { SettingsContainer, GameSettings } from "./components/GameSettings";
-import { Button, DisabledButton } from "./components/Button";
+import React, { useContext, useState } from "react";
+import { SettingsContainer } from "./components/GameSettings";
+import { Button, DisabledButton } from "../../components/Button";
 import {
   GameRoom,
   GameRoomItem,
@@ -38,7 +37,7 @@ interface room {
 }
 
 export const ComponentHeadline = styled.div`
-  background-color: #3b3b3b;
+  background-color: ${(props) => props.theme.colors.backgroundColor};
   border-radius: 10px;
   position: relative;
   text-align: center;

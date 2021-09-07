@@ -7,6 +7,8 @@ export const theme: DefaultTheme = {
     backgroundColor: "#202020",
     buttonColor: "#2b2b2b",
     buttonHoverColor: '#777777',
+    mainButtonColor: 'green',
+    mainButtonHoverColor: 'green',
     fontColor: "#fff",
     secondaryFontColor: "rgb(191,191,191)",
     shadowColor: "rgba(0,0,0,0.3)",

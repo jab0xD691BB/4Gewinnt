@@ -40,7 +40,7 @@ export const PlayerNameWrapperActive = styled.div`
   `;
 
 export const PlayerNameWrapperInactive = styled.div`
-  background-color: #4b4b4b;
+  background-color: ${(props) => props.theme.colors.buttonColor};
   border-radius: 10px;
   position: relative;
   text-align: center;

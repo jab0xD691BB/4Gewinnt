@@ -7,7 +7,7 @@ import styled, {
 import { authContext } from "../../context/AuthenticationContext";
 import Settings from "../../components/Header";
 import { Container } from "../../components/Header/styles";
-import { ChangeNameButton } from "./components/Button";
+import { Button } from "../../components/Button";
 
 interface props {
   providerSetTheme: (t: string) => void;
@@ -63,7 +63,7 @@ export const SettingsPage: React.FC<props> = ({ providerSetTheme }) => {
         ></Input>
         <br></br>
       </div>
-      <ChangeNameButton onClick={updateName}>Submit</ChangeNameButton>
+      <Button onClick={updateName}>Submit</Button>
       </Container>
       <div>
         <Settings toggleTheme={toggleTheme} />
