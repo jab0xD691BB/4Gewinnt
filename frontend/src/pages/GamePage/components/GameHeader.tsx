@@ -2,7 +2,7 @@ import styled, {keyframes} from 'styled-components';
 import React from "react";
 
 export const GameHeaderWrapper = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   display: flex;
   flex-direction: row;
@@ -40,7 +40,7 @@ export const PlayerNameWrapperActive = styled.div`
   `;
 
 export const PlayerNameWrapperInactive = styled.div`
-  background-color: #4b4b4b;
+  background-color: ${(props) => props.theme.colors.buttonColor};
   border-radius: 10px;
   position: relative;
   text-align: center;

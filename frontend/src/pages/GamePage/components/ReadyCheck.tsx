@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import disableScroll from "disable-scroll";
 import { useCallback } from "react-use-callback";
 import { useState } from "react";
-import { Button, DangerButton } from "./Button";
+import { Button, DangerButton } from "../../../components/Button";
 
 export interface ModalProps {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ export interface ModalOptions {
   closeOnOverlayClick?: boolean;
 }
 
-const modalStyle: React.CSSProperties = {
+export const modalStyle: React.CSSProperties = {
   backgroundColor: "#fff",
   padding: "180px 200px",
   borderRadius: "50px",

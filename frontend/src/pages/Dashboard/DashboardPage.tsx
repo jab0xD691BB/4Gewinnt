@@ -4,9 +4,8 @@ import { Game, GamesList } from "./components/GamesList";
 import { Leaderboard } from "./components/Leaderboard";
 import { NextGameButton } from "./components/NextGameButton";
 import { Player, PlayerProfile } from "./components/PlayerStats";
-import React, {useContext, useEffect, useState} from "react";
-import {authContext} from "../../context/AuthenticationContext";
-import {GameRoom} from "../NewgamePage/components/GameRoomList";
+import React, { useContext, useEffect, useState } from "react";
+import { authContext } from "../../context/AuthenticationContext";
 
 const DashboardBody = styled.div`
   display: flex;
@@ -17,7 +16,6 @@ const DashboardBody = styled.div`
 
 const LeftDiv = styled.div`
   width: 63%;
-  margin-right: 7%;
   display: flex;
   flex-direction: column;
 `;
@@ -28,88 +26,38 @@ const RightDiv = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
+/*
 const p: Player = {
-  id: "123",
-  name: "L2P",
-  eloScore: 1234,
 
+    id: "123",
+    name: "L2P",
+    eloScore: 1234,
+};*/
+
+export type PlayerDetails = {
+  id: string;
+  name: string;
+  eloScore: number;
+  won: number;
+  lost: number;
+  winrate: number;
 };
 
-const players: Player[] = [
-  {
-    id: "123",
-    name: "L2P",
-    eloScore: 1234,
-  },
-  {
-    id: "123",
-    name: "L2P",
-    eloScore: 1234,
-  },
-  {
-    id: "123",
-    name: "L2P",
-    eloScore: 1234,
-  }
-];
-
-const games: Game[] = [
-  {
-    id: "123",
-    players: [{
-      id: "123",
-      name: "Lmao",
-      eloScore: 1234,
-    },
-    {
-      id: "123",
-      name: "Lmao",
-      eloScore: 1234,
-    }],
-    createdAt: "31.08.2021",
-    winner: {
-      id: "123",
-      name: "Lmao",
-      eloScore: 1234,
-    }
-  },
-  {
-    id: "123",
-    players: [{
-      id: "123",
-      name: "Lmao",
-      eloScore: 1234,
-    },
-      {
-        id: "123",
-        name: "Lmao",
-        eloScore: 1234,
-      }],
-    createdAt: "31.08.2021",
-    winner: {
-      id: "123",
-      name: "Lmao",
-      eloScore: 1234,
-    }
-  },
-];
-
 export const DashboardPage = () => {
-
   const { token } = useContext(authContext);
   const [gameList, setGameList] = useState<Game[]>([]);
   const [playerList, setPlayerList] = useState<Player[]>([]);
-
+  const [playerDetails, setPlayerDetails] = useState<PlayerDetails | null>(
+    null
+  );
 
   useEffect(() => {
-
     (async () => {
-
       //load gameList
-      var url = '/api/game/gameplayedby/' + JSON.parse(atob(token!.split(".")[1])).id;
-      const gameListRequest = await fetch(url, {
-        headers: {'content-type': 'application/json'},
+      let urlGameList =
+        "/api/game/gameplayedby/" + JSON.parse(atob(token!.split(".")[1])).id;
+      const gameListRequest = await fetch(urlGameList, {
+        headers: { "content-type": "application/json" },
       });
       if (gameListRequest.status === 200) {
         const transactionJSON = await gameListRequest.json();
@@ -117,19 +65,54 @@ export const DashboardPage = () => {
       }
 
       //load leaderboard
-      var url = '/api/player/sortplayers';
-      const leaderListRequest = await fetch(url, {
-        headers: {'content-type': 'application/json'},
+      let urlLeaderBoard = "/api/player/sortplayers";
+      const leaderListRequest = await fetch(urlLeaderBoard, {
+        headers: { "content-type": "application/json" },
       });
       if (leaderListRequest.status === 200) {
         const transactionJSON = await leaderListRequest.json();
         setPlayerList(transactionJSON.data);
       }
-    })()
 
-  });
+      //load player stats from now on
+      let playerId = JSON.parse(atob(token!.split(".")[1])).id;
+      let playerName = JSON.parse(atob(token!.split(".")[1])).name;
+      let playerEloScore = JSON.parse(atob(token!.split(".")[1])).eloScore;
+      let playerGamesWon: number = 0;
+      let playerGamesLost: number = 0;
 
-    return (
+      let urlGamesWon =
+        "/api/game/gamesWon/" + JSON.parse(atob(token!.split(".")[1])).id;
+      const gamesWonRequest = await fetch(urlGamesWon, {
+        headers: { "content-type": "application/json" },
+      });
+      if (gamesWonRequest.status === 200) {
+        const transactionJSON = await gamesWonRequest.json();
+        playerGamesWon = parseInt(transactionJSON.data[0].gamesWon);
+      }
+
+      let urlGamesLost =
+        "/api/game/gamesLost/" + JSON.parse(atob(token!.split(".")[1])).id;
+      const gamesLostRequest = await fetch(urlGamesLost, {
+        headers: { "content-type": "application/json" },
+      });
+      if (gamesLostRequest.status === 200) {
+        const transactionJSON = await gamesLostRequest.json();
+        playerGamesLost = parseInt(transactionJSON.data[0].gamesLost);
+      }
+
+      let loadedPlayerDetails: PlayerDetails = {
+        id: playerId as string,
+        name: playerName as string,
+        eloScore: playerEloScore as number,
+        won: playerGamesWon as number,
+        lost: playerGamesLost as number,
+        winrate: (playerGamesWon / (playerGamesWon + playerGamesLost)) * 100,
+      };
+      setPlayerDetails(loadedPlayerDetails);
+    })();
+  }, []);
+  return (
     <Layout>
       <DashboardBody>
         <LeftDiv>
@@ -137,10 +120,22 @@ export const DashboardPage = () => {
           <NextGameButton />
         </LeftDiv>
         <RightDiv>
-          <PlayerProfile player={p} />
+          <PlayerProfile playerDetails={playerDetails} />
           <Leaderboard players={playerList} />
         </RightDiv>
       </DashboardBody>
     </Layout>
   );
 };
+
+/*
+function sleep(milliseconds: number) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}*/
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

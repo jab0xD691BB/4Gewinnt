@@ -9,6 +9,9 @@ declare module "styled-components" {
       backgroundColor: string;
       listBackgroundColor: string;
       buttonColor: string;
+      buttonHoverColor: string;
+      mainButtonColor: string;
+      mainButtonHoverColor: string;
       fontColor: string;
       secondaryFontColor: string;
       shadowColor: string;
@@ -18,6 +21,10 @@ declare module "styled-components" {
       gameBoardColumnBorderHighlightColor: string;
       gameBoardFieldBorderColor: string;
       text: string;
+      boardColor: string;
+      titleWrapperColor: string;
+      dangerButton: string;
+      joinButton: string,
 
       player1Color: string;
       player2Color: string;

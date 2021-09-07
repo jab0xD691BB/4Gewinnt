@@ -1,4 +1,3 @@
-import React, { useRef } from "react";
 import styled from "styled-components";
 // @ts-ignore
 const SelectLabel = styled.label`

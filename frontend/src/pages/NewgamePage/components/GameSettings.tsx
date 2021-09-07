@@ -1,13 +1,14 @@
 import React, { ChangeEvent, useContext, useState } from "react";
 import styled from "styled-components";
 import { Input, InputCheckbox } from "./Input";
-import { Button, WarnButton } from "./Button";
+import { Button, DangerButton } from "../../../components/Button";
 import { GameRoom } from "./GameRoomList";
 import io, { Socket } from "socket.io-client";
 import { authContext } from "../../../context/AuthenticationContext";
 import { SocketContext } from "../../../context/socket.context";
 import { useHistory } from "react-router";
 import { game } from "../../GamePage/GamePage";
+import { ComponentHeadline } from "../NewgamePage";
 
 export type GameSettings = {
   boardWidth: string;
@@ -18,9 +19,10 @@ export type GameSettings = {
 };
 
 export const GameSettingsLayout = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 interface props {
@@ -56,8 +58,13 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     const gameRoom: GameRoom = {
       id: JSON.parse(atob(token!.split(".")[1])).name,
       name: JSON.parse(atob(token!.split(".")[1])).name,
-      player1: JSON.parse(atob(token!.split(".")[1])).name,
-      player2: "",
+      player1: {
+        id: JSON.parse(atob(token!.split(".")[1])).id,
+        name: JSON.parse(atob(token!.split(".")[1])).name,
+        eloScore: Number(JSON.parse(atob(token!.split(".")[1])).eloScore),
+        ready: false,
+      },
+      player2: { id: "", name: "", eloScore: 0, ready: false },
       guests: [],
       gameSetting: gameSetting,
     };
@@ -84,8 +91,13 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     const gameRoom: GameRoom = {
       id: JSON.parse(atob(token!.split(".")[1])).name,
       name: JSON.parse(atob(token!.split(".")[1])).name,
-      player1: JSON.parse(atob(token!.split(".")[1])).name,
-      player2: "",
+      player1: {
+        id: JSON.parse(atob(token!.split(".")[1])).id,
+        name: JSON.parse(atob(token!.split(".")[1])).name,
+        eloScore: Number(JSON.parse(atob(token!.split(".")[1])).eloScore),
+        ready: false,
+      },
+      player2: { id: "", name: "", eloScore: 0, ready: false },
       guests: [],
       gameSetting: gameSetting,
     };
@@ -111,7 +123,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           textAlign: "center",
         }}
       >
-        <h2> Settings </h2>
+        <ComponentHeadline> Settings </ComponentHeadline>
         <Input
           name="boardWidth"
           label="Board Width"
@@ -175,9 +187,9 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           <Button onClick={createGameSession}>Create Game Session</Button>
         )}
         {joinedRoom?.id === JSON.parse(atob(token!.split(".")[1])).name && (
-          <WarnButton onClick={deleteGameSession}>
+          <DangerButton onClick={deleteGameSession}>
             Delete Game Session
-          </WarnButton>
+          </DangerButton>
         )}
       </div>
     </GameSettingsLayout>

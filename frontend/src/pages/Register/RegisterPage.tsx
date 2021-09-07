@@ -1,5 +1,5 @@
-import React, { useRef, useState, ChangeEvent, useContext} from "react";
-import { Button } from "./components/Button";
+import React, { useState, ChangeEvent, useContext} from "react";
+import { Button } from "../../components/Button";
 import { Input } from "./components/Input";
 import { RegisterMask as RegisterMask, RegisterMaskHolder as RegisterMaskHolder, LogoHolder }  from "./RegisterMask";
 import {Logo} from "../../components/Logo";

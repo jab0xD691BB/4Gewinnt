@@ -1,11 +1,10 @@
-import { Input } from "./components/Input";
 import styled from "styled-components";
 
 import { useEffect } from "react";
 import { footerHeight, headerHeight, Layout } from "../../components/Layout";
-import React, { ChangeEvent, useContext, useState } from "react";
-import { SettingsContainer, GameSettings } from "./components/GameSettings";
-import { Button, DisabledButton } from "./components/Button";
+import React, { useContext, useState } from "react";
+import { SettingsContainer } from "./components/GameSettings";
+import { Button, DisabledButton } from "../../components/Button";
 import {
   GameRoom,
   GameRoomItem,
@@ -37,6 +36,17 @@ interface room {
   setting: setting;
 }
 
+export const ComponentHeadline = styled.div`
+  background-color: ${(props) => props.theme.colors.backgroundColor};
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
+  padding: 15px;
+  font-size: 25px;
+  margin: 20px;
+  height: 55px;
+`;
+
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
   const { token } = useContext(authContext);
@@ -65,13 +75,18 @@ export const NewgamePage = () => {
     if (game) game.suspendGame();
     socket.emit("joinedRoom", {
       roomName: gameSelected?.id,
-      myName: JSON.parse(atob(token!.split(".")[1])).name,
+      player: {
+        id: JSON.parse(atob(token!.split(".")[1])).id,
+        name: JSON.parse(atob(token!.split(".")[1])).name,
+        eloScore: JSON.parse(atob(token!.split(".")[1])).eloScore,
+        ready: false,
+      },
     });
 
-    let gameRoom = rooms.find((x) => x.id === gameSelected?.id);
-    gameRoom!.player2 = JSON.parse(atob(token!.split(".")[1])).name;
+    //let gameRoom = rooms.find((x) => x.id === gameSelected?.id);
+    //gameRoom!.player2.name = JSON.parse(atob(token!.split(".")[1])).name;
 
-    setJoinedRoom(gameRoom!);
+    //setJoinedRoom(gameRoom!);
 
     history.push("/game");
   };
@@ -94,11 +109,10 @@ export const NewgamePage = () => {
   return (
     <Layout>
       <NewgameBody>
-        <h1 style={{ textAlign: "center", margin: 0 }}> New Game</h1>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <SettingsContainer ws={socket} />
           <GameRoomListLayout>
-            <h2> Game Room List </h2>
+            <ComponentHeadline> Game Room List </ComponentHeadline>
             <GameRoomList>
               <div
                 style={{

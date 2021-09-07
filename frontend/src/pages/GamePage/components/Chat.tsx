@@ -6,7 +6,7 @@ import { SocketContext } from "../../../context/socket.context";
 const ChatWrapper = styled.div`
   width: 100%;
   position: relative;
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 4px;
   height: 45%;
   padding: 10px;

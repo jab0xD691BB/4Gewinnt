@@ -1,22 +1,26 @@
 import styled from "styled-components";
 import { Player } from "./Leaderboard";
-import React, {useContext} from "react";
-import {authContext} from "../../../context/AuthenticationContext";
+import React, { useContext } from "react";
+import { authContext } from "../../../context/AuthenticationContext";
 
 export const PlayedGamesTitel = styled.p`
   text-align: center;
 `;
 
-export interface Game {id: string;
+export interface Game {
+  id: string;
   players: Player[];
   winner: Player;
   createdAt: string;
 }
 
 const GamesPlayedWrapper = styled.div`
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
   height: 75%;
-  margin-bottom: 7%;
-  background-color: #2b2b2b;
+
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
 `;
 
@@ -24,7 +28,7 @@ const Titles = styled.div`
   display: flex;
   margin-bottom: 2px;
   border: 0px;
-  background-color: #151515;
+  background-color:  ${(props) => props.theme.colors.titleWrapperColor};
   font-size: 10px;
   padding: 0 2px 0 2px;
 `;
@@ -38,7 +42,7 @@ const Title = styled.p`
 const GameWrapper = styled.div`
   height: 10%;
   width: 100%;
-  border-bottom: 1px solid #202020;
+  border-bottom: 1px solid ${(props) => props.theme.colors.backgroundColor};
   display: flex;
   font-size: 0.8rem;
   margin: 4px 0 4px 0;
@@ -67,19 +71,18 @@ const GameText = styled.div`
 `;
 
 export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
+  const { token } = useContext(authContext);
 
-    const { token } = useContext(authContext);
-
-    const getGameStatus = (game: Game) => {
-        if(!game.winner){
-            return "draw"
-        }
-        if(JSON.parse(atob(token!.split(".")[1])).id == game.winner){
-            return "won"
-        }else{
-            return "lost"
-        }
+  const getGameStatus = (game: Game) => {
+    if (!game.winner) {
+      return "draw";
     }
+    if (JSON.parse(atob(token!.split(".")[1])).id == game.winner.id) {
+      return "won";
+    } else {
+      return "lost";
+    }
+  };
 
   return (
     <GamesPlayedWrapper>
@@ -102,6 +105,7 @@ export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
               </PlayerStyle>
             </PlayersWrapper>
             <GameText>{getGameStatus(game)}</GameText>
+            <GameText>TODO</GameText>
             <GameText>{game.createdAt}</GameText>
           </GameWrapper>
         );

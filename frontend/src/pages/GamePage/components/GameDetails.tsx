@@ -3,7 +3,7 @@ import React from "react";
 import { GameRoom } from "../../NewgamePage/components/GameRoomList";
 
 const GameDetailsLayout = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   width: 400px;
   margin-bottom: 10px;
@@ -46,11 +46,11 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
         <GameTitle style={{ paddingTop: "10px" }}>{gameDetails.name}</GameTitle>
         <GameDetailsWrapper>
           <GameText>Player 1</GameText>
-          <GameTextValue>{gameDetails.player1}</GameTextValue>
+          <GameTextValue>{gameDetails.player1.name}</GameTextValue>
         </GameDetailsWrapper>
         <GameDetailsWrapper>
           <GameText>Player 2</GameText>
-          <GameTextValue>{gameDetails.player2}</GameTextValue>
+          <GameTextValue>{gameDetails.player2.name}</GameTextValue>
         </GameDetailsWrapper>
         <GameDetailsWrapper>
           <GameText>Guests</GameText>

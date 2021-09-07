@@ -41,6 +41,7 @@ const InputContainer = styled.div`
   color: #000;
   position: relative;
   height: 52px;
+  width: 300px;
   margin-bottom: 10px;
 
   &:focus-within {

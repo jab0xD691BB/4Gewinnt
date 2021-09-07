@@ -27,13 +27,16 @@ import {
 
 import { GameRoom } from "../NewgamePage/components/GameRoomList";
 import { GameDetails } from "./components/GameDetails";
-import { Button, VerticalButtonWrapper } from "./components/Button";
+import { Button, VerticalButtonWrapper } from "../../components/Button";
 import { SocketContext } from "../../context/socket.context";
 import { ReadyCheck } from "./components/ReadyCheck";
 
 import { Game, GameStateEnum } from "./components/GameEngine";
 import { Chat } from "./components/Chat";
 import { GameoverPopup } from "./components/GameoverPopup";
+import { authContext } from "../../context/AuthenticationContext";
+import { PersistGame } from "./components/APIController";
+import { Redirect } from "react-router";
 
 const GameBody = styled.div`
   height: 100%;
@@ -44,8 +47,8 @@ const GameBody = styled.div`
 const gameRoom: GameRoom = {
   id: "1",
   name: "Test Room Name1",
-  player1: "IchMachDichPlatt",
-  player2: "IchDichAuch",
+  player1: { name: "test", eloScore: 123, id: "1", ready: false },
+  player2: { name: "test12", eloScore: 123, id: "2", ready: false },
   guests: ["Gast1", "Gast2"],
   gameSetting: {
     boardWidth: "7",
@@ -60,12 +63,15 @@ export var game: Game;
 
 export const GamePage = () => {
   const [stepCounterRerender, setStepCounterRerenderer] = useState(0);
+  const [persistOnce, setPersistOnce] = useState(true);
   const { socket, rooms, gameState, joinedRoom } = useContext(SocketContext);
   const socketContext = useContext(SocketContext);
+  const { token } = useContext(authContext);
+  const name = JSON.parse(atob(token!.split(".")[1])).name;
 
   if (
     socketContext.joinedRoom &&
-    socketContext.joinedRoom?.player1 != "" &&
+    socketContext.joinedRoom?.player1.name != "" &&
     (!game || game.gameState == GameStateEnum.SUSPENDED)
   ) {
     console.log("CREATE NEW GAME");
@@ -76,19 +82,22 @@ export const GamePage = () => {
     );
 
     game.addPlayer(
-      socketContext.joinedRoom?.player1,
-      socketContext.joinedRoom?.player1,
+      socketContext.joinedRoom?.player1.name,
+      socketContext.joinedRoom?.player1.name,
       theme.colors.player1Color,
       Number(socketContext.joinedRoom?.gameSetting.time)
     );
 
     //dummy
 
-    if (socketContext.joinedRoom && socketContext.joinedRoom?.player2 != "") {
+    if (
+      socketContext.joinedRoom &&
+      socketContext.joinedRoom?.player2.name != ""
+    ) {
       //      if (socketContext.gameState) game.setGame(socketContext.gameState);
       game.addPlayer(
-        socketContext.joinedRoom?.player2,
-        socketContext.joinedRoom?.player2,
+        socketContext.joinedRoom?.player2.name,
+        socketContext.joinedRoom?.player2.name,
         theme.colors.player2Color,
         Number(socketContext.joinedRoom?.gameSetting.time)
       );
@@ -112,6 +121,17 @@ export const GamePage = () => {
       });
     }
   }
+  if (game && game.getGameState) {
+    if (
+      game.getGameState.state === GameStateEnum.HAS_WINNER &&
+      name === game.getGameState.winner &&
+      persistOnce
+    ) {
+      console.log("@@@@@@@@ SPEICHER GAME IN DB @@@@@@@");
+      setPersistOnce(false);
+      PersistGame(socketContext.joinedRoom as GameRoom, game.getGameState);
+    }
+  }
 
   const rerenderStepCounter = function () {
     setStepCounterRerenderer(game.getCurrentStep());
@@ -119,84 +139,90 @@ export const GamePage = () => {
   //calc(100vh - ${headerHeight} - ${footerHeight});
   return (
     <Layout>
-      {game.players.length == 2 ? <ReadyCheck /> : ""}
-      {game.winner && <GameoverPopup />}
-      <GameBody>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            height: "100%",
-          }}
-        >
-          <div style={{ width: "70%", height: "100%" }}>
-            <GameHeaderWrapper>
-              {game && game.playerIds[0] == gameState?.active_player && (
-                <PlayerNameWrapperActive
-                  style={{ backgroundColor: theme.colors.player1Color }}
-                >
-                  {joinedRoom !== null ? joinedRoom.player1 : ""}
-                </PlayerNameWrapperActive>
-              )}
-              {game && game.playerIds[0] != gameState?.active_player && (
-                <PlayerNameWrapperInactive>
-                  {joinedRoom !== null ? joinedRoom.player1 : ""}
-                </PlayerNameWrapperInactive>
-              )}
-              <PlayerNameWrapperInactive>VS</PlayerNameWrapperInactive>
-              {game && game.playerIds[1] == gameState?.active_player && (
-                <PlayerNameWrapperActive
-                  style={{ backgroundColor: theme.colors.player2Color }}
-                >
-                  {joinedRoom !== null ? joinedRoom.player2 : ""}
-                </PlayerNameWrapperActive>
-              )}
-              {game && game.playerIds[1] != gameState?.active_player && (
-                <PlayerNameWrapperInactive>
-                  {joinedRoom !== null ? joinedRoom.player2 : ""}
-                </PlayerNameWrapperInactive>
-              )}
-            </GameHeaderWrapper>
-            <GameBoardWrapper onClick={rerenderStepCounter}>
-              <GameBoard />
-            </GameBoardWrapper>
-            <ReplayButtonWrapper onClick={rerenderStepCounter}>
-              <div style={{ width: "30%" }}>
-                <h3>Back</h3>
+      {game && (
+        <div>
+          {game && game.players.length == 2 ? <ReadyCheck /> : ""}
+          {game && game.winner && <GameoverPopup />}
+          <GameBody>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                height: "100%",
+              }}
+            >
+              <div style={{ width: "70%", height: "100%" }}>
+                <GameHeaderWrapper>
+                  {game && game.playerIds[0] == gameState?.active_player && (
+                    <PlayerNameWrapperActive
+                      style={{ backgroundColor: theme.colors.player1Color }}
+                    >
+                      {joinedRoom !== null ? joinedRoom.player1.name : ""}
+                    </PlayerNameWrapperActive>
+                  )}
+                  {game && game.playerIds[0] != gameState?.active_player && (
+                    <PlayerNameWrapperInactive>
+                      {joinedRoom !== null ? joinedRoom.player1.name : ""}
+                    </PlayerNameWrapperInactive>
+                  )}
+                  <PlayerNameWrapperInactive>VS</PlayerNameWrapperInactive>
+                  {game && game.playerIds[1] == gameState?.active_player && (
+                    <PlayerNameWrapperActive
+                      style={{ backgroundColor: theme.colors.player2Color }}
+                    >
+                      {joinedRoom !== null ? joinedRoom.player2.name : ""}
+                    </PlayerNameWrapperActive>
+                  )}
+                  {game && game.playerIds[1] != gameState?.active_player && (
+                    <PlayerNameWrapperInactive>
+                      {joinedRoom !== null ? joinedRoom.player2.name : ""}
+                    </PlayerNameWrapperInactive>
+                  )}
+                </GameHeaderWrapper>
+                <GameBoardWrapper onClick={rerenderStepCounter}>
+                  <GameBoard />
+                </GameBoardWrapper>
+                <ReplayButtonWrapper onClick={rerenderStepCounter}>
+                  <div style={{ width: "30%" }}>
+                    <h3>Back</h3>
+                  </div>
+                  <ReplayButtonWrapperSingle onClick={reverseButtonClicked}>
+                    <ArrowLeftButton></ArrowLeftButton>
+                  </ReplayButtonWrapperSingle>
+                  <ReplayButtonWrapperSingle>
+                    {game !== null ? game?.getCurrentStep() : "Not Started"}
+                  </ReplayButtonWrapperSingle>
+                  <ReplayButtonWrapperSingle onClick={advanceButtonClicked}>
+                    <ArrowRightButton></ArrowRightButton>
+                  </ReplayButtonWrapperSingle>
+                  <ReplayButtonWrapperSingle onClick={toLastStep}>
+                    <ArrowRightDangerButton></ArrowRightDangerButton>
+                  </ReplayButtonWrapperSingle>
+                  <div style={{ width: "30%", textAlign: "end" }}>
+                    <h3>Forth</h3>
+                  </div>
+                </ReplayButtonWrapper>
               </div>
-              <ReplayButtonWrapperSingle onClick={reverseButtonClicked}>
-                <ArrowLeftButton></ArrowLeftButton>
-              </ReplayButtonWrapperSingle>
-              <ReplayButtonWrapperSingle>
-                {game !== null ? game?.getCurrentStep() : "Not Started"}
-              </ReplayButtonWrapperSingle>
-              <ReplayButtonWrapperSingle onClick={advanceButtonClicked}>
-                <ArrowRightButton></ArrowRightButton>
-              </ReplayButtonWrapperSingle>
-              <ReplayButtonWrapperSingle onClick={toLastStep}>
-                <ArrowRightDangerButton></ArrowRightDangerButton>
-              </ReplayButtonWrapperSingle>
-              <div style={{ width: "30%", textAlign: "end" }}>
-                <h3>Forth</h3>
+
+              <div
+                css={`
+                  height: 100%;
+                `}
+              >
+                <GameDetails
+                  gameDetails={joinedRoom !== null ? joinedRoom : gameRoom}
+                />
+                <Chat />
+                <VerticalButtonWrapper>
+                  <Button onClick={resign}>Resign</Button>
+                  <Button>Back to Dashboard</Button>
+                </VerticalButtonWrapper>
               </div>
-            </ReplayButtonWrapper>
-          </div>
-          <div
-            css={`
-              height: 100%;
-            `}
-          >
-            <GameDetails
-              gameDetails={joinedRoom !== null ? joinedRoom : gameRoom}
-            />
-            <Chat />
-            <VerticalButtonWrapper>
-              <Button onClick={resign}>Resign</Button>
-              <Button>Back to Dashboard</Button>
-            </VerticalButtonWrapper>
-          </div>
+            </div>
+          </GameBody>
         </div>
-      </GameBody>
+      )}
+      {!game && <Redirect to="/" />}
     </Layout>
   );
 };

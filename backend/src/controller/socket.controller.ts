@@ -13,11 +13,18 @@ type GameSettings = {
   rated: string;
 };
 
+interface Player {
+  id: String;
+  name: String;
+  eloScore: number;
+  ready: boolean;
+}
+
 type GameRoom = {
   id: string;
   name: string;
-  player1: string;
-  player2: string;
+  player1: Player;
+  player2: Player;
   guests: string[];
   gameSetting: GameSettings;
 };
@@ -89,7 +96,7 @@ export const socket = ({ io }: { io: Server }) => {
 
     socket.on("joinedRoom", (message: any) => {
       console.log("joinedroom", message);
-      rooms[message.roomName].player2 = message.myName;
+      rooms[message.roomName].player2 = message.player;
       console.log("joinedroom after", rooms[message.roomName]);
 
       //socket.emit("joinedRoom", {
@@ -104,6 +111,9 @@ export const socket = ({ io }: { io: Server }) => {
         returnRooms.push(room);
       }
 
+      socket.emit("joinedRoom", {
+        settings: rooms[message.roomName],
+      });
       socket.emit("refreshRoom", {
         settings: returnRooms,
       });

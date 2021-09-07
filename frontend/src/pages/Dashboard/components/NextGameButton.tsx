@@ -3,7 +3,9 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 const NextGameButtonLayout = styled.div`
-  height: 20%;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -11,8 +13,8 @@ const NextGameButtonLayout = styled.div`
 `;
 
 const NextGameButtonButton = styled.button`
-  background-color: green;
-  color: black;
+  background-color: ${(props) => props.theme.colors.mainButtonColor};
+  color: ${(props) => props.theme.colors.text};
   border: 0px;
   border-radius: 10px;
   transition-duration: 250ms;
@@ -20,7 +22,7 @@ const NextGameButtonButton = styled.button`
   font-size: 20px;
   width: 40%;
   &:hover {
-    background-color: #50e150;
+    background-color: ${(props) => props.theme.colors.mainButtonHoverColor};
   }
 `;
 

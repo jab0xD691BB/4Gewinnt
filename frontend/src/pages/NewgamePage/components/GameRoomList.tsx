@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
+import { Player } from "../../Dashboard/components/PlayerStats";
 import { GameSettings } from "./GameSettings";
 
 export type GameRoom = {
   id: string;
   name: string;
-  player1: string;
-  player2: string;
+  player1: Player;
+  player2: Player;
   guests: string[];
   gameSetting: GameSettings;
 };
@@ -32,15 +33,17 @@ export const GameRoomItemStyle = styled.div`
   position: relative;
   padding: 0.7rem 2rem;
   border-radius: 10px;
+  background-color: ${(props) => props.theme.colors.boardColor};
   &:hover {
     background-color: green;
   }
 `;
 
 export const GameRoomListLayout = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   padding-left: 50px;
   padding-right: 50px;
   text-align: center;
@@ -126,7 +129,7 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
             </GameRoomTitle>
             <GameRoomPlayers>
               <b>Current Players: </b>
-              {player1}, {player2}
+              {player1.name}, {player2.name}
             </GameRoomPlayers>
             <GameRoomGuests>
               <b>Current Guests: </b>
