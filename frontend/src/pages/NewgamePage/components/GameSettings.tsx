@@ -8,6 +8,7 @@ import { authContext } from "../../../context/AuthenticationContext";
 import { SocketContext } from "../../../context/socket.context";
 import { useHistory } from "react-router";
 import { game } from "../../GamePage/GamePage";
+import { ComponentHeadline } from "../NewgamePage";
 
 export type GameSettings = {
   boardWidth: string;
@@ -18,9 +19,10 @@ export type GameSettings = {
 };
 
 export const GameSettingsLayout = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 interface props {
@@ -121,7 +123,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           textAlign: "center",
         }}
       >
-        <h2> Settings </h2>
+        <ComponentHeadline> Settings </ComponentHeadline>
         <Input
           name="boardWidth"
           label="Board Width"

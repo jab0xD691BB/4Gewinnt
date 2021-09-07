@@ -39,5 +39,5 @@ export const DownloadButton = styled.button`
 `;
 
 export const DangerButton = styled(Button)`
-  background-color:  #d01c1f};
+  background-color:  ${(props) => props.theme.colors.dangerButton};
 `;

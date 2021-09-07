@@ -37,6 +37,17 @@ interface room {
   setting: setting;
 }
 
+export const ComponentHeadline = styled.div`
+  background-color: #3b3b3b;
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
+  padding: 15px;
+  font-size: 25px;
+  margin: 20px;
+  height: 55px;
+`;
+
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
   const { token } = useContext(authContext);
@@ -99,11 +110,10 @@ export const NewgamePage = () => {
   return (
     <Layout>
       <NewgameBody>
-        <h1 style={{ textAlign: "center", margin: 0 }}> New Game</h1>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <SettingsContainer ws={socket} />
           <GameRoomListLayout>
-            <h2> Game Room List </h2>
+            <ComponentHeadline> Game Room List </ComponentHeadline>
             <GameRoomList>
               <div
                 style={{

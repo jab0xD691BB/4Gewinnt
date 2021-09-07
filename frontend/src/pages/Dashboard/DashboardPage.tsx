@@ -19,7 +19,6 @@ const DashboardBody = styled.div`
 
 const LeftDiv = styled.div`
   width: 63%;
-  margin-right: 7%;
   display: flex;
   flex-direction: column;
 `;
@@ -55,71 +54,65 @@ export const DashboardPage = () => {
     null
   );
 
-  let dataLoaded: boolean = false;
-
   useEffect(() => {
     (async () => {
-      if (!dataLoaded) {
-        dataLoaded = true;
-        //load gameList
-
-        let urlGameList =
-          "/api/game/gameplayedby/" + JSON.parse(atob(token!.split(".")[1])).id;
-        const gameListRequest = await fetch(urlGameList, {
-          headers: { "content-type": "application/json" },
-        });
-        if (gameListRequest.status === 200) {
-          const transactionJSON = await gameListRequest.json();
-          setGameList(transactionJSON.data);
-        }
-
-        //load leaderboard
-        let urlLeaderBoard = "/api/player/sortplayers";
-        const leaderListRequest = await fetch(urlLeaderBoard, {
-          headers: { "content-type": "application/json" },
-        });
-        if (leaderListRequest.status === 200) {
-          const transactionJSON = await leaderListRequest.json();
-          setPlayerList(transactionJSON.data);
-        }
-
-        //load player stats from now on
-        let playerId = JSON.parse(atob(token!.split(".")[1])).id;
-        let playerName = JSON.parse(atob(token!.split(".")[1])).name;
-        let playerEloScore = JSON.parse(atob(token!.split(".")[1])).eloScore;
-        let playerGamesWon: number = 0;
-        let playerGamesLost: number = 0;
-
-        let urlGamesWon =
-          "/api/game/gamesWon/" + JSON.parse(atob(token!.split(".")[1])).id;
-        const gamesWonRequest = await fetch(urlGamesWon, {
-          headers: { "content-type": "application/json" },
-        });
-        if (gamesWonRequest.status === 200) {
-          const transactionJSON = await gamesWonRequest.json();
-          playerGamesWon = parseInt(transactionJSON.data[0].gamesWon);
-        }
-
-        let urlGamesLost =
-          "/api/game/gamesLost/" + JSON.parse(atob(token!.split(".")[1])).id;
-        const gamesLostRequest = await fetch(urlGamesLost, {
-          headers: { "content-type": "application/json" },
-        });
-        if (gamesLostRequest.status === 200) {
-          const transactionJSON = await gamesLostRequest.json();
-          playerGamesLost = parseInt(transactionJSON.data[0].gamesLost);
-        }
-
-        let loadedPlayerDetails: PlayerDetails = {
-          id: playerId as string,
-          name: playerName as string,
-          eloScore: playerEloScore as number,
-          won: playerGamesWon as number,
-          lost: playerGamesLost as number,
-          winrate: (playerGamesWon / (playerGamesWon + playerGamesLost)) * 100,
-        };
-        setPlayerDetails(loadedPlayerDetails);
+      //load gameList
+      let urlGameList =
+        "/api/game/gameplayedby/" + JSON.parse(atob(token!.split(".")[1])).id;
+      const gameListRequest = await fetch(urlGameList, {
+        headers: { "content-type": "application/json" },
+      });
+      if (gameListRequest.status === 200) {
+        const transactionJSON = await gameListRequest.json();
+        setGameList(transactionJSON.data);
       }
+
+      //load leaderboard
+      let urlLeaderBoard = "/api/player/sortplayers";
+      const leaderListRequest = await fetch(urlLeaderBoard, {
+        headers: { "content-type": "application/json" },
+      });
+      if (leaderListRequest.status === 200) {
+        const transactionJSON = await leaderListRequest.json();
+        setPlayerList(transactionJSON.data);
+      }
+
+      //load player stats from now on
+      let playerId = JSON.parse(atob(token!.split(".")[1])).id;
+      let playerName = JSON.parse(atob(token!.split(".")[1])).name;
+      let playerEloScore = JSON.parse(atob(token!.split(".")[1])).eloScore;
+      let playerGamesWon: number = 0;
+      let playerGamesLost: number = 0;
+
+      let urlGamesWon =
+        "/api/game/gamesWon/" + JSON.parse(atob(token!.split(".")[1])).id;
+      const gamesWonRequest = await fetch(urlGamesWon, {
+        headers: { "content-type": "application/json" },
+      });
+      if (gamesWonRequest.status === 200) {
+        const transactionJSON = await gamesWonRequest.json();
+        playerGamesWon = parseInt(transactionJSON.data[0].gamesWon);
+      }
+
+      let urlGamesLost =
+        "/api/game/gamesLost/" + JSON.parse(atob(token!.split(".")[1])).id;
+      const gamesLostRequest = await fetch(urlGamesLost, {
+        headers: { "content-type": "application/json" },
+      });
+      if (gamesLostRequest.status === 200) {
+        const transactionJSON = await gamesLostRequest.json();
+        playerGamesLost = parseInt(transactionJSON.data[0].gamesLost);
+      }
+
+      let loadedPlayerDetails: PlayerDetails = {
+        id: playerId as string,
+        name: playerName as string,
+        eloScore: playerEloScore as number,
+        won: playerGamesWon as number,
+        lost: playerGamesLost as number,
+        winrate: (playerGamesWon / (playerGamesWon + playerGamesLost)) * 100,
+      };
+      setPlayerDetails(loadedPlayerDetails);
     })();
   }, []);
   return (

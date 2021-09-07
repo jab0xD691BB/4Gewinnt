@@ -19,6 +19,9 @@ export default {
         gameBoardColumnBorderHighlightColor: '#52B788',
         gameBoardFieldBorderColor: '#333',
         text:  '#EDE5A6',
+        boardColor: "#2b2b2b",
+        titleWrapperColor: "#151515",
+        dangerButton: "#d01c1f",
 
         player1Color: '#999926',
         player2Color: '#996299'

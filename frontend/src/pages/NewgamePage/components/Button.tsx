@@ -23,7 +23,7 @@ export const Button = styled.button`
 `;
 
 export const WarnButton = styled.button`
-  background-color: red;
+  background-color: ${(props) => props.theme.colors.dangerButton};
   border: 0px;
   border-radius: 10px;
   color: black;

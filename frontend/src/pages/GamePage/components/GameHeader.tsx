@@ -2,7 +2,7 @@ import styled, {keyframes} from 'styled-components';
 import React from "react";
 
 export const GameHeaderWrapper = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   display: flex;
   flex-direction: row;

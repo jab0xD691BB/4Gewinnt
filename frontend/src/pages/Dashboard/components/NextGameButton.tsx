@@ -3,7 +3,9 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 const NextGameButtonLayout = styled.div`
-  height: 20%;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
   border-radius: 10px;
   display: flex;
   justify-content: center;

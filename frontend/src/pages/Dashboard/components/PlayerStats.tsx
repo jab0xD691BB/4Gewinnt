@@ -3,11 +3,13 @@ import React from "react";
 import { PlayerDetails } from "../DashboardPage";
 
 const PlayerLayout = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   height: 40%;
   width: 100%;
-  margin-bottom: 20%;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
 `;
