@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { AuthProvider, authContext } from "./context/AuthenticationContext";
 import { UnauthenticatedLayout } from "./components/UnauthenticatedLayout";
 import "./App.css";
+import { HelpPage } from "./pages/HelpPage/HelpPage";
 import { DashboardPage } from "./pages/Dashboard/DashboardPage";
 import { NewgamePage } from "./pages/NewgamePage/NewgamePage";
 import { SettingsPage } from "./pages/SettingsPage/SettingsPage";
@@ -106,6 +107,7 @@ export const App = () => {
                 component={NewgamePage}
               />
               <AuthenticatedRoute exact path="/game" component={GamePage} />
+              <AuthenticatedRoute exact path="/help" component={HelpPage} />
               <AuthenticatedRoute
                 exact
                 path="/settings"

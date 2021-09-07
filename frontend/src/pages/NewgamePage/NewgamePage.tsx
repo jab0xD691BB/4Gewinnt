@@ -57,6 +57,7 @@ export const NewgamePage = () => {
   const { socket, rooms, setJoinedRoom } = useContext(SocketContext);
   
   let history = useHistory();
+  const userName = JSON.parse(atob(token!.split(".")[1])).name;
 
   
   const [websocket, updateWebsocket] = useState(false);
@@ -70,7 +71,7 @@ export const NewgamePage = () => {
 
   useEffect(() => {
     socket.emit("connectplayer", {
-      name: JSON.parse(atob(token!.split(".")[1])).name,
+      name: userName,
     });
     function receive() {}
     receive();
@@ -78,23 +79,25 @@ export const NewgamePage = () => {
 
   const joinAsPlayer = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (game) game.suspendGame();
-    socket.emit("joinedRoom", {
-      roomName: gameSelected?.id,
-      player: {
-        id: JSON.parse(atob(token!.split(".")[1])).id,
-        name: JSON.parse(atob(token!.split(".")[1])).name,
-        eloScore: JSON.parse(atob(token!.split(".")[1])).eloScore,
-        ready: false,
-      },
-    });
+    if (userName !== gameSelected!.id) {
+      if (game) game.suspendGame();
+      socket.emit("joinedRoom", {
+        roomName: gameSelected?.id,
+        player: {
+          id: JSON.parse(atob(token!.split(".")[1])).id,
+          name: JSON.parse(atob(token!.split(".")[1])).name,
+          eloScore: JSON.parse(atob(token!.split(".")[1])).eloScore,
+          ready: false,
+        },
+      });
 
-    //let gameRoom = rooms.find((x) => x.id === gameSelected?.id);
-    //gameRoom!.player2.name = JSON.parse(atob(token!.split(".")[1])).name;
+      //let gameRoom = rooms.find((x) => x.id === gameSelected?.id);
+      //gameRoom!.player2.name = JSON.parse(atob(token!.split(".")[1])).name;
 
-    //setJoinedRoom(gameRoom!);
+      //setJoinedRoom(gameRoom!);
 
-    history.push("/game");
+      history.push("/game");
+    }
   };
 
   const joinAsGuest = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -177,7 +180,15 @@ export const NewgamePage = () => {
             
             </div>
           </GameRoomListLayout>
-          {gameSelected && <GameDetails gameDetails={gameSelected!} />}
+          {gameSelected && (
+            <GameDetails
+              gameDetails={
+                rooms.find((x) => x.id === gameSelected?.id)
+                  ? gameSelected!
+                  : null
+              }
+            />
+          )}
           {!gameSelected && <GameDetailsEmpty />}
         </div>
       </NewgameBody>

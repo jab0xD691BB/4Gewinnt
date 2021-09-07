@@ -35,45 +35,53 @@ const GameTextValue = styled.p`
   text-align: end;
 `;
 
-export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
+export const GameDetails: React.FC<{ gameDetails: GameRoom | null }> = ({
   gameDetails,
 }) => {
   return (
     <GameDetailsLayout>
       <ComponentHeadline> Game Room Details </ComponentHeadline>
-      <GameTitle style={{ paddingTop: "10px" }}>{gameDetails.name}</GameTitle>
-      <GameDetailsWrapper>
-        <GameText>Player 1</GameText>
-        <GameTextValue>{gameDetails.player1.name}</GameTextValue>
-      </GameDetailsWrapper>
-      <GameDetailsWrapper>
-        <GameText>Player 2</GameText>
-        <GameTextValue>{gameDetails.player2.name}</GameTextValue>
-      </GameDetailsWrapper>
-      <GameDetailsWrapper>
-        <GameText>Guests</GameText>
-        <GameTextValue>{gameDetails.guests}</GameTextValue>
-      </GameDetailsWrapper>
-      <GameDetailsWrapper>
-        <GameText>Board Width</GameText>
-        <GameTextValue>{gameDetails.gameSetting.boardWidth}</GameTextValue>
-      </GameDetailsWrapper>
-      <GameDetailsWrapper>
-        <GameText>Board Heigth</GameText>
-        <GameTextValue>{gameDetails.gameSetting.boardHeigth}</GameTextValue>
-      </GameDetailsWrapper>
-      <GameDetailsWrapper>
-        <GameText>Row Counts To Win</GameText>
-        <GameTextValue>{gameDetails.gameSetting.rowCountToWin}</GameTextValue>
-      </GameDetailsWrapper>
-      <GameDetailsWrapper>
-        <GameText>Time</GameText>
-        <GameTextValue>{gameDetails.gameSetting.time}</GameTextValue>
-      </GameDetailsWrapper>
-      <GameDetailsWrapper>
-        <GameText>Rated</GameText>
-        <GameTextValue>{gameDetails.gameSetting.rated}</GameTextValue>
-      </GameDetailsWrapper>
+      {gameDetails && (
+        <div>
+          <GameTitle style={{ paddingTop: "10px" }}>
+            {gameDetails?.name}
+          </GameTitle>
+          <GameDetailsWrapper>
+            <GameText>Player 1</GameText>
+            <GameTextValue>{gameDetails.player1.name}</GameTextValue>
+          </GameDetailsWrapper>
+          <GameDetailsWrapper>
+            <GameText>Player 2</GameText>
+            <GameTextValue>{gameDetails.player2.name}</GameTextValue>
+          </GameDetailsWrapper>
+          <GameDetailsWrapper>
+            <GameText>Guests</GameText>
+            <GameTextValue>{gameDetails.guests}</GameTextValue>
+          </GameDetailsWrapper>
+          <GameDetailsWrapper>
+            <GameText>Board Width</GameText>
+            <GameTextValue>{gameDetails.gameSetting.boardWidth}</GameTextValue>
+          </GameDetailsWrapper>
+          <GameDetailsWrapper>
+            <GameText>Board Heigth</GameText>
+            <GameTextValue>{gameDetails.gameSetting.boardHeigth}</GameTextValue>
+          </GameDetailsWrapper>
+          <GameDetailsWrapper>
+            <GameText>Row Counts To Win</GameText>
+            <GameTextValue>
+              {gameDetails.gameSetting.rowCountToWin}
+            </GameTextValue>
+          </GameDetailsWrapper>
+          <GameDetailsWrapper>
+            <GameText>Time</GameText>
+            <GameTextValue>{gameDetails.gameSetting.time}</GameTextValue>
+          </GameDetailsWrapper>
+          <GameDetailsWrapper>
+            <GameText>Rated</GameText>
+            <GameTextValue>{gameDetails.gameSetting.rated}</GameTextValue>
+          </GameDetailsWrapper>
+        </div>
+      )}
     </GameDetailsLayout>
   );
 };

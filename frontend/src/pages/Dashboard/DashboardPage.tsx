@@ -26,13 +26,6 @@ const RightDiv = styled.div`
   display: flex;
   flex-direction: column;
 `;
-/*
-const p: Player = {
-
-    id: "123",
-    name: "L2P",
-    eloScore: 1234,
-};*/
 
 export type PlayerDetails = {
   id: string;
@@ -127,15 +120,3 @@ export const DashboardPage = () => {
     </Layout>
   );
 };
-
-/*
-function sleep(milliseconds: number) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}*/
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
