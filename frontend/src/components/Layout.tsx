@@ -99,13 +99,6 @@ export const Layout: React.FC = ({children}) => {
                             </Link>
                         </NavigationItem>
                         <NavigationItem>
-                                <Link to="/game" style={{textDecoration: "none"}}>
-                                    <Button>
-                                        Game
-                                    </Button>
-                                </Link>
-                        </NavigationItem>
-                        <NavigationItem>
                             <Link to="/settings" style={{textDecoration: "none"}}>
                                 <Button>
                                     Settings
@@ -113,9 +106,11 @@ export const Layout: React.FC = ({children}) => {
                             </Link>
                         </NavigationItem>
                         <NavigationItem>
-                            <Button>
-                                Help
-                            </Button>
+                            <Link to="/help" style={{textDecoration: "none"}}>
+                                <Button>
+                                    Help
+                                </Button>
+                            </Link>
                         </NavigationItem>
                         <NavigationItem>
                             <DangerButton

@@ -139,7 +139,6 @@ export const GamePage = () => {
   //calc(100vh - ${headerHeight} - ${footerHeight});
   return (
     <Layout>
-      {joinedRoom && (
         <div>
           {game && game.players.length == 2 ? <ReadyCheck /> : ""}
           {game && game.winner && <GameoverPopup />}
@@ -218,8 +217,6 @@ export const GamePage = () => {
             </div>
           </GameBody>
         </div>
-      )}
-      {!joinedRoom && <Redirect to="/newgame" />}
     </Layout>
   );
 };
