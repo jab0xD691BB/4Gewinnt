@@ -165,8 +165,8 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           label="Time in Minutes"
           type="number"
           step="1.00"
-          min= "1"
-          max= "60"
+          min="1"
+          max="60"
           onChange={fieldDidChangeInput}
           required
           defaultValue="10"
