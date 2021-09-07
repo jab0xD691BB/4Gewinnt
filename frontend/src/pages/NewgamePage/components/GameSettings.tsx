@@ -129,6 +129,8 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           label="Board Heigth"
           type="number"
           step="1.00"
+          min="5"
+          max="10"
           onChange={fieldDidChangeInput}
           required
           defaultValue="6"
@@ -139,6 +141,8 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           label="Row Count to win"
           type="number"
           step="1.00"
+          min="4"
+          max="10"
           onChange={fieldDidChangeInput}
           required
           defaultValue="4"
@@ -149,6 +153,8 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           label="Time in Minutes"
           type="number"
           step="1.00"
+          min= "1"
+          max= "60"
           onChange={fieldDidChangeInput}
           required
           defaultValue="10"
