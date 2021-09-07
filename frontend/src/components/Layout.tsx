@@ -149,7 +149,7 @@ export const Layout: React.FC = ({children}) => {
                 </NavigationList>
                 {children}
             </Main>
-            <Footer>Footer</Footer>
+            <Footer>&copy; Connect4 2021</Footer>
         </>
     );
 };

@@ -20,6 +20,7 @@ export default {
         boardColor: "#2b2b2b",
         titleWrapperColor: "#151515",
         dangerButton: "#d01c1f",
+        joinButton: '#333',
 
         player1Color: '#999926',
         player2Color: '#996299'

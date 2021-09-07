@@ -59,10 +59,10 @@ export const VerticalButtonWrapper = styled.div`
 `;
 
 export const DisabledButton = styled.button`
-  background-color: ${(props) => props.theme.colors.listHoverColor};
+  background-color: ${(props) => props.theme.colors.joinButton};
   border: 0px;
   border-radius: 10px;
-  color: ${(props) => props.theme.colors.fontColor};
+  color: ${(props) => props.theme.colors.text};
   line-height: 22.4px;
   padding: 13.2px 26.4px;
   text-align: center;

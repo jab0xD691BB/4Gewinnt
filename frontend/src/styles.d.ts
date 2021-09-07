@@ -24,6 +24,7 @@ declare module "styled-components" {
       boardColor: string;
       titleWrapperColor: string;
       dangerButton: string;
+      joinButton: string,
 
       player1Color: string;
       player2Color: string;
