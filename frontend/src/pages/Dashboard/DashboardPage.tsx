@@ -18,12 +18,12 @@ const DashboardBody = styled.div`
 
 const LeftDiv = styled.div`
   width: 63%;
-  margin-right: 7%;
   display: flex;
   flex-direction: column;
 `;
 
 const RightDiv = styled.div`
+
   height: calc(100vh - ${headerHeight} - ${footerHeight});
   width: 30%;
   display: flex;

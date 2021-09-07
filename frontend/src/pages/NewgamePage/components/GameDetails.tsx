@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import React from "react";
 import { GameRoom } from "./GameRoomList";
+import {ComponentHeadline} from "../NewgamePage";
 
 const GameDetailsLayout = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
-  width: 100%;
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   padding-left: 50px;
   padding-right: 50px;
   text-align: center;
@@ -39,7 +40,7 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
 }) => {
   return (
     <GameDetailsLayout>
-      <h2> Game Room Details </h2>
+      <ComponentHeadline> Game Room Details </ComponentHeadline>
       <GameTitle style={{ paddingTop: "10px" }}>{gameDetails.name}</GameTitle>
       <GameDetailsWrapper>
         <GameText>Player 1</GameText>
@@ -80,7 +81,7 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
 export const GameDetailsEmpty: React.FC<{}> = () => {
   return (
     <GameDetailsLayout>
-      <h2> Game Room Details </h2>
+      <ComponentHeadline> Game Room Details </ComponentHeadline>
     </GameDetailsLayout>
   );
 };

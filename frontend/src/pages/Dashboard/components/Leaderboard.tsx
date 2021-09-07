@@ -8,6 +8,7 @@ const LeaderboardLayout = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
   padding-left: 10px;
   padding-right: 10px;
+  margin: 10px;
 `;
 
 const PlayerWrapper = styled.div`

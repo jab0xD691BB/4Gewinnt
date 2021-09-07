@@ -15,8 +15,11 @@ export interface Game {
 }
 
 const GamesPlayedWrapper = styled.div`
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
   height: 75%;
-  margin-bottom: 7%;
+
   background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
 `;
