@@ -8,7 +8,7 @@ const ChatWrapper = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 4px;
-  height: 45%;
+  height: 42.5%;
   padding: 10px;
 `;
 
@@ -33,6 +33,7 @@ const ChatInput = styled.input`
 const ShowMessage = styled.div`
   width: 100%;
   height: 90%;
+  overflow: auto;
 `;
 
 const MessagWrapper = styled.div`

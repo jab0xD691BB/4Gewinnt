@@ -13,7 +13,8 @@ export const FieldColumn = styled.div`
 
     outline: 0;
     &:hover {
-        border: 2px solid ${(props) => props.theme.colors.gameBoardColumnBorderHighlightColor};
+        border: 2px solid ${(props) =>
+          props.theme.colors.gameBoardColumnBorderHighlightColor};
     }
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     }

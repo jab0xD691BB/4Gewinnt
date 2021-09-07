@@ -11,20 +11,21 @@ const DashboardBody = styled.div`
   display: flex;
   height: 100%;
   width: 100%;
-  height: calc(100vh - ${headerHeight} - ${footerHeight});
 `;
 
 const LeftDiv = styled.div`
   width: 63%;
   display: flex;
   flex-direction: column;
+  margin-right: 7%;
 `;
 
 const RightDiv = styled.div`
-  height: calc(100vh - ${headerHeight} - ${footerHeight});
+  height: 100%;
   width: 30%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
 export type PlayerDetails = {
@@ -110,11 +111,11 @@ export const DashboardPage = () => {
       <DashboardBody>
         <LeftDiv>
           <GamesList games={gameList} />
-          <NextGameButton />
         </LeftDiv>
         <RightDiv>
           <PlayerProfile playerDetails={playerDetails} />
           <Leaderboard players={playerList} />
+          <NextGameButton />
         </RightDiv>
       </DashboardBody>
     </Layout>

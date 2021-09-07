@@ -54,6 +54,9 @@ export const VerticalButtonWrapper = styled.div`
   border-radius: 10px;
   margin-top: 7%;
   height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 `;
 
 export const DisabledButton = styled.button`

@@ -21,8 +21,7 @@ export type GameSettings = {
 export const GameSettingsLayout = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  width: 30%;
 `;
 
 interface props {

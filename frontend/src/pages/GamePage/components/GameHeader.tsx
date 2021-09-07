@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from "styled-components";
 import React from "react";
 
 export const GameHeaderWrapper = styled.div`
@@ -9,10 +9,8 @@ export const GameHeaderWrapper = styled.div`
   justify-content: center;
   height: 75px;
   padding: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-
-  `;
+  margin-right: 2%;
+`;
 
 export const PlayerNameWrapperActive = styled.div`
   border-radius: 10px;
@@ -49,4 +47,4 @@ export const PlayerNameWrapperInactive = styled.div`
   font-size: 25px;
   margin-left: 10px;
   margin-right: 10px;
-  `;
+`;

@@ -42,8 +42,7 @@ export const GameRoomItemStyle = styled.div`
 export const GameRoomListLayout = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  width: 30%;
   padding-left: 50px;
   padding-right: 50px;
   text-align: center;
