@@ -6,8 +6,6 @@ import {NextGameButton} from "./components/NextGameButton";
 import {Player, PlayerProfile} from "./components/PlayerStats";
 import React, {useContext, useEffect, useState} from "react";
 import {authContext} from "../../context/AuthenticationContext";
-import {GameRoom} from "../NewgamePage/components/GameRoomList";
-import {GameSettings} from "../NewgamePage/components/GameSettings";
 
 const DashboardBody = styled.div`
   display: flex;

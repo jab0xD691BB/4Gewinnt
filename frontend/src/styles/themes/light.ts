@@ -10,6 +10,7 @@ export default {
         backgroundColor: '#F5F5F5',
         listBackgroundColor: '#F5F5F5',
         buttonColor:  '#52B788',
+        buttonHoverColor: '#777777',
         fontColor:  '#52B788',
         secondaryFontColor: '#EDE5A6',
         shadowColor: '#52B788',

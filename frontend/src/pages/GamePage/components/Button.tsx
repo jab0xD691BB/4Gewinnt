@@ -11,7 +11,7 @@ export const VerticalButtonWrapper = styled.div`
 `;
 
 export const Button = styled.button`
-  background-color: ${(props) => props.theme.colors.primary};
+  background-color: ${(props) => props.theme.colors.buttonColor};
   border: 0px;
   border-radius: 10px;
   color: black;
@@ -28,7 +28,7 @@ export const Button = styled.button`
 
   outline: 0;
   &:hover {
-    background-color: #50e150;
+    background-color: ${(props) => props.theme.colors.buttonHoverColor};
   }
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
