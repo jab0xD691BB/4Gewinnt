@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { Player } from "./Leaderboard";
-import React, {useContext} from "react";
-import {authContext} from "../../../context/AuthenticationContext";
+import React, { useContext } from "react";
+import { authContext } from "../../../context/AuthenticationContext";
 
 export const PlayedGamesTitel = styled.p`
   text-align: center;
 `;
 
-export interface Game {id: string;
+export interface Game {
+  id: string;
   players: Player[];
   winner: Player;
   createdAt: string;
@@ -67,19 +68,18 @@ const GameText = styled.div`
 `;
 
 export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
+  const { token } = useContext(authContext);
 
-    const { token } = useContext(authContext);
-
-    const getGameStatus = (game: Game) => {
-        if(!game.winner){
-            return "draw"
-        }
-        if(JSON.parse(atob(token!.split(".")[1])).id == game.winner){
-            return "won"
-        }else{
-            return "lost"
-        }
+  const getGameStatus = (game: Game) => {
+    if (!game.winner) {
+      return "draw";
     }
+    if (JSON.parse(atob(token!.split(".")[1])).id == game.winner.id) {
+      return "won";
+    } else {
+      return "lost";
+    }
+  };
 
   return (
     <GamesPlayedWrapper>
@@ -102,6 +102,7 @@ export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
               </PlayerStyle>
             </PlayersWrapper>
             <GameText>{getGameStatus(game)}</GameText>
+            <GameText>TODO</GameText>
             <GameText>{game.createdAt}</GameText>
           </GameWrapper>
         );

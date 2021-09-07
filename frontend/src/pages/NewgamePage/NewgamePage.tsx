@@ -65,13 +65,18 @@ export const NewgamePage = () => {
     if (game) game.suspendGame();
     socket.emit("joinedRoom", {
       roomName: gameSelected?.id,
-      myName: JSON.parse(atob(token!.split(".")[1])).name,
+      player: {
+        id: JSON.parse(atob(token!.split(".")[1])).id,
+        name: JSON.parse(atob(token!.split(".")[1])).name,
+        eloScore: JSON.parse(atob(token!.split(".")[1])).eloScore,
+        ready: false,
+      },
     });
 
-    let gameRoom = rooms.find((x) => x.id === gameSelected?.id);
-    gameRoom!.player2 = JSON.parse(atob(token!.split(".")[1])).name;
+    //let gameRoom = rooms.find((x) => x.id === gameSelected?.id);
+    //gameRoom!.player2.name = JSON.parse(atob(token!.split(".")[1])).name;
 
-    setJoinedRoom(gameRoom!);
+    //setJoinedRoom(gameRoom!);
 
     history.push("/game");
   };

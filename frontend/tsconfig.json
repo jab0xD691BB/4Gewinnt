@@ -16,5 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "theme.ts"]
+  "include": ["src", "theme.ts", "../backend/src/game/GameEngine.tsx"]
 }

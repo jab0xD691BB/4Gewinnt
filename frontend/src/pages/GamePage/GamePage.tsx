@@ -35,6 +35,7 @@ import { Game, GameStateEnum } from "./components/GameEngine";
 import { Chat } from "./components/Chat";
 import { GameoverPopup } from "./components/GameoverPopup";
 import { authContext } from "../../context/AuthenticationContext";
+import { PersistGame } from "./components/APIController";
 
 const GameBody = styled.div`
   height: 100%;
@@ -45,8 +46,8 @@ const GameBody = styled.div`
 const gameRoom: GameRoom = {
   id: "1",
   name: "Test Room Name1",
-  player1: "IchMachDichPlatt",
-  player2: "IchDichAuch",
+  player1: { name: "test", eloScore: 123, id: "1", ready: false },
+  player2: { name: "test12", eloScore: 123, id: "2", ready: false },
   guests: ["Gast1", "Gast2"],
   gameSetting: {
     boardWidth: "7",
@@ -69,7 +70,7 @@ export const GamePage = () => {
 
   if (
     socketContext.joinedRoom &&
-    socketContext.joinedRoom?.player1 != "" &&
+    socketContext.joinedRoom?.player1.name != "" &&
     (!game || game.gameState == GameStateEnum.SUSPENDED)
   ) {
     console.log("CREATE NEW GAME");
@@ -80,19 +81,22 @@ export const GamePage = () => {
     );
 
     game.addPlayer(
-      socketContext.joinedRoom?.player1,
-      socketContext.joinedRoom?.player1,
+      socketContext.joinedRoom?.player1.name,
+      socketContext.joinedRoom?.player1.name,
       theme.colors.player1Color,
       Number(socketContext.joinedRoom?.gameSetting.time)
     );
 
     //dummy
 
-    if (socketContext.joinedRoom && socketContext.joinedRoom?.player2 != "") {
+    if (
+      socketContext.joinedRoom &&
+      socketContext.joinedRoom?.player2.name != ""
+    ) {
       //      if (socketContext.gameState) game.setGame(socketContext.gameState);
       game.addPlayer(
-        socketContext.joinedRoom?.player2,
-        socketContext.joinedRoom?.player2,
+        socketContext.joinedRoom?.player2.name,
+        socketContext.joinedRoom?.player2.name,
         theme.colors.player2Color,
         Number(socketContext.joinedRoom?.gameSetting.time)
       );
@@ -124,6 +128,7 @@ export const GamePage = () => {
     ) {
       console.log("@@@@@@@@ SPEICHER GAME IN DB @@@@@@@");
       setPersistOnce(false);
+      PersistGame(socketContext.joinedRoom as GameRoom, game.getGameState);
     }
   }
 
@@ -149,12 +154,12 @@ export const GamePage = () => {
                 <PlayerNameWrapperActive
                   style={{ backgroundColor: theme.colors.player1Color }}
                 >
-                  {joinedRoom !== null ? joinedRoom.player1 : ""}
+                  {joinedRoom !== null ? joinedRoom.player1.name : ""}
                 </PlayerNameWrapperActive>
               )}
               {game && game.playerIds[0] != gameState?.active_player && (
                 <PlayerNameWrapperInactive>
-                  {joinedRoom !== null ? joinedRoom.player1 : ""}
+                  {joinedRoom !== null ? joinedRoom.player1.name : ""}
                 </PlayerNameWrapperInactive>
               )}
               <PlayerNameWrapperInactive>VS</PlayerNameWrapperInactive>
@@ -162,12 +167,12 @@ export const GamePage = () => {
                 <PlayerNameWrapperActive
                   style={{ backgroundColor: theme.colors.player2Color }}
                 >
-                  {joinedRoom !== null ? joinedRoom.player2 : ""}
+                  {joinedRoom !== null ? joinedRoom.player2.name : ""}
                 </PlayerNameWrapperActive>
               )}
               {game && game.playerIds[1] != gameState?.active_player && (
                 <PlayerNameWrapperInactive>
-                  {joinedRoom !== null ? joinedRoom.player2 : ""}
+                  {joinedRoom !== null ? joinedRoom.player2.name : ""}
                 </PlayerNameWrapperInactive>
               )}
             </GameHeaderWrapper>

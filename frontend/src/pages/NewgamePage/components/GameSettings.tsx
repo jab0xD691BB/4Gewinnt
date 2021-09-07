@@ -56,8 +56,13 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     const gameRoom: GameRoom = {
       id: JSON.parse(atob(token!.split(".")[1])).name,
       name: JSON.parse(atob(token!.split(".")[1])).name,
-      player1: JSON.parse(atob(token!.split(".")[1])).name,
-      player2: "",
+      player1: {
+        id: JSON.parse(atob(token!.split(".")[1])).id,
+        name: JSON.parse(atob(token!.split(".")[1])).name,
+        eloScore: Number(JSON.parse(atob(token!.split(".")[1])).eloScore),
+        ready: false,
+      },
+      player2: { id: "", name: "", eloScore: 0, ready: false },
       guests: [],
       gameSetting: gameSetting,
     };
@@ -84,8 +89,13 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     const gameRoom: GameRoom = {
       id: JSON.parse(atob(token!.split(".")[1])).name,
       name: JSON.parse(atob(token!.split(".")[1])).name,
-      player1: JSON.parse(atob(token!.split(".")[1])).name,
-      player2: "",
+      player1: {
+        id: JSON.parse(atob(token!.split(".")[1])).id,
+        name: JSON.parse(atob(token!.split(".")[1])).name,
+        eloScore: Number(JSON.parse(atob(token!.split(".")[1])).eloScore),
+        ready: false,
+      },
+      player2: { id: "", name: "", eloScore: 0, ready: false },
       guests: [],
       gameSetting: gameSetting,
     };

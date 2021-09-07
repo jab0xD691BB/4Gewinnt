@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Player } from "../../Dashboard/components/PlayerStats";
 import { GameSettings } from "./GameSettings";
 
 export type GameRoom = {
   id: string;
   name: string;
-  player1: string;
-  player2: string;
+  player1: Player;
+  player2: Player;
   guests: string[];
   gameSetting: GameSettings;
 };
@@ -126,7 +127,7 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
             </GameRoomTitle>
             <GameRoomPlayers>
               <b>Current Players: </b>
-              {player1}, {player2}
+              {player1.name}, {player2.name}
             </GameRoomPlayers>
             <GameRoomGuests>
               <b>Current Guests: </b>

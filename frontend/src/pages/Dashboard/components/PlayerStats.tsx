@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import { PlayerDetails } from "../DashboardPage";
 
 const PlayerLayout = styled.div`
   background-color: #2b2b2b;
@@ -33,31 +34,33 @@ const PlayerTextValue = styled.p`
 `;
 
 export interface Player {
-    id: string
+  id: string;
   name: string;
   eloScore: number;
+  ready: boolean;
 }
 
-export const PlayerProfile: React.FC<{ player: Player }> = ({ player }) => {
-  return (
-    <PlayerLayout>
-      <PlayerTitel>{player.name}</PlayerTitel>
-      <PlayerStatsWrapper>
-        <PlayerText>Elo</PlayerText>
-        <PlayerTextValue>{player.eloScore}</PlayerTextValue>
-      </PlayerStatsWrapper>
-      <PlayerStatsWrapper>
-        <PlayerText>Won</PlayerText>
-        <PlayerTextValue>{/*player.won*/}</PlayerTextValue>
-      </PlayerStatsWrapper>
-      <PlayerStatsWrapper>
-        <PlayerText>Lost</PlayerText>
-        <PlayerTextValue>{/*player.lost*/}</PlayerTextValue>
-      </PlayerStatsWrapper>
-      <PlayerStatsWrapper>
-        <PlayerText>Winrate</PlayerText>
-        <PlayerTextValue>{/*player.winrate*/}</PlayerTextValue>
-      </PlayerStatsWrapper>
-    </PlayerLayout>
-  );
-};
+export const PlayerProfile: React.FC<{ playerDetails: PlayerDetails | null }> =
+  ({ playerDetails }) => {
+    return (
+      <PlayerLayout>
+        <PlayerTitel>{playerDetails?.name}</PlayerTitel>
+        <PlayerStatsWrapper>
+          <PlayerText>Elo</PlayerText>
+          <PlayerTextValue>{playerDetails?.eloScore}</PlayerTextValue>
+        </PlayerStatsWrapper>
+        <PlayerStatsWrapper>
+          <PlayerText>Won</PlayerText>
+          <PlayerTextValue>{playerDetails?.won}</PlayerTextValue>
+        </PlayerStatsWrapper>
+        <PlayerStatsWrapper>
+          <PlayerText>Lost</PlayerText>
+          <PlayerTextValue>{playerDetails?.lost}</PlayerTextValue>
+        </PlayerStatsWrapper>
+        <PlayerStatsWrapper>
+          <PlayerText>Winrate</PlayerText>
+          <PlayerTextValue>{playerDetails?.winrate}</PlayerTextValue>
+        </PlayerStatsWrapper>
+      </PlayerLayout>
+    );
+  };

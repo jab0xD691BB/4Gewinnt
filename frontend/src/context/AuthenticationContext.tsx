@@ -44,6 +44,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [token, setToken] = useState<string | null>(
     window.localStorage.getItem("auth-token")
   );
+  //console.log("authContext");
 
   const login = async (values: LoginOptions) => {
     const loginRequest = await fetch("/api/user/token", {

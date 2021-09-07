@@ -138,9 +138,9 @@ export const GameoverPopup = () => {
           <p>
             Player2:{" "}
             {socketContext.gameState?.winner ===
-            socketContext.joinedRoom?.player1
-              ? socketContext.joinedRoom?.player2
-              : socketContext.joinedRoom?.player1}{" "}
+            socketContext.joinedRoom?.player1.name
+              ? socketContext.joinedRoom?.player2.name
+              : socketContext.joinedRoom?.player1.name}{" "}
             lost
           </p>
           <div

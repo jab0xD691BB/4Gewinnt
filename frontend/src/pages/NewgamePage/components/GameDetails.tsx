@@ -43,11 +43,11 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
       <GameTitle style={{ paddingTop: "10px" }}>{gameDetails.name}</GameTitle>
       <GameDetailsWrapper>
         <GameText>Player 1</GameText>
-        <GameTextValue>{gameDetails.player1}</GameTextValue>
+        <GameTextValue>{gameDetails.player1.name}</GameTextValue>
       </GameDetailsWrapper>
       <GameDetailsWrapper>
         <GameText>Player 2</GameText>
-        <GameTextValue>{gameDetails.player2}</GameTextValue>
+        <GameTextValue>{gameDetails.player2.name}</GameTextValue>
       </GameDetailsWrapper>
       <GameDetailsWrapper>
         <GameText>Guests</GameText>
