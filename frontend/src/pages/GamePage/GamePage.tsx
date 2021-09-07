@@ -12,7 +12,7 @@ import {
 } from "./components/GameBoard";
 
 import {
-  ArrowLeftButton,
+  ArrowLeftButton, ArrowLeftDangerButton,
   ArrowRightButton,
   ArrowRightDangerButton,
   ReplayButtonWrapper,
@@ -139,7 +139,7 @@ export const GamePage = () => {
   //calc(100vh - ${headerHeight} - ${footerHeight});
   return (
     <Layout>
-      {game && (
+      {joinedRoom && (
         <div>
           {game && game.players.length == 2 ? <ReadyCheck /> : ""}
           {game && game.winner && <GameoverPopup />}
@@ -183,9 +183,9 @@ export const GamePage = () => {
                   <GameBoard />
                 </GameBoardWrapper>
                 <ReplayButtonWrapper onClick={rerenderStepCounter}>
-                  <div style={{ width: "30%" }}>
-                    <h3>Back</h3>
-                  </div>
+                  <ReplayButtonWrapperSingle>
+                    <ArrowLeftDangerButton/>
+                  </ReplayButtonWrapperSingle>
                   <ReplayButtonWrapperSingle onClick={reverseButtonClicked}>
                     <ArrowLeftButton></ArrowLeftButton>
                   </ReplayButtonWrapperSingle>
@@ -196,11 +196,8 @@ export const GamePage = () => {
                     <ArrowRightButton></ArrowRightButton>
                   </ReplayButtonWrapperSingle>
                   <ReplayButtonWrapperSingle onClick={toLastStep}>
-                    <ArrowRightDangerButton></ArrowRightDangerButton>
+                    <ArrowRightDangerButton/>
                   </ReplayButtonWrapperSingle>
-                  <div style={{ width: "30%", textAlign: "end" }}>
-                    <h3>Forth</h3>
-                  </div>
                 </ReplayButtonWrapper>
               </div>
 
@@ -222,7 +219,7 @@ export const GamePage = () => {
           </GameBody>
         </div>
       )}
-      {!game && <Redirect to="/" />}
+      {!joinedRoom && <Redirect to="/newgame" />}
     </Layout>
   );
 };

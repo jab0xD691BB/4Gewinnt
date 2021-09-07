@@ -6,7 +6,7 @@ export const ReplayButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 10%;
+  height: 75px;
   padding: 10px;
   margin-left: 10px;
   margin-right: 10px;
@@ -70,6 +70,21 @@ export const ArrowRightDangerButton = styled.div`
   
   border-top: 20px solid transparent;
   border-left: 60px solid ${(props) => props.theme.colors.dangerButton};
+  border-bottom: 20px solid transparent;
+  
+  margin-right: 10px;
+  margin-left: 15px;
+    
+  outline: 0;
+
+  `;
+
+export const ArrowLeftDangerButton = styled.div`
+  width: 0;
+  height: 0;
+  
+  border-top: 20px solid transparent;
+  border-right: 60px solid ${(props) => props.theme.colors.dangerButton};
   border-bottom: 20px solid transparent;
   
   margin-right: 10px;

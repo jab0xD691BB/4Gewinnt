@@ -13,8 +13,6 @@ export const Button = styled.button`
   transition-duration: 250ms;
   margin-bottom: 10px;
   margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
 
   outline: 0;
   &:hover {

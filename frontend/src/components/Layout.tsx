@@ -3,15 +3,7 @@ import styled, {css} from "styled-components/macro";
 import {Connect4Img} from "../img/Connect4";
 import {Link, NavLink, Route, Switch} from "react-router-dom";
 import {authContext} from "../context/AuthenticationContext";
-import {Button, ActiveButton} from "./Button";
-import {SocketContext} from "../context/socket.context";
-
-
-const TextButton = styled.button`
-  all: unset;
-  color: ${(props) => props.theme.colors.primary};
-  pointer: click;
-  `;
+import {Button, ActiveButton, DangerButton} from "./Button";
 
 export const headerHeight = "85px";
 export const footerHeight = "50px";
@@ -19,13 +11,6 @@ export const footerHeight = "50px";
 const MaxWidth = css`
     margin-right: 200px;
     margin-left: 100px;
-`;
-
-const Header = styled.header`
-  height: ${headerHeight};
-  width: 100%;
-  display: flex;
-  padding: 0 25px;
 `;
 
 const Main = styled.main`
@@ -53,16 +38,14 @@ const NaviSectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 200px;
-`
-
-const ChildrenWrapper = styled.div`
-
+  margin-bottom: 10px;
+  padding: 10px;
+  
 `
 
 const NavigationItem = styled.div`
   color: ${(props) => props.theme.colors.primary};
   text-decoration: none;
-  margin-right: 15px;
 `;
 
 const LogoTitel = styled.div`
@@ -129,22 +112,20 @@ export const Layout: React.FC = ({children}) => {
                                 </Button>
                             </Link>
                         </NavigationItem>
-
-                        <NavigationItem>
-                            <Button
-                                onClick={() => {
-                                    logout();
-                                }}
-                            >
-                                Logout
-                            </Button>
-                        </NavigationItem>
                         <NavigationItem>
                             <Button>
                                 Help
                             </Button>
                         </NavigationItem>
-
+                        <NavigationItem>
+                            <DangerButton
+                                onClick={() => {
+                                    logout();
+                                }}
+                            >
+                                Logout
+                            </DangerButton>
+                        </NavigationItem>
                     </NaviSectionWrapper>
                 </NavigationList>
                 {children}
