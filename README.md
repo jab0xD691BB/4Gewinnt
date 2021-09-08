@@ -5,7 +5,7 @@
 Hey there, Welcome to the Connect 4 game made as a project for AWD module. In this repository you will find all the necessary files to run the application.
 The game Connect4 was developed by a group of students at Darmstadt University of Applied Sciences as part of the block course 'Advanced Web Development' in SS 2021.
 Project Developers:
-- Nikita Fabian Bogutzk
+- Nikita Fabian Bogutzki
 - Joseph Acosta-Becker
 - Felix Clemens Karl Christians
 - Lavinia Mihut
@@ -24,7 +24,7 @@ Our Motivation in this project was to overcome the classic rule of Connect 4 of 
 ### Requirements
 This application is based on docker, therefore you need to install docker locally. Take a look under this link on how to do that. https://docs.docker.com/get-started/
 
-you can start the whole project with `docker-compose up -d` and you will find the project under `http://localhost:3000`
+You can start the whole project with `docker-compose up -d` and you will find the project under `http://localhost:3000`
 
 ### Installation with Docker
 
@@ -89,12 +89,10 @@ This page is also accessible under `http://localhost:3000/dashboard`
 After you click the button `Next Game` in Dashboard you will be directed to the new game page.
 In this page you can specify the preferred settings that you want to play the game with such as :
 - Board Width
-- Board Length
+- Board Heigth
 - Row count to win
-- Time in minutes
-- Rated
 
-Afterwards you can create a room for the game and wait until an opponent comes. you can do this by clicking `Create Game Session`.
+Afterwards you can create a room for the game and wait until an opponent comes. You can do this by clicking `Create Game Session`.
 Otherwise you can see all the available rooms and choose one of them unless there is more than two players in the room.
 When you have already chosen a room you can find all the details regarding that room on the `Game Room Details` section on the right.
 After choosing a room you can join this room to play by clicking the `Join as Player` button.
@@ -106,7 +104,6 @@ This page is also accessible under `http://localhost:3000/newgame`.
 After choosing your preferred settings and joining a room you will be directed to the main page of this project, which is the game page.
 In this page you can actually play the game against an opponent along with communicating with him through the chat box.
 It is also possible to redo some moves with the help of the buttons on the bottom. 
-Additionally you can resign your turn or give up on the game and go back to the dashboard using the buttons `Resign` and `Back to Dashboard`
 
 <img src=Docs/Screenshots/newGame.png width="80%">
 
@@ -123,7 +120,7 @@ This page is also accessible under `http://localhost:3000/settings`.
 In every page of this website there is a navigation list on the left with which you can access all the available pages. and most importantly you can logout of the website by clicking `Logout`.
 
 #### Help Page
-
+You can find here some information about the functionality of the webpage.
 This page is also accessible under `http://localhost:3000/help`.
 
 ## Code Example
@@ -133,6 +130,7 @@ This page is also accessible under `http://localhost:3000/help`.
 ## License
 
 MIT © 
+
 
 
 

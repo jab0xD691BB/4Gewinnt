@@ -87,8 +87,8 @@ const newGamePage = "New Game Page: ";
 const newgamePageText =
   "After you click the button Next Game in Dashboard you will be directed to the new game page. " +
   "In this page you can specify the preferred settings that you want to play the game with such as :" +
-  "Board Width, Board Length, Row count to win, Time in minutes, Rated. " +
-  "Afterwards you can create a room for the game and wait until an opponent comes. you can do this by clicking Create Game Session. " +
+  "Board Width, Board Heigth, Row count to win. " +
+  "Afterwards you can create a room for the game and wait until an opponent comes. You can do this by clicking Create Game Session. " +
   "Otherwise you can see all the available rooms and choose one of them unless there is more than two players in the room. " + 
   "When you have already chosen a room you can find all the details regarding that room on the Game Room Details section on the right. " + 
   "After choosing a room you can join this room to play by clicking the Join as Player button. ";
@@ -97,8 +97,7 @@ const gamePage = "Game Page: ";
 const gamePageText =
   "After choosing your preferred settings and joining a room you will be directed to the main page of this project, which is the game page. " +
   "In this page you can actually play the game against an opponent along with communicating with him through the chat box. " +
-  "It is also possible to redo some moves with the help of the buttons on the bottom. " +
-  "Additionally you can resign your turn or give up on the game and go back to the dashboard using the buttons Resign and Back to Dashboard";
+  "It is also possible to redo some moves with the help of the buttons on the bottom. ";
 
 const settingsPage = "Settings Page: ";
 const settingsPageText = 
