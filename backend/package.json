@@ -19,7 +19,8 @@
     "typeorm": "^0.2.32",
     "typescript": "^4.4.2",
     "watch": "^1.0.2",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "elo-calculator": "^1.0.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

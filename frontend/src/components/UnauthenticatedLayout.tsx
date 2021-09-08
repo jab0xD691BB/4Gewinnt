@@ -1,6 +1,5 @@
 import React from "react";
 import styled, { css } from "styled-components/macro";
-import { Logo } from "./Logo";
 const footerHeight = "50px";
 
 export const MaxWidthCSS = css`
@@ -24,7 +23,7 @@ export const UnauthenticatedLayout: React.FC = ({ children }) => {
   return (
     <>
       <Main>{children}</Main>
-      <Footer> &copy;2021 AWD</Footer>
+      <Footer> &copy; Connect4 2021</Footer>
     </>
   );
 };

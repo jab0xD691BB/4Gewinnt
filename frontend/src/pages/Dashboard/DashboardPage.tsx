@@ -1,165 +1,121 @@
 import styled from "styled-components";
-import { footerHeight, headerHeight, Layout } from "../../components/Layout";
+import { Layout } from "../../components/Layout";
 import { Game, GamesList } from "./components/GamesList";
 import { Leaderboard } from "./components/Leaderboard";
 import { NextGameButton } from "./components/NextGameButton";
 import { Player, PlayerProfile } from "./components/PlayerStats";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { authContext } from "../../context/AuthenticationContext";
 
 const DashboardBody = styled.div`
   display: flex;
   height: 100%;
   width: 100%;
-  height: calc(100vh - ${headerHeight} - ${footerHeight});
 `;
 
 const LeftDiv = styled.div`
   width: 63%;
-  margin-right: 7%;
   display: flex;
   flex-direction: column;
+  margin-right: 7%;
 `;
 
 const RightDiv = styled.div`
-  height: calc(100vh - ${headerHeight} - ${footerHeight});
+  height: 100%;
   width: 30%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
-const p: Player = {
-  name: "L2P",
-  elo: 1234,
-  won: 100,
-  lost: 11,
-  winrate: 9000,
+export type PlayerDetails = {
+  id: string;
+  name: string;
+  eloScore: number;
+  won: number;
+  lost: number;
+  winrate: number;
 };
 
-const players: Player[] = [
-  {
-    name: "L2P",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Ayy",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Scurr",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Burr",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Sheesh",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "LilPeepe",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Gude",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Ayy",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Lmao",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-  {
-    name: "Test",
-    elo: 1234,
-    won: 100,
-    lost: 11,
-    winrate: 9000,
-  },
-];
-
-const games: Game[] = [
-  {
-    player1: {
-      name: "Lmao",
-      elo: 1234,
-      won: 100,
-      lost: 11,
-      winrate: 9000,
-    },
-    player2: {
-      name: "Test",
-      elo: 1234,
-      won: 100,
-      lost: 11,
-      winrate: 9000,
-    },
-    date: "31.08.2021",
-    gameStatus: "won",
-    moves: 20,
-  },
-  {
-    player1: {
-      name: "Lmao",
-      elo: 1234,
-      won: 100,
-      lost: 11,
-      winrate: 9000,
-    },
-    player2: {
-      name: "Gude",
-      elo: 1234,
-      won: 100,
-      lost: 11,
-      winrate: 9000,
-    },
-    date: "31.08.2021",
-    gameStatus: "won",
-    moves: 20,
-  },
-];
-
 export const DashboardPage = () => {
+  const { token } = useContext(authContext);
+  const [gameList, setGameList] = useState<Game[]>([]);
+  const [playerList, setPlayerList] = useState<Player[]>([]);
+  const [playerDetails, setPlayerDetails] = useState<PlayerDetails | null>(
+    null
+  );
+
+  useEffect(() => {
+    (async () => {
+      //load gameList
+      let urlGameList =
+        "/api/game/gameplayedby/" + JSON.parse(atob(token!.split(".")[1])).id;
+      const gameListRequest = await fetch(urlGameList, {
+        headers: { "content-type": "application/json" },
+      });
+      if (gameListRequest.status === 200) {
+        const transactionJSON = await gameListRequest.json();
+        setGameList(transactionJSON.data);
+      }
+
+      //load leaderboard
+      let urlLeaderBoard = "/api/player/sortplayers";
+      const leaderListRequest = await fetch(urlLeaderBoard, {
+        headers: { "content-type": "application/json" },
+      });
+      if (leaderListRequest.status === 200) {
+        const transactionJSON = await leaderListRequest.json();
+        setPlayerList(transactionJSON.data);
+      }
+
+      //load player stats from now on
+      let playerId = JSON.parse(atob(token!.split(".")[1])).id;
+      let playerName = JSON.parse(atob(token!.split(".")[1])).name;
+      let playerEloScore = JSON.parse(atob(token!.split(".")[1])).eloScore;
+      let playerGamesWon: number = 0;
+      let playerGamesLost: number = 0;
+
+      let urlGamesWon =
+        "/api/game/gamesWon/" + JSON.parse(atob(token!.split(".")[1])).id;
+      const gamesWonRequest = await fetch(urlGamesWon, {
+        headers: { "content-type": "application/json" },
+      });
+      if (gamesWonRequest.status === 200) {
+        const transactionJSON = await gamesWonRequest.json();
+        playerGamesWon = parseInt(transactionJSON.data[0].gamesWon);
+      }
+
+      let urlGamesLost =
+        "/api/game/gamesLost/" + JSON.parse(atob(token!.split(".")[1])).id;
+      const gamesLostRequest = await fetch(urlGamesLost, {
+        headers: { "content-type": "application/json" },
+      });
+      if (gamesLostRequest.status === 200) {
+        const transactionJSON = await gamesLostRequest.json();
+        playerGamesLost = parseInt(transactionJSON.data[0].gamesLost);
+      }
+
+      let loadedPlayerDetails: PlayerDetails = {
+        id: playerId as string,
+        name: playerName as string,
+        eloScore: playerEloScore as number,
+        won: playerGamesWon as number,
+        lost: playerGamesLost as number,
+        winrate: (playerGamesWon / (playerGamesWon + playerGamesLost)) * 100,
+      };
+      setPlayerDetails(loadedPlayerDetails);
+    })();
+  }, [token]);
   return (
     <Layout>
       <DashboardBody>
         <LeftDiv>
-          <GamesList games={games} />
-          <NextGameButton />
+          <GamesList games={gameList} />
         </LeftDiv>
         <RightDiv>
-          <PlayerProfile player={p} />
-          <Leaderboard players={players} />
+          <PlayerProfile playerDetails={playerDetails} />
+          <Leaderboard players={playerList} />
+          <NextGameButton />
         </RightDiv>
       </DashboardBody>
     </Layout>

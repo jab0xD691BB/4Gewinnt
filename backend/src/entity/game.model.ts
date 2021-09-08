@@ -18,9 +18,9 @@ export class Game {
   @CreateDateColumn()
   createdAt!: string;
 
-  @ManyToOne (type => Player, player => player.id)
+  @ManyToOne (type => Player, player => player.id, {nullable: true})
   @JoinColumn() 
-  winner!: Player;
+  winner?: Player;
 
   @ManyToMany (type => Player, player => player.games)
   @JoinTable()
