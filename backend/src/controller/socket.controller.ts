@@ -13,11 +13,18 @@ type GameSettings = {
   rated: string;
 };
 
+interface Player {
+  id: String;
+  name: String;
+  eloScore: number;
+  ready: boolean;
+}
+
 type GameRoom = {
   id: string;
   name: string;
-  player1: string;
-  player2: string;
+  player1: Player;
+  player2: Player;
   guests: string[];
   gameSetting: GameSettings;
 };
@@ -29,8 +36,6 @@ export const socket = ({ io }: { io: Server }) => {
   console.log("sockets");
 
   io.on("connection", (socket: Socket) => {
-    console.log("rooms", io.sockets.adapter.rooms);
-
     socket.on("connectplayer", (message: any) => {
       // player.name = message.name;
       console.log({ message });
@@ -38,7 +43,7 @@ export const socket = ({ io }: { io: Server }) => {
       players[message.name] = socket.id;
       console.log(players);
 
-      let returnRooms: Array<GameRoom> = [];
+      let returnRooms: GameRoom[] = [];
       for (let key in rooms) {
         let room = rooms[key];
         returnRooms.push(room);
@@ -56,12 +61,17 @@ export const socket = ({ io }: { io: Server }) => {
         rooms[message.name] = settings;
         socket.join(message.name);
 
-        socket.broadcast.emit("createroom", {
-          settings: rooms[message.name],
+        let returnRooms: GameRoom[] = [];
+        for (let key in rooms) {
+          let room = rooms[key];
+          returnRooms.push(room);
+        }
+        socket.broadcast.emit("refreshRoom", {
+          settings: returnRooms,
         });
-        socket.emit("createroom", {
-          settings: rooms[message.name],
-        });
+        //socket.emit("createroom", {
+        //settings: rooms[message.name],
+        //});
       }
       console.log("rooms after creation: ", rooms);
     });
@@ -70,7 +80,6 @@ export const socket = ({ io }: { io: Server }) => {
       const settings: GameRoom = message;
       console.log(message);
       if (rooms[message.name]) {
-
         delete rooms[message.name];
         let tmp = Object.values(rooms);
 
@@ -83,6 +92,53 @@ export const socket = ({ io }: { io: Server }) => {
         socket.leave(message.name);
       }
       console.log("rooms after deletion: ", rooms);
+    });
+
+    socket.on("joinedRoom", (message: any) => {
+      console.log("joinedroom", message);
+      rooms[message.roomName].player2 = message.player;
+      console.log("joinedroom after", rooms[message.roomName]);
+
+      //socket.emit("joinedRoom", {
+      //settings: rooms[message.roomName],
+      //});
+      socket.to(message.roomName).emit("player2join", {
+        settings: rooms[message.roomName],
+      });
+      let returnRooms: GameRoom[] = [];
+      for (let key in rooms) {
+        let room = rooms[key];
+        returnRooms.push(room);
+      }
+
+      socket.emit("joinedRoom", {
+        settings: rooms[message.roomName],
+      });
+      socket.emit("refreshRoom", {
+        settings: returnRooms,
+      });
+    });
+
+    socket.on("joinPlayer", (message: any) => {
+      console.log("join", message);
+      socket.join(message.name);
+
+      console.log("rooms", io.sockets.adapter.rooms);
+    });
+
+    socket.on("refreshGameState", (message: any) => {
+      socket.broadcast.emit("refreshGameState", {
+        gameState: message,
+      });
+      socket.emit("refreshGameState", {
+        gameState: message,
+      });
+      console.log("refreshGameState", message);
+    });
+
+    socket.on("message", ({ name, message }) => {
+      socket.broadcast.emit("message", { name, message });
+      socket.emit("message", { name, message });
     });
 
     socket.once("disconnect", () => {

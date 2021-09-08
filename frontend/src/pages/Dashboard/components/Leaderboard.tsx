@@ -5,25 +5,27 @@ const LeaderboardLayout = styled.div`
   border-radius: 10px;
   height: 60%;
   width: 100%;
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   padding-left: 10px;
   padding-right: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 const PlayerWrapper = styled.div`
   direction: flex;
   flex-direction: column;
-  border-bottom: 1px solid #202020;
-  line-height: 26px;
-  font-size: 14px;
+  border-bottom: 1px solid ${(props) => props.theme.colors.backgroundColor};
+  font-size: 1rem;
   &:nth-child(10) {
     border: 0px;
   }
+  line-height: 40px;
 `;
 const LeaderboardTitel = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   text-align: center;
-  border-bottom: 1px solid white;
+  line-height: 28px;
 `;
 
 const PlayerText = styled.p`
@@ -39,10 +41,10 @@ const PlayerTextValue = styled.p`
   margin: 0;
 `;
 
-const TitelWrapper = styled(PlayerWrapper)`
+const TitelWrapper = styled.div`
   margin-bottom: 2px;
   border: 0px;
-  background-color: #151515;
+  background-color: ${(props) => props.theme.colors.titleWrapperColor};
   font-size: 10px;
   padding: 0 2px 0 2px;
 `;
@@ -59,11 +61,9 @@ const EloTitel = styled(PlayerTextValue)``;
 const PlayerList = styled.div``;
 
 export interface Player {
+  id: string;
   name: string;
-  elo: number;
-  won: number;
-  lost: number;
-  winrate: number;
+  eloScore: number;
 }
 
 export const Leaderboard: React.FC<{ players: Player[] }> = ({ players }) => {
@@ -78,10 +78,10 @@ export const Leaderboard: React.FC<{ players: Player[] }> = ({ players }) => {
       <PlayerList>
         {players.map((player, index) => {
           return (
-            <PlayerWrapper>
+            <PlayerWrapper key={index}>
               <IndexStyle>#{index + 1}</IndexStyle>
               <PlayerText>{player.name}</PlayerText>
-              <PlayerTextValue>{player.elo}</PlayerTextValue>
+              <PlayerTextValue>{player.eloScore}</PlayerTextValue>
             </PlayerWrapper>
           );
         })}

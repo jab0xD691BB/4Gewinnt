@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React from "react";
 import styled from "styled-components";
-import {GameSettings} from "./GameSettings";
+import { Player } from "../../Dashboard/components/PlayerStats";
+import { GameSettings } from "./GameSettings";
 
 export type GameRoom = {
   id: string;
   name: string;
-  player1: string;
-  player2: string;
+  player1: Player;
+  player2: Player;
   guests: string[];
   gameSetting: GameSettings;
-
 };
 
 const GameRoomFlex = styled.div`
@@ -32,40 +32,31 @@ export const GameRoomItemStyle = styled.div`
   min-height: 3rem;
   position: relative;
   padding: 0.7rem 2rem;
-  border-radius: 10px;
-  &:hover {
-    background-color: green;
-  }
 `;
 
 export const GameRoomListLayout = styled.div`
-  background-color: #2b2b2b;
+  background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
-  margin: 10px;
+  width: 30%;
   padding-left: 50px;
   padding-right: 50px;
   text-align: center;
+  height: 58%;
+  position: relative;
 `;
 
 export const GameRoomList = styled.ul`
-
   list-style: none;
-  box-shadow: 0 0.125em 0.25em 0 ${(props) => props.theme.colors.shadowColor};
   width: 100%;
   padding: 0;
-  border-radius: 0.5rem;
   ${GameRoomItemStyle} {
     border-bottom: 1px ${(props) => props.theme.colors.shadowColor} solid;
     &:last-of-type {
       border-bottom: 0;
     }
   }
-`;
-
-export const GameRoomId = styled.p`
-  font-size: 0.8rem;
-  font-weight: 500;
-  margin: 0;
+  height: 58%;
+  overflow-y: auto;
 `;
 
 export const GameRoomTitle = styled.p`
@@ -86,36 +77,34 @@ export const GameRoomGuests = styled.p`
   margin: 0;
 `;
 
+const GameRoomWrapper = styled.div`
+  width: "100%";
+  text-align: left;
+  box-shadow: 0 0.125em 0.25em 0 ${(props) => props.theme.colors.shadowColor};
+  border-radius: 0.5rem;
+  margin: 3%;
+  border-radius: 10px;
+  &:hover {
+    background-color: #0080007a;
+  }
+`;
+
 export type GameRoomItemProps = {
   gameRoom: GameRoom;
   onClick?: (gameRoom: GameRoom) => void;
 };
 
-export const GameRoomItem: React.FC<GameRoomItemProps> = ({gameRoom, onClick = () => undefined}) => {
-
-
-  const getGuests = (guests: string[]) => {
-    var concatGuests = "";
-    for (let guest of guests) {
-      concatGuests += guest + " ";
-    }
-    return concatGuests;
-  };
-
-  const { id, name, player1, player2, guests } = gameRoom;
+export const GameRoomItem: React.FC<GameRoomItemProps> = ({
+  gameRoom,
+  onClick = () => undefined,
+}) => {
+  const { id, name, player1, player2 } = gameRoom;
   return (
-    <div id={id}
-      style={{
-        width: "100%",
-        textAlign: "left",
-//        backgroundColor: isClicked ? "rgb(54,161,139)" : "",
-      }}
-    >
+    <GameRoomWrapper id={id}>
       <GameRoomItemStyle
         data-testid="joke-item"
         onClick={() => {
           onClick(gameRoom);
-
         }}
       >
         <GameRoomHighlight />
@@ -127,15 +116,11 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({gameRoom, onClick = (
             </GameRoomTitle>
             <GameRoomPlayers>
               <b>Current Players: </b>
-              {player1}, {player2}
+              {player1.name}, {player2.name}
             </GameRoomPlayers>
-            <GameRoomGuests>
-              <b>Current Guests: </b>
-              {getGuests(guests)}
-            </GameRoomGuests>
           </div>
         </GameRoomFlex>
       </GameRoomItemStyle>
-    </div>
+    </GameRoomWrapper>
   );
 };
