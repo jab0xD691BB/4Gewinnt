@@ -59,12 +59,6 @@ export const GameRoomList = styled.ul`
   overflow-y: auto;
 `;
 
-export const GameRoomId = styled.p`
-  font-size: 0.8rem;
-  font-weight: 500;
-  margin: 0;
-`;
-
 export const GameRoomTitle = styled.p`
   font-size: 0.8rem;
   font-weight: 500;

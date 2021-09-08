@@ -1,15 +1,11 @@
 import styled, { ThemeContext } from "styled-components";
 
 import { useEffect } from "react";
-import {
-  ContentWrapper,
-  footerHeight,
-  headerHeight,
-  Layout,
-} from "../../components/Layout";
+import { ContentWrapper, Layout } from "../../components/Layout";
 import React, { useContext, useState } from "react";
 import { ButtonWrapper, SettingsContainer } from "./components/GameSettings";
 import { Button, DisabledButton } from "../../components/Button";
+
 import {
   GameRoom,
   GameRoomItem,
@@ -21,7 +17,7 @@ import { GameDetails, GameDetailsEmpty } from "./components/GameDetails";
 import { SocketContext } from "../../context/socket.context";
 import { useHistory } from "react-router";
 import { game } from "../GamePage/GamePage";
-import { Game } from "../GamePage/components/GameEngine";
+
 const NewgameBody = styled.div`
   height: 100%;
   width: 100%;
@@ -29,19 +25,6 @@ const NewgameBody = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-
-interface setting {
-  boardHeigth: string;
-  boardWidth: string;
-  rated: string;
-  rowCountToWin: string;
-  time: string;
-}
-
-interface room {
-  name: string;
-  setting: setting;
-}
 
 export const ComponentHeadline = styled.div`
   background-color: ${(props) => props.theme.colors.backgroundColor};
@@ -53,8 +36,6 @@ export const ComponentHeadline = styled.div`
   margin-top: 12%;
   margin-bottom: 12%;
 `;
-
-export var game1: Game;
 
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
@@ -69,7 +50,9 @@ export const NewgamePage = () => {
     socket.emit("connectplayer", {
       name: userName,
     });
+
     function receive() {}
+
     receive();
   }, []);
 

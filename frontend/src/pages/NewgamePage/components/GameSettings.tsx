@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useContext, useState } from "react";
 import styled from "styled-components";
-import { Input, InputCheckbox } from "./Input";
+import { Input } from "./Input";
 import { Button, DangerButton } from "../../../components/Button";
 import { GameRoom } from "./GameRoomList";
 import io, { Socket } from "socket.io-client";
@@ -53,9 +53,6 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
   const fieldDidChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const fieldDidChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
 
   const createGameSession = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -74,13 +71,6 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
       guests: [],
       gameSetting: gameSetting,
     };
-    /*await fetch("/api/match", {
-      body: JSON.stringify({
-        ...values,
-      }),
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
-    });*/
 
     if (game) game.suspendGame();
 
