@@ -1,15 +1,11 @@
-import React, { useRef, useState, ChangeEvent, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Input } from "./components/input";
 import { ContentWrapper, Layout } from "../../components/Layout";
 import styled, {
-  DefaultTheme,
   ThemeContext,
-  ThemeProvider,
 } from "styled-components";
-import * as themeConf from "../../theme";
 import { authContext } from "../../context/AuthenticationContext";
 import Settings from "../../components/Header";
-import usePersistedState from "../../utils/usePersistedState";
 
 const Button1 = styled.button`
         background-color: ${(props) => props.theme.colors.buttonColor};

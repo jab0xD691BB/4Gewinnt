@@ -98,7 +98,7 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
   gameRoom,
   onClick = () => undefined,
 }) => {
-  const { id, name, player1, player2, guests } = gameRoom;
+  const { id, name, player1, player2 } = gameRoom;
   return (
     <GameRoomWrapper id={id}>
       <GameRoomItemStyle

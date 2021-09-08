@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, useContext} from "react";
 import { Button } from "../../components/Button";
 import { Input } from "./components/Input";
-import { RegisterMask as RegisterMask, RegisterMaskHolder as RegisterMaskHolder, LogoHolder }  from "./RegisterMask";
+import { RegisterMask , RegisterMaskHolder , LogoHolder }  from "./RegisterMask";
 import {Logo} from "../../components/Logo";
 import {
   authContext,

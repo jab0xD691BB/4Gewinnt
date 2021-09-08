@@ -1,4 +1,4 @@
-import styled, {useTheme} from "styled-components";
+import styled from "styled-components";
 import {
     ContentWrapper,
     footerHeight,
@@ -30,18 +30,10 @@ import {
     PlayerNameWrapperInactive,
 } from "../GamePage/components/GameHeader";
 
-import {GameRoom} from "../NewgamePage/components/GameRoomList";
-import {GameDetails} from "../GamePage/components/GameDetails";
-import {Button, VerticalButtonWrapper} from "../../components/Button";
-import {SocketContext} from "../../context/socket.context";
-import {ReadyCheck} from "../GamePage/components/ReadyCheck";
 
+import {Button, VerticalButtonWrapper} from "../../components/Button";
 import {Game, GameState, GameStateEnum, GameStep, Player, PlayerStateEnum} from "../GamePage/components/GameEngine";
-import {Chat} from "../GamePage/components/Chat";
-import {GameoverPopup} from "../GamePage/components/GameoverPopup";
-import {authContext} from "../../context/AuthenticationContext";
-import {PersistGame} from "../GamePage/components/APIController";
-import {Socket} from "socket.io-client";
+
 
 const GameBody = styled.div`
   height: 100%;
@@ -63,11 +55,11 @@ const RightGameBodyWrapper = styled.div`
   justify-content: space-between;
 `;
 
-interface OfflineGameContext {
+interface OfflineGameContextInterface {
     gameState: GameState;
 }
 
-export const OfflineGameContext = React.createContext<OfflineGameContext>({
+export const OfflineGameContext = React.createContext<OfflineGameContextInterface>({
     gameState: {
         connect: 4,
         winner: "undefined",
@@ -84,10 +76,8 @@ export const OfflineGameContext = React.createContext<OfflineGameContext>({
 export var game: Game;
 
 export const OfflineGamePage = () => {
-    const theme = useTheme();
-    const [stepCounterRerender, setStepCounterRerenderer] = useState(0);
-    const [persistOnce, setPersistOnce] = useState(true);
-    const {token} = useContext(authContext);
+    
+    const [, setStepCounterRerenderer] = useState(0);
     const { gameState } = useContext(OfflineGameContext);
     let replay: boolean;
 

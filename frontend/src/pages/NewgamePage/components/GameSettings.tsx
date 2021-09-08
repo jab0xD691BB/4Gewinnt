@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Input } from "./Input";
 import { Button, DangerButton } from "../../../components/Button";
 import { GameRoom } from "./GameRoomList";
-import io, { Socket } from "socket.io-client";
+import { Socket } from "socket.io-client";
 import { authContext } from "../../../context/AuthenticationContext";
 import { SocketContext } from "../../../context/socket.context";
 import { useHistory } from "react-router";
@@ -44,9 +44,9 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     rated: "false",
   });
 
-  const [sessionStarted, setSessionStarted] = useState<boolean>(false);
+  const [, setSessionStarted] = useState<boolean>(false);
   const { token } = useContext(authContext);
-  const { socket, rooms, joinedRoom, setJoinedRoom } =
+  const { socket, joinedRoom, setJoinedRoom } =
     useContext(SocketContext);
   let history = useHistory();
 

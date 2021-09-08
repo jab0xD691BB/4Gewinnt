@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { ContentWrapper, Layout } from "../../components/Layout";
 import React, { useContext, useState } from "react";
 import { ButtonWrapper, SettingsContainer } from "./components/GameSettings";
-import { Button, DisabledButton } from "../../components/Button";
+import { Button } from "../../components/Button";
 
 import {
   GameRoom,
@@ -40,7 +40,7 @@ export const ComponentHeadline = styled.div`
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
   const { token } = useContext(authContext);
-  const { socket, rooms, setJoinedRoom } = useContext(SocketContext);
+  const { socket, rooms } = useContext(SocketContext);
   const theme = useContext(ThemeContext);
 
   let history = useHistory();
@@ -54,7 +54,7 @@ export const NewgamePage = () => {
     function receive() {}
 
     receive();
-  }, []);
+  }, [socket, userName]);
 
   const joinAsPlayer = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
