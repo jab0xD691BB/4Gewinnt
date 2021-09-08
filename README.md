@@ -4,6 +4,7 @@
 
 Hey there, Welcome to the Connect 4 game made as a project for AWD module. In this repository you will find all the necessary files to run the application.
 The game Connect4 was developed by a group of students at Darmstadt University of Applied Sciences as part of the block course 'Advanced Web Development' in SS 2021.
+
 Project Developers:
 - Nikita Fabian Bogutzk
 - Joseph Acosta-Becker
@@ -28,18 +29,6 @@ you can start the whole project with `docker-compose up -d` and you will find th
 
 ### Installation with Docker
 
-- Go to the `frontend`-folder and install all the requirements with
-
-```bash
-npm install
-```
-
-- Go to the `backend`-folder and install all the requirements with
-
-```bash
-npm install
-```
-
 - Go to the initial folder and start the Frontend/Backend/Database with
 
 ```bash
@@ -49,8 +38,7 @@ docker-compose up -d
 ### Updating the schema of the database
 
 ```bash
-docker-compose exec backend bash
-npm run typeorm schema:drop # Deletes the current schema
+docker-compose exec backend npm run typeorm schema:drop # Deletes the current schema
 npm run typeorm schema:sync # Creates a schema based on your data
 ```
 
