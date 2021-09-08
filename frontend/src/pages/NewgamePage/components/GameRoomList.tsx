@@ -33,7 +33,6 @@ export const GameRoomItemStyle = styled.div`
   position: relative;
   padding: 0.7rem 2rem;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.colors.boardColor};
   &:hover {
     background-color: green;
   }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {ThemeContext} from "styled-components";
 
 import { useEffect } from "react";
 import {
@@ -57,9 +57,9 @@ export var game1: Game;
 
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
-  const [activateJoin, setActivateJoin] = useState(false);
   const { token } = useContext(authContext);
   const { socket, rooms, setJoinedRoom } = useContext(SocketContext);
+  const theme = useContext(ThemeContext);
 
   let history = useHistory();
   const userName = JSON.parse(atob(token!.split(".")[1])).name;
@@ -110,7 +110,7 @@ export const NewgamePage = () => {
                     key={gameRoom.id}
                     onClick={() => {
                       for (let gameRoomElement of rooms) {
-                        if (gameRoomElement.id == gameRoom.id) {
+                        if (gameRoomElement.id === gameRoom.id) {
                           document.getElementById(
                             gameRoomElement.id
                           )!.style.backgroundColor = "green";
@@ -121,7 +121,7 @@ export const NewgamePage = () => {
                         } else {
                           document.getElementById(
                             gameRoomElement.id
-                          )!.style.backgroundColor = "#2b2b2b";
+                          )!.style.backgroundColor = theme.colors.boardColor;
                         }
                       }
                     }}

@@ -53,10 +53,6 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
           <GameTextValue>{gameDetails.player2.name}</GameTextValue>
         </GameDetailsWrapper>
         <GameDetailsWrapper>
-          <GameText>Guests</GameText>
-          <GameTextValue>{gameDetails.guests}</GameTextValue>
-        </GameDetailsWrapper>
-        <GameDetailsWrapper>
           <GameText>Board Width</GameText>
           <GameTextValue>{gameDetails.gameSetting.boardWidth}</GameTextValue>
         </GameDetailsWrapper>
