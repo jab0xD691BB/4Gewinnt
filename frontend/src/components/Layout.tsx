@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import styled, { css } from "styled-components/macro";
 import { Connect4Img } from "../img/Connect4";
-import { Link, NavLink, Route, Switch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { authContext } from "../context/AuthenticationContext";
-import { Button, ActiveButton, DangerButton } from "./Button";
+import { Button, DangerButton } from "./Button";
 
 export const headerHeight = "85px";
 export const footerHeight = "50px";

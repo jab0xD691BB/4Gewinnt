@@ -1,15 +1,12 @@
-import React, { useState, ChangeEvent, useContext} from "react";
+import React, { useRef, useState, ChangeEvent, useContext } from "react";
 import { Button } from "./components/Button";
 import { Input } from "./components/Input";
-import { LoginMask, LoginMaskHolder, LogoHolder }  from "./LoginMask";
-import {Logo} from "../../components/Logo";
-import {
-  authContext,
-  LoginOptions,
-} from "../../context/AuthenticationContext";
+import { LoginMask, LoginMaskHolder, LogoHolder } from "./LoginMask";
+import { Logo } from "../../components/Logo";
+import { authContext, LoginOptions } from "../../context/AuthenticationContext";
+import { Link } from "react-router-dom";
 import { UnauthenticatedLayout } from "../../components/UnauthenticatedLayout";
-import {StyledLink} from "../../components/Link";
-
+import { StyledLink } from "../../components/Link";
 
 export const LoginPage = () => {
   const auth = useContext(authContext);

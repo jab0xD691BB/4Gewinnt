@@ -37,8 +37,8 @@ interface props {
 
 export const SettingsContainer: React.FC<props> = ({ ws }) => {
   const [values, setValues] = useState({
-    boardWidth: "6",
-    boardHeigth: "7",
+    boardWidth: "7",
+    boardHeigth: "6",
     rowCountToWin: "4",
     time: "10",
     rated: "false",

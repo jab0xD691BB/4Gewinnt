@@ -22,6 +22,7 @@ const GamesPlayedWrapper = styled.div`
   padding-right: 10px;
   background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
+  overflow-y: auto;
 `;
 
 const Titles = styled.div`
@@ -35,7 +36,7 @@ const Titles = styled.div`
 
 const Title = styled.p`
   display: inline-block;
-  width: 25%;
+  width: 33.33%;
   text-align: center;
 `;
 
@@ -46,14 +47,13 @@ const GameWrapper = styled.div`
   display: flex;
   font-size: 1rem;
   margin: 4px 0 4px 0;
-  overflow-y: auto;
 `;
 
 const PlayersWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 25%;
+  width: 33.33%;
   line-height: 25px;
 `;
 
@@ -67,7 +67,7 @@ const GameText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 25%;
+  width: 33.33%;
   text-align: center;
 `;
 
@@ -78,7 +78,7 @@ export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
     if (!game.winner) {
       return "draw";
     }
-    if (JSON.parse(atob(token!.split(".")[1])).id == game.winner.id) {
+    if (JSON.parse(atob(token!.split(".")[1])).id === game.winner.id) {
       return "won";
     } else {
       return "lost";

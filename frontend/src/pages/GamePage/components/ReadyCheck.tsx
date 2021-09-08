@@ -17,9 +17,15 @@ export interface ModalOptions {
 }
 
 export const modalStyle: React.CSSProperties = {
-  backgroundColor: "#fff",
-  padding: "180px 200px",
+  backgroundColor: "#000000",
   borderRadius: "50px",
+  height: "100%",
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "4%",
 };
 
 export type UseModal = (
@@ -35,13 +41,14 @@ export type UseModal = (
 const wrapperStyle: React.CSSProperties = {
   position: "fixed",
   top: 0,
-  left: -400,
-  bottom: 0,
-  right: 0,
+  left: 0,
+  width: "100%",
+  height: "100vh",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   zIndex: 100,
+  backgroundColor: "#79797965",
 };
 
 const overlayStyle: React.CSSProperties = {
@@ -57,6 +64,8 @@ const overlayStyle: React.CSSProperties = {
 const containerStyle: React.CSSProperties = {
   position: "relative",
   zIndex: 100001,
+  width: "400px",
+  height: "200px",
 };
 
 const closeButtonStyle: React.CSSProperties = {
@@ -125,7 +134,8 @@ export const useModal: UseModal = (elementId = "root", options = {}) => {
         </Modal>
       );
     },
-    [isOpen, close, elementId]
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+    [isOpen, close, elementId, onOverlayClick]
   );
 
   return [ModalWrapper, open, close, isOpen];
@@ -136,6 +146,8 @@ export const ReadyCheck = () => {
     preventScroll: true,
     closeOnOverlayClick: false,
   });
+  console.log("linter", open, isOpen);
+
   return (
     <div>
       <Modal>
