@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {ThemeContext} from "styled-components";
 
 import { useEffect } from "react";
 import {
@@ -51,28 +51,18 @@ export const ComponentHeadline = styled.div`
   padding: 15px;
   font-size: 25px;
   margin: 20px;
-  height: 55px;
 `;
 
 export var game1: Game;
 
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
-  const [activateJoin, setActivateJoin] = useState(false);
   const { token } = useContext(authContext);
   const { socket, rooms, setJoinedRoom } = useContext(SocketContext);
+  const theme = useContext(ThemeContext);
 
   let history = useHistory();
   const userName = JSON.parse(atob(token!.split(".")[1])).name;
-
-  const [websocket, updateWebsocket] = useState(false);
-  const [ws, setSocket] = useState();
-  /*const [rooms, setRooms] = useState<
-    Array<{
-      key: string;
-      value: GameRoom;
-    }>
-  >([]);*/
 
   useEffect(() => {
     socket.emit("connectplayer", {
@@ -96,38 +86,9 @@ export const NewgamePage = () => {
         },
       });
 
-      //let gameRoom = rooms.find((x) => x.id === gameSelected?.id);
-      //gameRoom!.player2.name = JSON.parse(atob(token!.split(".")[1])).name;
-
-      //setJoinedRoom(gameRoom!);
-
       history.push("/game");
     }
   };
-
-  const joinAsGuest = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (game) game.suspendGame();
-    let tokenDecoded = JSON.parse(atob(token!.split(".")[1]));
-    await fetch(`/api/game/`, {
-      body: JSON.stringify({
-        player: tokenDecoded.id,
-        joinmode: "guest",
-        id: { this: gameSelected?.id },
-      }),
-      headers: { "Content-Type": "application/json" },
-      method: "PUT",
-    });
-  };
-
-  /* let joinButton = document.querySelector("Button") as HTMLButtonElement;
-  joinButton.addEventListener('click', () => {
-      if(game.players.length <= 2) {
-        joinButton.disabled = true;
-      } else {
-        joinButton.disabled = false;
-      }
-  }) */
 
   return (
     <Layout>
@@ -149,7 +110,7 @@ export const NewgamePage = () => {
                     key={gameRoom.id}
                     onClick={() => {
                       for (let gameRoomElement of rooms) {
-                        if (gameRoomElement.id == gameRoom.id) {
+                        if (gameRoomElement.id === gameRoom.id) {
                           document.getElementById(
                             gameRoomElement.id
                           )!.style.backgroundColor = "green";
@@ -160,7 +121,7 @@ export const NewgamePage = () => {
                         } else {
                           document.getElementById(
                             gameRoomElement.id
-                          )!.style.backgroundColor = "#2b2b2b";
+                          )!.style.backgroundColor = theme.colors.boardColor;
                         }
                       }
                     }}
@@ -170,22 +131,15 @@ export const NewgamePage = () => {
               </div>
             </GameRoomList>
             <div style={{ alignSelf: "flex-end" }}>
-              {gameSelected && (
-                <div>
+              {gameSelected && (gameSelected.player2.name === "" ? true : false) &&(
                   <Button
-                    disabled={gameSelected.player2.name === "" ? false : true}
                     onClick={joinAsPlayer}
                   >
                     Join As Player
                   </Button>
-                  <Button onClick={joinAsGuest}>Join As Guest</Button>
-                </div>
               )}
-              {!gameSelected && (
-                <div>
+              {!gameSelected || !(gameSelected.player2.name === "" ? true : false) && (
                   <DisabledButton>Join As Player</DisabledButton>
-                  <DisabledButton>Join As Guest</DisabledButton>
-                </div>
               )}
             </div>
           </GameRoomListLayout>

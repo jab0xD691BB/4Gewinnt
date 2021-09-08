@@ -53,10 +53,6 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
           <GameTextValue>{gameDetails.player2.name}</GameTextValue>
         </GameDetailsWrapper>
         <GameDetailsWrapper>
-          <GameText>Guests</GameText>
-          <GameTextValue>{gameDetails.guests}</GameTextValue>
-        </GameDetailsWrapper>
-        <GameDetailsWrapper>
           <GameText>Board Width</GameText>
           <GameTextValue>{gameDetails.gameSetting.boardWidth}</GameTextValue>
         </GameDetailsWrapper>
@@ -67,14 +63,6 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
         <GameDetailsWrapper>
           <GameText>Row Counts To Win</GameText>
           <GameTextValue>{gameDetails.gameSetting.rowCountToWin}</GameTextValue>
-        </GameDetailsWrapper>
-        <GameDetailsWrapper>
-          <GameText>Time</GameText>
-          <GameTextValue>{gameDetails.gameSetting.time}</GameTextValue>
-        </GameDetailsWrapper>
-        <GameDetailsWrapper>
-          <GameText>Rated</GameText>
-          <GameTextValue>{gameDetails.gameSetting.rated}</GameTextValue>
         </GameDetailsWrapper>
       </div>
     </GameDetailsLayout>

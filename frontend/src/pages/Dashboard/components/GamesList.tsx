@@ -91,7 +91,6 @@ export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
       <Titles>
         <Title>Players</Title>
         <Title>Result</Title>
-        <Title>Moves</Title>
         <Title>Date</Title>
       </Titles>
       {games.map((game, index) => {
@@ -106,7 +105,6 @@ export const GamesList: React.FC<{ games: Game[] }> = ({ games }) => {
               </PlayerStyle>
             </PlayersWrapper>
             <GameText>{getGameStatus(game)}</GameText>
-            <GameText>TODO</GameText>
             <GameText>{game.createdAt}</GameText>
           </GameWrapper>
         );

@@ -33,7 +33,6 @@ export const GameRoomItemStyle = styled.div`
   position: relative;
   padding: 0.7rem 2rem;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.colors.boardColor};
   &:hover {
     background-color: green;
   }
@@ -95,13 +94,6 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
   gameRoom,
   onClick = () => undefined,
 }) => {
-  const getGuests = (guests: string[]) => {
-    var concatGuests = "";
-    for (let guest of guests) {
-      concatGuests += guest + " ";
-    }
-    return concatGuests;
-  };
 
   const { id, name, player1, player2, guests } = gameRoom;
   return (
@@ -110,7 +102,6 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
       style={{
         width: "100%",
         textAlign: "left",
-        //        backgroundColor: isClicked ? "rgb(54,161,139)" : "",
       }}
     >
       <GameRoomItemStyle
@@ -130,10 +121,6 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
               <b>Current Players: </b>
               {player1.name}, {player2.name}
             </GameRoomPlayers>
-            <GameRoomGuests>
-              <b>Current Guests: </b>
-              {getGuests(guests)}
-            </GameRoomGuests>
           </div>
         </GameRoomFlex>
       </GameRoomItemStyle>

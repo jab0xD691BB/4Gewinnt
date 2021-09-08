@@ -7,6 +7,7 @@ import {
 } from "../../components/Layout";
 import React, { useContext, useEffect, useState } from "react";
 import { authContext } from "../../context/AuthenticationContext";
+import { DashboardPage } from "../Dashboard/DashboardPage";
 
 const HelpPageBody = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
@@ -55,7 +56,15 @@ export const HelpPage = () => {
       <ContentWrapper>
         <HelpPageBody>
           <HelpPageHeader>Help</HelpPageHeader>
-          <HelpPageContainer>{textDummy}</HelpPageContainer>
+          <HelpPageContainer>
+            <p>{textDummy}</p> <br />
+            <p><h4>{textPages}</h4></p>  <br />
+            <p><h4>{loginPage}</h4>{loginPageText}</p>  <br />
+            <p><h4>{dashboardPage}</h4>{dashboardPageText}</p>  <br />
+            <p><h4>{newGamePage}</h4>{newgamePageText}</p>  <br />
+            <p><h4>{gamePage}</h4> {gamePageText}</p>  <br />
+            <p><h4>{settingsPage}</h4>{settingsPageText}</p>
+          </HelpPageContainer>
         </HelpPageBody>
       </ContentWrapper>
     </Layout>
@@ -63,10 +72,34 @@ export const HelpPage = () => {
 };
 
 const textDummy =
-  "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n" +
-  "\n" +
-  "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   \n" +
-  "\n" +
-  "Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   \n" +
-  "\n" +
-  "Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer";
+  "The game Connect4 was developed by a group of students at Darmstadt University of Applied Sciences as part of the block course 'Advanced Web Development' in SS 2021. \n";
+const textPages =
+  "Pages: \n";
+const loginPage = "Login/Register Page:";
+const loginPageText =
+  "Upon accessing the login page you will have to register as a user in order to be able to play the game.";
+
+  const dashboardPage = "Dasboard Page: \n";
+const dashboardPageText =
+  "After logging in you will be directed to the dashboard page, in which you will find the following features: Played Games, Player Profile and the Leaderboard.";
+
+const newGamePage = "New Game Page: ";
+const newgamePageText =
+  "After you click the button Next Game in Dashboard you will be directed to the new game page. " +
+  "In this page you can specify the preferred settings that you want to play the game with such as :" +
+  "Board Width, Board Heigth, Row count to win. " +
+  "Afterwards you can create a room for the game and wait until an opponent comes. You can do this by clicking Create Game Session. " +
+  "Otherwise you can see all the available rooms and choose one of them unless there is more than two players in the room. " + 
+  "When you have already chosen a room you can find all the details regarding that room on the Game Room Details section on the right. " + 
+  "After choosing a room you can join this room to play by clicking the Join as Player button. ";
+
+const gamePage = "Game Page: ";
+const gamePageText =
+  "After choosing your preferred settings and joining a room you will be directed to the main page of this project, which is the game page. " +
+  "In this page you can actually play the game against an opponent along with communicating with him through the chat box. " +
+  "It is also possible to redo some moves with the help of the buttons on the bottom. ";
+
+const settingsPage = "Settings Page: ";
+const settingsPageText = 
+  "In this page you have the ability to either change your name or to change the theme of the website. " +
+  "There are two available themes Dark Theme and Light Theme. "
