@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import {
-  ContentWrapper,
-  Layout,
-} from "../../components/Layout";
+import { ContentWrapper, Layout } from "../../components/Layout";
 import React from "react";
 
 const HelpPageBody = styled.div`
@@ -41,12 +38,33 @@ export const HelpPage = () => {
           <HelpPageHeader>Help</HelpPageHeader>
           <HelpPageContainer>
             <p>{textDummy}</p> <br />
-            <p><h4>{textPages}</h4></p>  <br />
-            <p><h4>{loginPage}</h4>{loginPageText}</p>  <br />
-            <p><h4>{dashboardPage}</h4>{dashboardPageText}</p>  <br />
-            <p><h4>{newGamePage}</h4>{newgamePageText}</p>  <br />
-            <p><h4>{gamePage}</h4> {gamePageText}</p>  <br />
-            <p><h4>{settingsPage}</h4>{settingsPageText}</p>
+            <p>
+              <h4>{textPages}</h4>
+            </p>{" "}
+            <br />
+            <p>
+              <h4>{loginPage}</h4>
+              {loginPageText}
+            </p>{" "}
+            <br />
+            <p>
+              <h4>{dashboardPage}</h4>
+              {dashboardPageText}
+            </p>{" "}
+            <br />
+            <p>
+              <h4>{newGamePage}</h4>
+              {newgamePageText}
+            </p>{" "}
+            <br />
+            <p>
+              <h4>{gamePage}</h4> {gamePageText}
+            </p>{" "}
+            <br />
+            <p>
+              <h4>{settingsPage}</h4>
+              {settingsPageText}
+            </p>
           </HelpPageContainer>
         </HelpPageBody>
       </ContentWrapper>
@@ -56,13 +74,12 @@ export const HelpPage = () => {
 
 const textDummy =
   "The game Connect4 was developed by a group of students at Darmstadt University of Applied Sciences as part of the block course 'Advanced Web Development' in SS 2021. \n";
-const textPages =
-  "Pages: \n";
+const textPages = "Pages: \n";
 const loginPage = "Login/Register Page:";
 const loginPageText =
   "Upon accessing the login page you will have to register as a user in order to be able to play the game.";
 
-  const dashboardPage = "Dasboard Page: \n";
+const dashboardPage = "Dashboard Page: \n";
 const dashboardPageText =
   "After logging in you will be directed to the dashboard page, in which you will find the following features: Played Games, Player Profile and the Leaderboard.";
 
@@ -72,8 +89,8 @@ const newgamePageText =
   "In this page you can specify the preferred settings that you want to play the game with such as :" +
   "Board Width, Board Heigth, Row count to win. " +
   "Afterwards you can create a room for the game and wait until an opponent comes. You can do this by clicking Create Game Session. " +
-  "Otherwise you can see all the available rooms and choose one of them unless there is more than two players in the room. " + 
-  "When you have already chosen a room you can find all the details regarding that room on the Game Room Details section on the right. " + 
+  "Otherwise you can see all the available rooms and choose one of them unless there is more than two players in the room. " +
+  "When you have already chosen a room you can find all the details regarding that room on the Game Room Details section on the right. " +
   "After choosing a room you can join this room to play by clicking the Join as Player button. ";
 
 const gamePage = "Game Page: ";
@@ -83,6 +100,6 @@ const gamePageText =
   "It is also possible to redo some moves with the help of the buttons on the bottom. ";
 
 const settingsPage = "Settings Page: ";
-const settingsPageText = 
+const settingsPageText =
   "In this page you have the ability to either change your name or to change the theme of the website. " +
-  "There are two available themes Dark Theme and Light Theme. "
+  "There are two available themes Dark Theme and Light Theme. ";

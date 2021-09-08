@@ -70,15 +70,20 @@ export const GameBoard = () => {
       }}
     >
       {game &&
-        game.gameBoard.map((column) => {
+        game.gameBoard.map((column, index) => {
           let rowId = -1;
           return (
-            <FieldColumn id={"column_" + ++columnId} onClick={columnClicked}>
+            <FieldColumn
+              id={"column_" + ++columnId}
+              key={index}
+              onClick={columnClicked}
+            >
               {" "}
-              {column.map((element) => {
+              {column.map((element, index) => {
                 return (
                   <StyledField
                     id={"column_" + columnId + ".row_" + ++rowId}
+                    key={index}
                     style={{
                       padding: `min(calc(700px/(2*${game.boardWidth})), calc(500px/(2*${game.boardHeight})))`,
                     }}

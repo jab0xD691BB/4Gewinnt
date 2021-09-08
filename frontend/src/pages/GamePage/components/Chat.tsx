@@ -64,9 +64,9 @@ export const Chat = () => {
   return (
     <ChatWrapper>
       <ShowMessage>
-        {socketContext.messages.map(({ name, message }) => {
+        {socketContext.messages.map(({ name, message }, index) => {
           return (
-            <MessagWrapper>
+            <MessagWrapper key={index}>
               <span
                 style={{
                   color:
