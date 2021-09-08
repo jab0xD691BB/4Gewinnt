@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, {keyframes} from "styled-components";
 import React from "react";
 
 export const GameHeaderWrapper = styled.div`
@@ -23,18 +23,12 @@ export const PlayerNameWrapperActive = styled.div`
   margin-right: 10px;
  
   animation: blinker 1.5s linear infinite;
-}
 
 @keyframes blinker {
   50% {
     opacity: 0;
   }
-}  
-  
-}
-
-
-
+}   
   `;
 
 export const PlayerNameWrapperInactive = styled.div`

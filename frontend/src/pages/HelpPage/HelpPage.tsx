@@ -1,13 +1,9 @@
 import styled from "styled-components";
 import {
   ContentWrapper,
-  footerHeight,
-  headerHeight,
   Layout,
 } from "../../components/Layout";
-import React, { useContext, useEffect, useState } from "react";
-import { authContext } from "../../context/AuthenticationContext";
-import { DashboardPage } from "../Dashboard/DashboardPage";
+import React from "react";
 
 const HelpPageBody = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
@@ -35,19 +31,6 @@ export const HelpPageContainer = styled.div`
   font-size: 25px;
   margin: 10px;
   overflow-y: scroll;
-`;
-
-const LeftDiv = styled.div`
-  width: 63%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const RightDiv = styled.div`
-  height: calc(100vh - ${headerHeight} - ${footerHeight});
-  width: 30%;
-  display: flex;
-  flex-direction: column;
 `;
 
 export const HelpPage = () => {

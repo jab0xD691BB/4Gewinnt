@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { Player } from "../../Dashboard/components/PlayerStats";
-import { GameSettings } from "./GameSettings";
+import {Player} from "../../Dashboard/components/PlayerStats";
+import {GameSettings} from "./GameSettings";
 
 export type GameRoom = {
-  id: string;
-  name: string;
-  player1: Player;
-  player2: Player;
-  guests: string[];
-  gameSetting: GameSettings;
+    id: string;
+    name: string;
+    player1: Player;
+    player2: Player;
+    guests: string[];
+    gameSetting: GameSettings;
 };
 
 const GameRoomFlex = styled.div`
@@ -61,12 +61,6 @@ export const GameRoomList = styled.ul`
   }
 `;
 
-export const GameRoomId = styled.p`
-  font-size: 0.8rem;
-  font-weight: 500;
-  margin: 0;
-`;
-
 export const GameRoomTitle = styled.p`
   font-size: 0.8rem;
   font-weight: 500;
@@ -86,44 +80,44 @@ export const GameRoomGuests = styled.p`
 `;
 
 export type GameRoomItemProps = {
-  gameRoom: GameRoom;
-  onClick?: (gameRoom: GameRoom) => void;
+    gameRoom: GameRoom;
+    onClick?: (gameRoom: GameRoom) => void;
 };
 
 export const GameRoomItem: React.FC<GameRoomItemProps> = ({
-  gameRoom,
-  onClick = () => undefined,
-}) => {
+                                                              gameRoom,
+                                                              onClick = () => undefined,
+                                                          }) => {
 
-  const { id, name, player1, player2, guests } = gameRoom;
-  return (
-    <div
-      id={id}
-      style={{
-        width: "100%",
-        textAlign: "left",
-      }}
-    >
-      <GameRoomItemStyle
-        data-testid="joke-item"
-        onClick={() => {
-          onClick(gameRoom);
-        }}
-      >
-        <GameRoomHighlight />
-        <GameRoomFlex>
-          <div>
-            <GameRoomTitle>
-              <b>Name: </b>
-              {name}
-            </GameRoomTitle>
-            <GameRoomPlayers>
-              <b>Current Players: </b>
-              {player1.name}, {player2.name}
-            </GameRoomPlayers>
-          </div>
-        </GameRoomFlex>
-      </GameRoomItemStyle>
-    </div>
-  );
+    const {id, name, player1, player2} = gameRoom;
+    return (
+        <div
+            id={id}
+            style={{
+                width: "100%",
+                textAlign: "left",
+            }}
+        >
+            <GameRoomItemStyle
+                data-testid="joke-item"
+                onClick={() => {
+                    onClick(gameRoom);
+                }}
+            >
+                <GameRoomHighlight/>
+                <GameRoomFlex>
+                    <div>
+                        <GameRoomTitle>
+                            <b>Name: </b>
+                            {name}
+                        </GameRoomTitle>
+                        <GameRoomPlayers>
+                            <b>Current Players: </b>
+                            {player1.name}, {player2.name}
+                        </GameRoomPlayers>
+                    </div>
+                </GameRoomFlex>
+            </GameRoomItemStyle>
+        </div>
+    );
 };
