@@ -71,26 +71,38 @@ export const loginPlayer = async (req: Request, res: Response) => {
 
 }
 
-// sorting players by elo
-export const sorted = async (req: Request, res: Response) => {
-    const playerRepository = await getRepository(Player);
-    const players = await playerRepository.find();
-    const sortedplayers = players.sort(function (a, b) {
-        return b.eloScore - a.eloScore;
-    });
+
+  // sorting players by elo
+ export const sorted = async (req: Request, res: Response) =>{
+  const playerRepository = await getRepository(Player);
+  const players =  await playerRepository.find();
+  const sortedplayers= players.sort(function (a,b){
+    return b.eloScore - a.eloScore;
+  });
+  try {
     res.send({
-        data: sortedplayers,
+      data: sortedplayers,
     });
-}
+  } catch (error) {
+    res.status(404).send({status: 'Could not sort Players'});
+  }
+
+} 
+
+
 //// CRUD Functions 
 // Get all Players
 export const getAllPlayers = async (req: Request, res: Response) => {
     const playerRepository = await getRepository(Player);
     const players = await playerRepository.find();
-    res.send({
-        data: players
-    });
-};
+    try {
+        res.send({
+            data: players
+        });
+    } catch (error) {
+        res.status(404).send({status: 'Could not Create Player'});
+    }
+}
 
 // Get one Player
 export const getPlayer = async (req: Request, res: Response) => {
@@ -127,20 +139,24 @@ export const updatePlayer = async (req: Request, res: Response) => {
     }
 };
 
+
 // Create Player
 export const createPlayer = async (req: Request, res: Response) => {
-    const {name, password, email, eloScore, preferredTheme} = req.body;
-    const player = new Player();
-    player.name = name;
-    player.password = password;
-    player.email = email;
-    /* player.preferredTheme = preferredTheme; */
-    const playerRepository = await getRepository(Player);
-    const createdPlayer = await playerRepository.save(player);
-
+  const {name, password , email, eloScore, preferredTheme} = req.body;
+  const player = new Player();
+  player.name = name;
+  player.password = password;
+  player.email = email;
+  /* player.preferredTheme = preferredTheme; */
+  const playerRepository = await getRepository(Player);
+  const createdPlayer = await playerRepository.save(player);
+  try {
     res.send({
-        data: createdPlayer,
+      data: createdPlayer,
     });
+  } catch (error) {
+    res.status(404).send({status: 'Could not Create Player'})
+  }
 };
 
 // Delete Player
@@ -157,3 +173,4 @@ export const deletePlayer = async (req: Request, res: Response) => {
         });
     }
 };
+
