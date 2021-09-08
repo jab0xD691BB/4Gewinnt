@@ -100,6 +100,11 @@ export const GameBoard = () => {
   );
 };
 
+export const toFirstStep = function () {
+  game.gotoFirstStep();
+  reRenderBoard(true, false);
+}
+
 export const toLastStep = function () {
   game.resetCurrentStep();
   reRenderBoard();

@@ -12,7 +12,7 @@ import {
   GameBoard,
   GameBoardWrapper,
   resign,
-  reverseButtonClicked,
+  reverseButtonClicked, toFirstStep,
   toLastStep,
 } from "./components/GameBoard";
 
@@ -73,7 +73,6 @@ const gameRoom: GameRoom = {
   gameSetting: {
     boardWidth: "7",
     boardHeigth: "7",
-    rated: "on",
     rowCountToWin: "4",
     time: "7",
   },
@@ -107,8 +106,6 @@ export const GamePage = () => {
       theme.colors.player1Color,
       Number(socketContext.joinedRoom?.gameSetting.time)
     );
-
-    //dummy
 
     if (
       socketContext.joinedRoom &&
@@ -202,8 +199,8 @@ export const GamePage = () => {
                 <GameBoard />
               </GameBoardWrapper>
               <ReplayButtonWrapper onClick={rerenderStepCounter}>
-                <ReplayButtonWrapperSingle>
-                  <ArrowLeftDangerButton />
+                <ReplayButtonWrapperSingle onClick={toFirstStep}>
+                  <ArrowLeftDangerButton/>
                 </ReplayButtonWrapperSingle>
                 <ReplayButtonWrapperSingle onClick={reverseButtonClicked}>
                   <ArrowLeftButton></ArrowLeftButton>
@@ -219,7 +216,6 @@ export const GamePage = () => {
                 </ReplayButtonWrapperSingle>
               </ReplayButtonWrapper>
             </LeftGameBodyWrapper>
-
             <RightGameBodyWrapper>
               <GameDetails
                 gameDetails={joinedRoom !== null ? joinedRoom : gameRoom}
@@ -229,7 +225,6 @@ export const GamePage = () => {
                 <Button style={{ width: 100 }} onClick={resign}>
                   Resign
                 </Button>
-                <Button style={{ width: 100 }}>Dashboard</Button>
               </VerticalButtonWrapper>
             </RightGameBodyWrapper>
           </div>

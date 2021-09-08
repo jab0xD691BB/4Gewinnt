@@ -78,7 +78,7 @@ export const PlayerProfile: React.FC<{ playerDetails: PlayerDetails | null }> =
         </PlayerStatsWrapper>
         <PlayerStatsWrapper>
           <PlayerText>Winrate</PlayerText>
-          <PlayerTextValue>{playerDetails?.winrate}</PlayerTextValue>
+          <PlayerTextValue>{playerDetails?.winrate}%</PlayerTextValue>
         </PlayerStatsWrapper>
       </PlayerLayout>
     );
