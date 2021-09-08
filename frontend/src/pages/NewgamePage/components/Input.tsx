@@ -4,7 +4,7 @@ import styled from "styled-components";
 const InputLabel = styled.label`
   color: rgb(150, 150, 150);
   line-height: 25px;
-  font-size: 18px;
+  font-size: 1vw;
   text-align: center;
   display: flex;
   align-items: center;
@@ -39,7 +39,6 @@ const InputRadioField = styled.input`
 
 const InputContainer = styled.div`
   border: 1px solid rgb(230, 230, 230);
-
   border-radius: 5px;
   display: flex;
   flex-direction: row;

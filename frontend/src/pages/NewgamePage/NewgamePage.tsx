@@ -1,4 +1,4 @@
-import styled, {ThemeContext} from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 
 import { useEffect } from "react";
 import {
@@ -8,7 +8,7 @@ import {
   Layout,
 } from "../../components/Layout";
 import React, { useContext, useState } from "react";
-import { SettingsContainer } from "./components/GameSettings";
+import { ButtonWrapper, SettingsContainer } from "./components/GameSettings";
 import { Button, DisabledButton } from "../../components/Button";
 import {
   GameRoom,
@@ -50,7 +50,8 @@ export const ComponentHeadline = styled.div`
   text-align: center;
   padding: 15px;
   font-size: 25px;
-  margin: 20px;
+  margin-top: 12%;
+  margin-bottom: 12%;
 `;
 
 export var game1: Game;
@@ -74,7 +75,11 @@ export const NewgamePage = () => {
 
   const joinAsPlayer = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (userName !== gameSelected!.id) {
+    if (
+      gameSelected! &&
+      userName !== gameSelected!.id &&
+      gameSelected!.player2.name === ""
+    ) {
       if (game) game.suspendGame();
       socket.emit("joinedRoom", {
         roomName: gameSelected?.id,
@@ -96,52 +101,35 @@ export const NewgamePage = () => {
         <NewgameBody>
           <SettingsContainer ws={socket} />
           <GameRoomListLayout>
-            <ComponentHeadline> Game Room List </ComponentHeadline>
+            <ComponentHeadline> Game Rooms</ComponentHeadline>
             <GameRoomList>
-              <div
-                style={{
-                  height: "450px",
-                  overflowY: "scroll",
-                  borderRadius: "10px",
-                }}
-              >
-                {rooms.map((gameRoom) => (
-                  <GameRoomItem
-                    key={gameRoom.id}
-                    onClick={() => {
-                      for (let gameRoomElement of rooms) {
-                        if (gameRoomElement.id === gameRoom.id) {
-                          document.getElementById(
-                            gameRoomElement.id
-                          )!.style.backgroundColor = "green";
-                          document.getElementById(
-                            gameRoomElement.id
-                          )!.style.borderRadius = "10px";
-                          setGameSelected(gameRoom);
-                        } else {
-                          document.getElementById(
-                            gameRoomElement.id
-                          )!.style.backgroundColor = theme.colors.boardColor;
-                        }
+              {rooms.map((gameRoom) => (
+                <GameRoomItem
+                  key={gameRoom.id}
+                  onClick={() => {
+                    for (let gameRoomElement of rooms) {
+                      if (gameRoomElement.id === gameRoom.id) {
+                        document.getElementById(
+                          gameRoomElement.id
+                        )!.style.backgroundColor = "green";
+                        document.getElementById(
+                          gameRoomElement.id
+                        )!.style.borderRadius = "10px";
+                        setGameSelected(gameRoom);
+                      } else {
+                        document.getElementById(
+                          gameRoomElement.id
+                        )!.style.backgroundColor = theme.colors.boardColor;
                       }
-                    }}
-                    gameRoom={gameRoom}
-                  />
-                ))}
-              </div>
+                    }
+                  }}
+                  gameRoom={gameRoom}
+                />
+              ))}
             </GameRoomList>
-            <div style={{ alignSelf: "flex-end" }}>
-              {gameSelected && (gameSelected.player2.name === "" ? true : false) &&(
-                  <Button
-                    onClick={joinAsPlayer}
-                  >
-                    Join As Player
-                  </Button>
-              )}
-              {!gameSelected || !(gameSelected.player2.name === "" ? true : false) && (
-                  <DisabledButton>Join As Player</DisabledButton>
-              )}
-            </div>
+            <ButtonWrapper>
+              <Button onClick={joinAsPlayer}>Join</Button>
+            </ButtonWrapper>
           </GameRoomListLayout>
           {gameSelected && (
             <GameDetails

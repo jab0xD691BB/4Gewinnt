@@ -21,6 +21,14 @@ export const GameSettingsLayout = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
   width: 30%;
+  height: 58%;
+  position: relative;
+`;
+
+export const ButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 3%;
+  width: 67%;
 `;
 
 interface props {
@@ -108,7 +116,7 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
     <GameSettingsLayout>
       <div
         style={{
-          width: 400,
+          width: "100%",
           paddingLeft: 50,
           paddingRight: 50,
           textAlign: "center",
@@ -148,14 +156,16 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           required
           defaultValue="4"
         />
-        {joinedRoom?.id !== JSON.parse(atob(token!.split(".")[1])).name && (
-          <Button onClick={createGameSession}>Create Game Session</Button>
-        )}
-        {joinedRoom?.id === JSON.parse(atob(token!.split(".")[1])).name && (
-          <DangerButton onClick={deleteGameSession}>
-            Delete Game Session
-          </DangerButton>
-        )}
+        <ButtonWrapper>
+          {joinedRoom?.id !== JSON.parse(atob(token!.split(".")[1])).name && (
+            <Button onClick={createGameSession}>Create Game Session</Button>
+          )}
+          {joinedRoom?.id === JSON.parse(atob(token!.split(".")[1])).name && (
+            <DangerButton onClick={deleteGameSession}>
+              Delete Game Session
+            </DangerButton>
+          )}
+        </ButtonWrapper>
       </div>
     </GameSettingsLayout>
   );

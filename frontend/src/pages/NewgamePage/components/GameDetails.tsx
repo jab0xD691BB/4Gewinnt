@@ -10,6 +10,7 @@ const GameDetailsLayout = styled.div`
   padding-right: 50px;
   text-align: center;
   width: 30%;
+  height: 40%;
 `;
 
 const GameTitle = styled.p`
@@ -42,9 +43,7 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom | null }> = ({
       <ComponentHeadline> Game Room Details </ComponentHeadline>
       {gameDetails && (
         <div>
-          <GameTitle style={{ paddingTop: "10px" }}>
-            {gameDetails?.name}
-          </GameTitle>
+          <GameTitle>{gameDetails?.name}</GameTitle>
           <GameDetailsWrapper>
             <GameText>Player 1</GameText>
             <GameTextValue>{gameDetails.player1.name}</GameTextValue>

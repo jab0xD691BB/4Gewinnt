@@ -32,10 +32,6 @@ export const GameRoomItemStyle = styled.div`
   min-height: 3rem;
   position: relative;
   padding: 0.7rem 2rem;
-  border-radius: 10px;
-  &:hover {
-    background-color: green;
-  }
 `;
 
 export const GameRoomListLayout = styled.div`
@@ -45,20 +41,22 @@ export const GameRoomListLayout = styled.div`
   padding-left: 50px;
   padding-right: 50px;
   text-align: center;
+  height: 58%;
+  position: relative;
 `;
 
 export const GameRoomList = styled.ul`
   list-style: none;
-  box-shadow: 0 0.125em 0.25em 0 ${(props) => props.theme.colors.shadowColor};
   width: 100%;
   padding: 0;
-  border-radius: 0.5rem;
   ${GameRoomItemStyle} {
     border-bottom: 1px ${(props) => props.theme.colors.shadowColor} solid;
     &:last-of-type {
       border-bottom: 0;
     }
   }
+  height: 58%;
+  overflow-y: auto;
 `;
 
 export const GameRoomId = styled.p`
@@ -85,6 +83,18 @@ export const GameRoomGuests = styled.p`
   margin: 0;
 `;
 
+const GameRoomWrapper = styled.div`
+  width: "100%";
+  text-align: left;
+  box-shadow: 0 0.125em 0.25em 0 ${(props) => props.theme.colors.shadowColor};
+  border-radius: 0.5rem;
+  margin: 3%;
+  border-radius: 10px;
+  &:hover {
+    background-color: #0080007a;
+  }
+`;
+
 export type GameRoomItemProps = {
   gameRoom: GameRoom;
   onClick?: (gameRoom: GameRoom) => void;
@@ -94,16 +104,9 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
   gameRoom,
   onClick = () => undefined,
 }) => {
-
   const { id, name, player1, player2, guests } = gameRoom;
   return (
-    <div
-      id={id}
-      style={{
-        width: "100%",
-        textAlign: "left",
-      }}
-    >
+    <GameRoomWrapper id={id}>
       <GameRoomItemStyle
         data-testid="joke-item"
         onClick={() => {
@@ -124,6 +127,6 @@ export const GameRoomItem: React.FC<GameRoomItemProps> = ({
           </div>
         </GameRoomFlex>
       </GameRoomItemStyle>
-    </div>
+    </GameRoomWrapper>
   );
 };

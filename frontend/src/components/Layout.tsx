@@ -39,6 +39,13 @@ export const ContentWrapper = styled.div`
 
 const NavigationList = styled.div`
   margin-right: 2%;
+
+  @media only screen and (max-width: 999px) {
+    display: none;
+  }
+  @media only screen and (min-width: 1000px) {
+    display: block;
+  }
 `;
 
 const NaviSectionWrapper = styled.div`
