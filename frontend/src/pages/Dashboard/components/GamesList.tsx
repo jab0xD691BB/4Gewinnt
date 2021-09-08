@@ -35,7 +35,7 @@ const Titles = styled.div`
 
 const Title = styled.p`
   display: inline-block;
-  width: 25%;
+  width: 33.33%;
   text-align: center;
 `;
 
@@ -53,7 +53,7 @@ const PlayersWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 25%;
+  width: 33.33%;
   line-height: 25px;
 `;
 
@@ -67,7 +67,7 @@ const GameText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 25%;
+  width: 33.33%;
   text-align: center;
 `;
 

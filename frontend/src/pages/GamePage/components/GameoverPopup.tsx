@@ -1,6 +1,6 @@
-import { useContext} from "react";
+import { useContext } from "react";
 import { Button } from "../../../components/Button";
-import {useModal, modalStyle} from "./ReadyCheck"
+import { useModal, modalStyle } from "./ReadyCheck";
 
 import { SocketContext } from "../../../context/socket.context";
 
@@ -15,10 +15,24 @@ export const GameoverPopup = () => {
     <div>
       <Modal>
         <div style={modalStyle}>
+          <button
+            style={{
+              position: "absolute",
+              right: 40,
+              top: 20,
+              width: 20,
+              height: 20,
+              backgroundColor: "#7e7e7e",
+              border: 0,
+              borderRadius: 2,
+            }}
+            onClick={close}
+          >
+            X
+          </button>
           <h1>GAME OVER</h1>
-          <p>Player1: {socketContext.gameState?.winner} won </p>
+          <p>{socketContext.gameState?.winner} won </p>
           <p>
-            Player2:{" "}
             {socketContext.gameState?.winner ===
             socketContext.joinedRoom?.player1.name
               ? socketContext.joinedRoom?.player2.name
@@ -31,9 +45,7 @@ export const GameoverPopup = () => {
               flexDirection: "row",
               alignItems: "flex-end",
             }}
-          >
-            <Button onClick={close}>X</Button>
-          </div>
+          ></div>
         </div>
       </Modal>
     </div>
