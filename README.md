@@ -38,7 +38,8 @@ docker-compose up -d
 ### Updating the schema of the database
 
 ```bash
-docker-compose exec backend npm run typeorm schema:drop # Deletes the current schema
+docker-compose exec backend bash
+npm run typeorm schema:drop # Deletes the current schema
 npm run typeorm schema:sync # Creates a schema based on your data
 ```
 
@@ -201,6 +202,19 @@ With the move router it is possible to:
 ```sh
     http://localhost:4000/api/move/"gameid"
     with GET
+```
+
+#### Register / Login
+With the user router it is possible to:
+- Register as a new player
+```sh
+    http://localhost:4000/api/user
+    with POST
+```
+- Login to the website with your credentials such as E-Mail and password
+```sh
+    http://localhost:4000/api/user/token
+    with POST
 ```
 
 ## Code Example
