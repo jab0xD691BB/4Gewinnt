@@ -36,7 +36,6 @@ import { GameRoom } from "../NewgamePage/components/GameRoomList";
 import { GameDetails } from "./components/GameDetails";
 import { Button, VerticalButtonWrapper } from "../../components/Button";
 import { SocketContext } from "../../context/socket.context";
-import { ReadyCheck } from "./components/ReadyCheck";
 
 import { Game, GameStateEnum } from "./components/GameEngine";
 import { Chat } from "./components/Chat";
@@ -81,6 +80,7 @@ const gameRoom: GameRoom = {
 export var game: Game;
 
 export const GamePage = () => {
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [stepCounterRerender, setStepCounterRerenderer] = useState(0);
   const [persistOnce, setPersistOnce] = useState(true);
   const { socket, rooms, gameState, joinedRoom } = useContext(SocketContext);
@@ -90,8 +90,8 @@ export const GamePage = () => {
 
   if (
     socketContext.joinedRoom &&
-    socketContext.joinedRoom?.player1.name != "" &&
-    (!game || game.gameState == GameStateEnum.SUSPENDED)
+    socketContext.joinedRoom?.player1.name !== "" &&
+    (!game || game.gameState === GameStateEnum.SUSPENDED)
   ) {
     console.log("CREATE NEW GAME");
     game = new Game(
@@ -109,7 +109,7 @@ export const GamePage = () => {
 
     if (
       socketContext.joinedRoom &&
-      socketContext.joinedRoom?.player2.name != ""
+      socketContext.joinedRoom?.player2.name !== ""
     ) {
       game.addPlayer(
         socketContext.joinedRoom?.player2.name,
@@ -166,27 +166,27 @@ export const GamePage = () => {
           >
             <LeftGameBodyWrapper>
               <GameHeaderWrapper>
-                {game && game.playerIds[0] == gameState?.active_player && (
+                {game && game.playerIds[0] === gameState?.active_player && (
                   <PlayerNameWrapperActive
                     style={{ backgroundColor: theme.colors.player1Color }}
                   >
                     {joinedRoom !== null ? joinedRoom.player1.name : ""}
                   </PlayerNameWrapperActive>
                 )}
-                {game && game.playerIds[0] != gameState?.active_player && (
+                {game && game.playerIds[0] !== gameState?.active_player && (
                   <PlayerNameWrapperInactive>
                     {joinedRoom !== null ? joinedRoom.player1.name : ""}
                   </PlayerNameWrapperInactive>
                 )}
                 <PlayerNameWrapperInactive>VS</PlayerNameWrapperInactive>
-                {game && game.playerIds[1] == gameState?.active_player && (
+                {game && game.playerIds[1] === gameState?.active_player && (
                   <PlayerNameWrapperActive
                     style={{ backgroundColor: theme.colors.player2Color }}
                   >
                     {joinedRoom !== null ? joinedRoom.player2.name : ""}
                   </PlayerNameWrapperActive>
                 )}
-                {game && game.playerIds[1] != gameState?.active_player && (
+                {game && game.playerIds[1] !== gameState?.active_player && (
                   <PlayerNameWrapperInactive>
                     {joinedRoom !== null ? joinedRoom.player2.name : ""}
                   </PlayerNameWrapperInactive>

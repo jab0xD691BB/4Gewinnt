@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { authContext } from "../../../context/AuthenticationContext";
 import { SocketContext } from "../../../context/socket.context";
@@ -48,19 +48,19 @@ export const Chat = () => {
   const [message, setMessage] = useState("");
 
   const sendMessageOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (message != "") {
+    if (message !== "") {
       socketContext.socket.emit("message", { name, message });
       setMessage("");
     }
   };
 
   const sendMessageOnEnter = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Enter" && message != "") {
+    if (e.key === "Enter" && message !== "") {
       socketContext.socket.emit("message", { name, message });
       setMessage("");
     }
   };
-
+  /* eslint-disable no-self-compare */
   return (
     <ChatWrapper>
       <ShowMessage>

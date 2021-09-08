@@ -1,5 +1,4 @@
-import styled, {keyframes} from "styled-components";
-import React from "react";
+import styled from "styled-components";
 
 export const GameHeaderWrapper = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
@@ -21,15 +20,15 @@ export const PlayerNameWrapperActive = styled.div`
   font-size: 25px;
   margin-left: 10px;
   margin-right: 10px;
- 
+
   animation: blinker 1.5s linear infinite;
 
-@keyframes blinker {
-  50% {
-    opacity: 0;
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
   }
-}   
-  `;
+`;
 
 export const PlayerNameWrapperInactive = styled.div`
   background-color: ${(props) => props.theme.colors.buttonColor};

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { io, Socket } from "socket.io-client";
 import {
-  Game,
   GameState,
   GameStateEnum,
   GameStep,
@@ -16,7 +15,7 @@ import { game } from "../pages/GamePage/GamePage";
 
 const socket = io();
 
-interface SocketContext {
+interface SocketContextInterface {
   socket: Socket;
   joinedRoom: GameRoom | null;
   rooms: GameRoom[];
@@ -27,7 +26,7 @@ interface SocketContext {
   resetMessages: () => void;
 }
 
-export const SocketContext = React.createContext<SocketContext>({
+export const SocketContext = React.createContext<SocketContextInterface>({
   socket,
   joinedRoom: null,
   rooms: [],
@@ -68,9 +67,9 @@ export const SocketProvider: React.FC = ({ children }) => {
     socket.on("joinNewPage", (message: any) => {
       const g: GameRoom[] = message.settings;
 
-      g.length != 0 && setRooms(g);
+      g.length !== 0 && setRooms(g);
 
-      g.map((item: GameRoom) => {
+      g.forEach((item: GameRoom) => {
         if (item.name === tokenName) {
           setJoinRoom(item);
         }
@@ -81,8 +80,7 @@ export const SocketProvider: React.FC = ({ children }) => {
 
     socket.on("createroom", (message: any) => {
       if (Object.keys(message).length !== 0) {
-        const r: GameRoom = message.settings;
-
+        //const r: GameRoom = message.settings;
         //setJoinRoom(r);
       }
     });
@@ -140,7 +138,7 @@ export const SocketProvider: React.FC = ({ children }) => {
       setRooms(message.settings);
       setJoinRoom(null);
     });
-  }, []);
+  }, [tokenName]);
 
   const setJoinedRoom = (g: GameRoom) => {
     setJoinRoom(g);

@@ -1,6 +1,5 @@
 import React from "react";
 import styled, { css } from "styled-components/macro";
-import { Logo } from "./Logo";
 const footerHeight = "50px";
 
 export const MaxWidthCSS = css`

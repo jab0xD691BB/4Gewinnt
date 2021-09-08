@@ -134,7 +134,8 @@ export const useModal: UseModal = (elementId = "root", options = {}) => {
         </Modal>
       );
     },
-    [isOpen, close, elementId]
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+    [isOpen, close, elementId, onOverlayClick]
   );
 
   return [ModalWrapper, open, close, isOpen];
@@ -145,6 +146,8 @@ export const ReadyCheck = () => {
     preventScroll: true,
     closeOnOverlayClick: false,
   });
+  console.log("linter", open, isOpen);
+
   return (
     <div>
       <Modal>

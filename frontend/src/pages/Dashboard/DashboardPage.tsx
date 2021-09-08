@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { footerHeight, headerHeight, Layout } from "../../components/Layout";
+import { Layout } from "../../components/Layout";
 import { Game, GamesList } from "./components/GamesList";
 import { Leaderboard } from "./components/Leaderboard";
 import { NextGameButton } from "./components/NextGameButton";
@@ -105,7 +105,7 @@ export const DashboardPage = () => {
       };
       setPlayerDetails(loadedPlayerDetails);
     })();
-  }, []);
+  }, [token]);
   return (
     <Layout>
       <DashboardBody>

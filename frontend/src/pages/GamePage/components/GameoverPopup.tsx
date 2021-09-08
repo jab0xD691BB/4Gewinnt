@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Button } from "../../../components/Button";
 import { useModal, modalStyle } from "./ReadyCheck";
 
 import { SocketContext } from "../../../context/socket.context";
@@ -9,6 +8,7 @@ export const GameoverPopup = () => {
     preventScroll: true,
     closeOnOverlayClick: false,
   });
+  console.log("linter", open, isOpen);
   const socketContext = useContext(SocketContext);
 
   return (

@@ -1,5 +1,4 @@
 import React from "react";
-import { css } from "styled-components/macro";
 
 export const Logo = () => {
   return (

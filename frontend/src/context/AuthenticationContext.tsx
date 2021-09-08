@@ -74,7 +74,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     });
 
     if (registerRequest.status === 200) {
-      const { data } = await registerRequest.json();
       await login({ email: values.email, password: values.password });
     } else {
       throw new Error("Error while registering");
