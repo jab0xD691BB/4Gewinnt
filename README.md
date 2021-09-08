@@ -114,6 +114,98 @@ In every page of this website there is a navigation list on the left with which 
 
 This page is also accessible under `http://localhost:3000/help`.
 
+## Backend Routes
+
+### Global Router
+The global router is the main router with which an access to all endpoints is available. possible subrouters are `player`, `game` and `move`.
+#### Player
+With the player router it is possible to:
+- Create a player
+```sh
+    http://localhost:4000/api/player
+    with POST
+```
+- Read all players
+```sh
+    http://localhost:4000/api/player
+    with GET
+```
+- Update a player
+```sh
+    http://localhost:4000/api/player/"id"
+    with PUT
+```
+- Delete a player
+```sh
+    http://localhost:4000/api/player/"id"
+    with DELETE
+```
+- Sorting players based on their Elo scores.
+```sh
+    http://localhost:4000/api/player/sortplayers
+    with GET
+```
+#### Game
+With the game router it is possible to:
+
+- Create a game
+```sh
+    http://localhost:4000/api/game
+    with POST
+```
+- Read all games
+```sh
+    http://localhost:4000/api/game
+    with GET
+```
+- Update a game
+```sh
+    http://localhost:4000/api/game/"id"
+    with PUT
+```
+- Delete a game
+```sh
+    http://localhost:4000/api/game/"id"
+    with DELETE
+```
+- Limit number of shown games
+```sh
+    http://localhost:4000/api/game/somegames?limit=1
+    with GET
+```
+- Games played by a single player
+```sh
+    http://localhost:4000/api/game/gameplayedby/"playerid"
+    with GET
+```
+- Players playing in one game
+```sh
+    http://localhost:4000/api/game/players/"gameid"
+    with GET
+```
+- Number of games Won by a player
+```sh
+    http://localhost:4000/api/game/gamesWon/"playerid"
+    with GET
+```
+- Number of games Lost by a player
+```sh
+    http://localhost:4000/api/game/gamesLost/"playerid"
+    with GET
+```
+#### Move
+With the move router it is possible to:
+- Create a move
+```sh
+    http://localhost:4000/api/move
+    with POST
+```
+- Read all moves of one game
+```sh
+    http://localhost:4000/api/move/"gameid"
+    with GET
+```
+
 ## Code Example
 
 ## Screenshots
