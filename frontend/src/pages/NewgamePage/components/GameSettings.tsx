@@ -15,7 +15,6 @@ export type GameSettings = {
   boardHeigth: string;
   rowCountToWin: string;
   time: string;
-  rated: string;
 };
 
 export const GameSettingsLayout = styled.div`
@@ -100,13 +99,6 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
       guests: [],
       gameSetting: gameSetting,
     };
-    /*await fetch("/api/match", {
-      body: JSON.stringify({
-        ...values,
-      }),
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
-    });*/
 
     socket.emit("deleteroom", gameRoom);
     setSessionStarted(false);
@@ -133,7 +125,6 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           onChange={fieldDidChangeInput}
           required
           defaultValue="7"
-          //            value={values.funnyCounter}
         />
         <Input
           name="boardHeigth"
@@ -145,7 +136,6 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           onChange={fieldDidChangeInput}
           required
           defaultValue="6"
-          //            value={values.funnyCounter}
         />
         <Input
           name="rowCountToWin"
@@ -157,7 +147,6 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           onChange={fieldDidChangeInput}
           required
           defaultValue="4"
-          //            value={values.funnyCounter}
         />
         <Input
           name="time"
@@ -169,18 +158,6 @@ export const SettingsContainer: React.FC<props> = ({ ws }) => {
           onChange={fieldDidChangeInput}
           required
           defaultValue="10"
-          //            value={values.funnyCounter}
-        />
-        <InputCheckbox
-          id="rated"
-          name="rated"
-          label="Rated"
-          type="checkbox"
-          //                        step="1.00"
-          onChange={fieldDidChangeInput}
-          //                        required
-          //            value={values.funnyCounter}
-          defaultValue="false"
         />
         {joinedRoom?.id !== JSON.parse(atob(token!.split(".")[1])).name && (
           <Button onClick={createGameSession}>Create Game Session</Button>

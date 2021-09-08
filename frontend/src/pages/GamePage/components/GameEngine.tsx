@@ -299,6 +299,12 @@ export class Game {
     this.active_step = undefined;
   }
 
+  public gotoFirstStep() {
+    if(this.state.steps.length > 1){
+      this.active_step = 0;
+    }
+  }
+
   /**
    * Marks the player with the given ID as active.
    * Sets the game state as IN_PROGRESS.
