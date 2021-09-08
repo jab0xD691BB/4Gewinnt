@@ -51,7 +51,6 @@ export const ComponentHeadline = styled.div`
   padding: 15px;
   font-size: 25px;
   margin: 20px;
-  height: 55px;
 `;
 
 export var game1: Game;

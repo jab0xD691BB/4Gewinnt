@@ -68,10 +68,6 @@ export const GameDetails: React.FC<{ gameDetails: GameRoom }> = ({
           <GameText>Row Counts To Win</GameText>
           <GameTextValue>{gameDetails.gameSetting.rowCountToWin}</GameTextValue>
         </GameDetailsWrapper>
-        <GameDetailsWrapper>
-          <GameText>Time</GameText>
-          <GameTextValue>{gameDetails.gameSetting.time}</GameTextValue>
-        </GameDetailsWrapper>
       </div>
     </GameDetailsLayout>
   );

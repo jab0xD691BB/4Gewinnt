@@ -107,8 +107,6 @@ export const GamePage = () => {
       Number(socketContext.joinedRoom?.gameSetting.time)
     );
 
-    //dummy
-
     if (
       socketContext.joinedRoom &&
       socketContext.joinedRoom?.player2.name != ""
