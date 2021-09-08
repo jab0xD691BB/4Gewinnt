@@ -64,12 +64,10 @@ const RightGameBodyWrapper = styled.div`
 `;
 
 interface OfflineGameContext {
-    replay: boolean
     gameState: GameState;
 }
 
 export const OfflineGameContext = React.createContext<OfflineGameContext>({
-    replay: true,
     gameState: {
         connect: 4,
         winner: "undefined",
@@ -90,12 +88,18 @@ export const OfflineGamePage = () => {
     const [stepCounterRerender, setStepCounterRerenderer] = useState(0);
     const [persistOnce, setPersistOnce] = useState(true);
     const {token} = useContext(authContext);
-    const { gameState, replay } = useContext(OfflineGameContext);
+    const { gameState } = useContext(OfflineGameContext);
+    let replay: boolean;
 
-    game.setGame(gameState);
-    if (game && game.getGameState) {
-
+    if (gameState !== undefined) {
+        game = new Game(gameState.steps[0].x, gameState.steps[0].y, gameState.connect);
+        game.setGame(gameState);
+        replay = true;
+    } else {
+        game = new Game();
+        replay = false;
     }
+
 
     const renderHeader = function (replay: boolean) {
         if (replay) {
