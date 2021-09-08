@@ -11,20 +11,17 @@ interface ThemeSwitching {
 const Settings: React.FC<ThemeSwitching> = ({ toggleTheme }) => {
   const { colors, title } = useContext(ThemeContext);
   return (
-    <Container>
-      Change Theme
-      <Switch
-        onChange={toggleTheme}
-        checked={title === "dark"}
-        checkedIcon={false}
-        uncheckedIcon={false}
-        height={10}
-        width={40}
-        handleDiameter={20}
-        offColor={shade(0.3, colors.primary)}
-        onColor={colors.secondaryFontColor}
-      />
-    </Container>
+    <Switch
+      onChange={toggleTheme}
+      checked={title === "dark"}
+      checkedIcon={false}
+      uncheckedIcon={false}
+      height={10}
+      width={40}
+      handleDiameter={20}
+      offColor={shade(0.3, colors.primary)}
+      onColor={colors.secondaryFontColor}
+    />
   );
 };
 

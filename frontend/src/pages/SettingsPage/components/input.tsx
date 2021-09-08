@@ -40,10 +40,7 @@ const InputContainer = styled.div`
   background-color: #ffffff;
   color: #000;
   position: relative;
-  height: 52px;
-  width: 300px;
-  margin-bottom: 10px;
-
+  width: 100%;
   &:focus-within {
     border: 1px solid ${(props) => props.theme.colors.primary};
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1),

@@ -16,9 +16,8 @@ import { game } from "../GamePage";
 //game.cyclePlayer();
 
 export const GameBoardWrapper = styled.div`
-  margin: 10px;
   overflowy: scroll;
-  padding: 10px;
+  margin-right: 2%;
 `;
 
 export const GameBoard = () => {
@@ -31,16 +30,21 @@ export const GameBoard = () => {
   const columnClicked = async (e: React.MouseEvent<HTMLDivElement>) => {
     console.log("columnClicked gamestate", game.getGameState);
 
-    if (game.activePlayer == name && game.gameState === GameStateEnum.IN_PROGRESS) {
+    if (
+      game.activePlayer == name &&
+      game.gameState === GameStateEnum.IN_PROGRESS
+    ) {
       let column_number = parseInt(e.currentTarget.id.split("_")[1]);
       //TODO: give player_id of logged in player instead
-      let step: GameStep | undefined = game.insert(
-        column_number,
-          name
-      );
+      let step: GameStep | undefined = game.insert(column_number, name);
       if (step) {
         if (game.getCurrentStep() !== game.getTotalStep()) {
-          colorField(step.x, step.y, theme.colors.gameBoardColumnColor, step.color);
+          colorField(
+            step.x,
+            step.y,
+            theme.colors.gameBoardColumnColor,
+            step.color
+          );
         } else {
           colorField(step.x, step.y, step.color, step.color);
         }
@@ -99,17 +103,30 @@ export const GameBoard = () => {
 export const toLastStep = function () {
   game.resetCurrentStep();
   reRenderBoard();
-}
+};
 
-export const reRenderBoard = function (simple: boolean = true, toTotalStep: boolean = true) {
+export const reRenderBoard = function (
+  simple: boolean = true,
+  toTotalStep: boolean = true
+) {
   let game_steps = game.gameSteps;
 
   if (simple) {
-    for( let i: number = 1; i < game_steps.length; i++) {
+    for (let i: number = 1; i < game_steps.length; i++) {
       if (!toTotalStep && i > game.getCurrentStep()) {
-        colorField(game_steps[i].x, game_steps[i].y, theme.colors.gameBoardColumnColor, game_steps[i].color);
+        colorField(
+          game_steps[i].x,
+          game_steps[i].y,
+          theme.colors.gameBoardColumnColor,
+          game_steps[i].color
+        );
       } else {
-        colorField(game_steps[i].x, game_steps[i].y, game_steps[i].color, game_steps[i].color);
+        colorField(
+          game_steps[i].x,
+          game_steps[i].y,
+          game_steps[i].color,
+          game_steps[i].color
+        );
       }
     }
   } else {

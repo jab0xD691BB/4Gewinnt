@@ -8,23 +8,24 @@ const LeaderboardLayout = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
   padding-left: 10px;
   padding-right: 10px;
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 const PlayerWrapper = styled.div`
   direction: flex;
   flex-direction: column;
   border-bottom: 1px solid ${(props) => props.theme.colors.backgroundColor};
-  line-height: 26px;
-  font-size: 14px;
+  font-size: 1rem;
   &:nth-child(10) {
     border: 0px;
   }
+  line-height: 40px;
 `;
 const LeaderboardTitel = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   text-align: center;
-  border-bottom: 1px solid white;
+  line-height: 28px;
 `;
 
 const PlayerText = styled.p`
@@ -40,7 +41,7 @@ const PlayerTextValue = styled.p`
   margin: 0;
 `;
 
-const TitelWrapper = styled(PlayerWrapper)`
+const TitelWrapper = styled.div`
   margin-bottom: 2px;
   border: 0px;
   background-color: ${(props) => props.theme.colors.titleWrapperColor};
@@ -60,7 +61,7 @@ const EloTitel = styled(PlayerTextValue)``;
 const PlayerList = styled.div``;
 
 export interface Player {
-    id: string;
+  id: string;
   name: string;
   eloScore: number;
 }

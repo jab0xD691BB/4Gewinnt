@@ -56,8 +56,10 @@ The frontend of this project is accessible under `http://localhost:3000`.
 Upon entring this URL you will find the first page which is the login/Register page. 
 ### Pages
 #### Login/Register Page
-Upon accessing the login page you will have to register as a user in order to be able to play the game.
-This page is also accessible under `http://localhost:3000/login`.
+- Upon accessing the login page you will have to register as a user in order to be able to play the game.
+- This page is also accessible under `http://localhost:3000/login`.
+<img src=Docs/Screenshots/loginregister.png width="60%">
+
 #### Dashboard Page
 After logging in you will be directed to the dashboard page, in which you will find the following features
 - Played Games
@@ -68,6 +70,9 @@ After logging in you will be directed to the dashboard page, in which you will f
     - In this section you will find a leaderboard of players that exist in the Database.
 
 This page is also accessible under `http://localhost:3000/dashboard`
+
+<img src=Docs/Screenshots/dashboardPage.png width="80%">
+
 #### New Game Page
 After you click the button `Next Game` in Dashboard you will be directed to the new game page.
 In this page you can specify the preferred settings that you want to play the game with such as :
@@ -82,16 +87,25 @@ Otherwise you can see all the available rooms and choose one of them unless ther
 When you have already chosen a room you can find all the details regarding that room on the `Game Room Details` section on the right.
 After choosing a room you can join this room to play by clicking the `Join as Player` button.
 This page is also accessible under `http://localhost:3000/newgame`.
+
+<img src=Docs/Screenshots/newGamePage.png width="80%">
+
 #### Game Page 
 After choosing your preferred settings and joining a room you will be directed to the main page of this project, which is the game page.
 In this page you can actually play the game against an opponent along with communicating with him through the chat box.
 It is also possible to redo some moves with the help of the buttons on the bottom. 
 Additionally you can resign your turn or give up on the game and go back to the dashboard using the buttons `Resign` and `Back to Dashboard`
 
+<img src=Docs/Screenshots/newGame.png width="80%">
+
+<img src=Docs/Screenshots/gameOver.png width="80%">
+
 #### Settings Page
 In this page you have the ability to either change your name or to change the theme of the website.
 There are two available themes `Dark Theme` and `Light Theme`.
 This page is also accessible under `http://localhost:3000/settings`.
+
+<img src=Docs/Screenshots/newGameLight.png width="40%"> <img src=Docs/Screenshots/newGamePage.png width="40%"> 
 
 #### Navigation List
 In every page of this website there is a navigation list on the left with which you can access all the available pages. and most importantly you can logout of the website by clicking `Logout`.

@@ -5,6 +5,8 @@ import { authContext } from "../../../context/AuthenticationContext";
 
 export const PlayedGamesTitel = styled.p`
   text-align: center;
+  font-size: 1.3rem;
+  line-height: 28px;
 `;
 
 export interface Game {
@@ -15,11 +17,9 @@ export interface Game {
 }
 
 const GamesPlayedWrapper = styled.div`
-  margin-right: 10px;
-  margin-left: 10px;
-  margin-bottom: 10px;
-  height: 75%;
-
+  height: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
   background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
 `;
@@ -28,7 +28,7 @@ const Titles = styled.div`
   display: flex;
   margin-bottom: 2px;
   border: 0px;
-  background-color:  ${(props) => props.theme.colors.titleWrapperColor};
+  background-color: ${(props) => props.theme.colors.titleWrapperColor};
   font-size: 10px;
   padding: 0 2px 0 2px;
 `;
@@ -40,12 +40,13 @@ const Title = styled.p`
 `;
 
 const GameWrapper = styled.div`
-  height: 10%;
+  height: 9%;
   width: 100%;
   border-bottom: 1px solid ${(props) => props.theme.colors.backgroundColor};
   display: flex;
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin: 4px 0 4px 0;
+  overflow-y: auto;
 `;
 
 const PlayersWrapper = styled.div`

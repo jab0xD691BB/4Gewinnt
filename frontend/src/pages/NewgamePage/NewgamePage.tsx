@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
 import { useEffect } from "react";
-import { footerHeight, headerHeight, Layout } from "../../components/Layout";
+import {
+  ContentWrapper,
+  footerHeight,
+  headerHeight,
+  Layout,
+} from "../../components/Layout";
 import React, { useContext, useState } from "react";
 import { SettingsContainer } from "./components/GameSettings";
 import { Button, DisabledButton } from "../../components/Button";
@@ -16,11 +21,13 @@ import { GameDetails, GameDetailsEmpty } from "./components/GameDetails";
 import { SocketContext } from "../../context/socket.context";
 import { useHistory } from "react-router";
 import { game } from "../GamePage/GamePage";
-import { Game } from "../GamePage/components/GameEngine"
+import { Game } from "../GamePage/components/GameEngine";
 const NewgameBody = styled.div`
   height: 100%;
-  min-height: calc(100vh - ${headerHeight} - ${footerHeight});
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 interface setting {
@@ -49,17 +56,15 @@ export const ComponentHeadline = styled.div`
 
 export var game1: Game;
 
-
 export const NewgamePage = () => {
   const [gameSelected, setGameSelected] = useState<GameRoom | null>(null);
   const [activateJoin, setActivateJoin] = useState(false);
   const { token } = useContext(authContext);
   const { socket, rooms, setJoinedRoom } = useContext(SocketContext);
-  
+
   let history = useHistory();
   const userName = JSON.parse(atob(token!.split(".")[1])).name;
 
-  
   const [websocket, updateWebsocket] = useState(false);
   const [ws, setSocket] = useState();
   /*const [rooms, setRooms] = useState<
@@ -126,8 +131,8 @@ export const NewgamePage = () => {
 
   return (
     <Layout>
-      <NewgameBody>
-        <div style={{ display: "flex", flexDirection: "row" }}>
+      <ContentWrapper>
+        <NewgameBody>
           <SettingsContainer ws={socket} />
           <GameRoomListLayout>
             <ComponentHeadline> Game Room List </ComponentHeadline>
@@ -167,7 +172,12 @@ export const NewgamePage = () => {
             <div style={{ alignSelf: "flex-end" }}>
               {gameSelected && (
                 <div>
-                  <Button disabled={gameSelected.player2.name === ""? false : true} onClick={joinAsPlayer}>Join As Player</Button>
+                  <Button
+                    disabled={gameSelected.player2.name === "" ? false : true}
+                    onClick={joinAsPlayer}
+                  >
+                    Join As Player
+                  </Button>
                   <Button onClick={joinAsGuest}>Join As Guest</Button>
                 </div>
               )}
@@ -177,7 +187,6 @@ export const NewgamePage = () => {
                   <DisabledButton>Join As Guest</DisabledButton>
                 </div>
               )}
-            
             </div>
           </GameRoomListLayout>
           {gameSelected && (
@@ -190,8 +199,8 @@ export const NewgamePage = () => {
             />
           )}
           {!gameSelected && <GameDetailsEmpty />}
-        </div>
-      </NewgameBody>
+        </NewgameBody>
+      </ContentWrapper>
     </Layout>
   );
 };

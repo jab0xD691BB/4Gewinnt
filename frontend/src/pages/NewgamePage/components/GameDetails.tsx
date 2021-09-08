@@ -6,11 +6,10 @@ import { ComponentHeadline } from "../NewgamePage";
 const GameDetailsLayout = styled.div`
   background-color: ${(props) => props.theme.colors.boardColor};
   border-radius: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
   padding-left: 50px;
   padding-right: 50px;
   text-align: center;
+  width: 30%;
 `;
 
 const GameTitle = styled.p`
